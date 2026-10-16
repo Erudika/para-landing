@@ -1,4 +1,4 @@
-# para-landing
+# [ParaIO.org](ParaIO.org) Landing & Docs page
 
 Landing and documentation site for [Para](https://github.com/Erudika/para), the open-source backend for the cloud. Lives at [paraio.org](https://paraio.org).
 
@@ -37,4 +37,4 @@ Each `npm run build` first generates `llms.txt`, `llms-full.txt`, and individual
 
 ## License
 
-Site content: Apache-2.0, same as Para. Logo © Erudika.
+Site content: Apache-2.0, same as Para. Logo © Erudika Ltd.
