@@ -1,0 +1,30 @@
+{
+  "name": "para-landing",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Landing and documentation site for Para, at paraio.org",
+  "scripts": {
+    "dev": "astro dev",
+    "prebuild": "node scripts/generate-llms.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "verify": "node scripts/verify.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "8.1.0",
+    "@astrojs/sitemap": "3.7.4",
+    "@astrojs/starlight": "0.42.6",
+    "@astrojs/starlight-tailwind": "5.0.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.4.0",
+    "daisyui": "^5.7.50",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "^5.9.0"
+  }
+}

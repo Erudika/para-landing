@@ -1,0 +1,159 @@
+---
+title: "Generic SQL"
+description: "Para documentation: Generic SQL."
+sidebar:
+  order: 5
+---
+
+Besides the default H2 implementation, there's a [generic SQL](https://github.com/Erudika/para-dao-sql) `DAO` plugin
+which adds support for all the major RDBMS - MySQL/MariaDB, PostgreSQL, Microsoft SQL Server, Oracle and SQLite.
+The class `SqlDAO` implements the `DAO` interface is responsible for connecting to an SQL server at a given URL.
+All database connections are managed by [HikariCP](https://github.com/brettwooldridge/HikariCP) - a lightweight,
+production-ready, JDBC connection pool.
+
+Before you can use this plugin, you need to find an download the right driver for your database. This is a small package
+which must be loaded from the classpath along with the plugin and the HikariCP library. You also have to specify the
+class name of the loaded driver in the main Para configuration file. For SQLite the JDBC driver is bundled with the
+plugin so it just works.
+
+There are several configuration properties for this plugin (these go in your `application.conf` file):
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr><td>
+
+`para.sql.driver`</td><td> The fully-qualified class name for your SQL driver. Defaults to `null`.</td></tr>
+		<tr><td>
+
+`para.sql.url`</td><td> The server URL to connect to, *without* the `jdbc:` prefix. Defaults to `null`.</td></tr>
+		<tr><td>
+
+`para.sql.user`</td><td> The username with access to the database. Defaults to `user`.</td></tr>
+		<tr><td>
+
+`para.sql.password`</td><td> The DB password. Defaults to `secret`.</td></tr>
+	</tbody>
+</table>
+
+The plugin is on Maven Central. Here's the Maven snippet to include in your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>com.erudika</groupId>
+  <artifactId>para-dao-sql</artifactId>
+  <version>{version}</version>
+</dependency>
+```
+
+Alternatively you can [download the JAR](https://github.com/Erudika/para-dao-sql/releases) and put it in a
+`lib` folder alongside the server JAR file `para-x.y.z.jar`. Para will look for plugins inside `lib` and pick up
+the plugin.
+
+> **Important:** Except for SQLite, you must download the appropriate JDBC driver package for your database and
+put it in the `lib/` folder.
+
+Then you have to set the `loader.path=lib` system property in order to make the Spring Boot launcher add that folder
+to the classpath. For example:
+```
+java -jar -Dconfig.file=./application.conf -Dloader.path=lib  para.jar
+```
+
+Here's an example configuration for this plugin (these go inside your `application.conf`):
+```ini
+para.sql.driver = "com.mysql.jdbc.Driver"
+para.sql.url = "mysql://localhost:3306"
+para.sql.user = "user"
+para.sql.password = "secret"
+```
+Finally, set the config property:
+```ini
+para.dao = "SqlDAO"
+```
+This could be a Java system property or part of a `application.conf` file on the classpath.
+This tells Para to use the SQL DAO implementation instead of the default.
+
+SQLite, for example, has the simplest configuration:
+```ini
+para.sql.driver = "org.sqlite.JDBC"
+para.sql.url = "sqlite:/home/user/para.db"
+```
+
+The environment variable `para.sql.url` is required and provides the URL to connect to the SQL database.
+The SQL DAO uses JDBC and will prefix your URL with the JDBC protocol, so you don't need to include the JDBC
+protocol in your URL path. For example, to connect to a MySQL server with URL `mysql://localhost:3306`,
+the SQL DAO will prefix this URL with the JDBC protocol to form the full URL `jdbc:mysql://localhost:3306`.
+
+The URL you specify should also include in it's path the database to be used by Para. The SQL DAO will not
+automatically create a **database** for you (though Para _does_ create **tables** within your database automatically),
+so you must use an existing database. For example, you cannot simply specify the URL to your MySQL cluster/server
+(`mysql://localhost:3306`), but rather you need to specify the path to an existing database
+(`mysql://localhost:3306/para`). Note that the user name and password you provide with `para.sql.user` and
+`para.sql.password` should correspond to the specific database you specify in the URL, and that user should have
+complete permissions within that database.
+
+
+## Using a JDBC Driver
+
+The SQL DAO uses JDBC to connect to your SQL database, which means a SQL driver (java.sql.Driver) will be needed for
+your chosen flavor of SQL (for example, `com.mysql.jdbc.Driver` is used for MySQL).  You must specify the
+fully-qualified class name for your SQL driver. Upon initialization, the SQL DAO will attempt to load this driver
+and verify that it exists in the classpath. If the driver cannot be found, the SQL DAO will fail to initiailize and
+the DAO cannot be used.
+
+In addition to specifying the driver name, you need to ensure the JAR file containing the SQL driver corresponding to
+your database is on your classpath when launching Para Server. The easiest way to do this is to add your SQL driver's
+JAR file to the `lib/` directory relative to the location of the Para Server JAR file `para-x.y.z.jar`.
+
+## Working with Oracle database
+
+To use Oracle DB you need to create a user (schema) for Para, with `CREATE SESSION` and `CREATE TABLE` privileges.
+You also need to enable writes on the USERS tablespace if you get an error like
+`ora-01950: no privileges on tablespace 'users'`.
+
+```sql
+CREATE USER para IDENTIFIED BY <password>;
+GRANT CREATE SESSION, CREATE TABLE TO para;
+ALTER USER para quota unlimited on USERS;
+```
+
+Then the configuration will look something like this:
+```ini
+para.sql.driver = "oracle.jdbc.OracleDriver"
+para.sql.url = "oracle:thin:@127.0.0.1:1521/XE"
+para.sql.user = "para"
+para.sql.password = "secret"
+```
+
+If you are have a `sysdba/sysoper` type of user, you can set `para.sql.user = "para as sysdba"`.
+The plugin has been tested with the Express edition of Oracle 18c database.
+
+## Schema
+
+> **BREAKING CHANGE:** The schema has changed in v1.30.0 - columns `timestamp` and `updated` were removed,
+column `json_updates` was added. `H2DAO` attempts to apply these changes automatically or error, but `SqlDAO` does not.
+
+**Execute the following statements one after another before switching to the new version:**
+```sql
+ALTER TABLE {app_identifier} DROP COLUMN timestamp, updated;
+ALTER TABLE {app_identifier} ADD json_updates NVARCHAR;
+```
+This is not required for tables created after v1.30.0.
+
+Here's the schema for each table created by Para:
+```sql
+CREATE TABLE {app_identifier} (
+    id						NVARCHAR NOT NULL,
+    type					NVARCHAR,
+    name					NVARCHAR,
+    parentid			NVARCHAR,
+    creatorid			NVARCHAR,
+    json					NVARCHAR,
+    json_updates	NVARCHAR
+)
+```

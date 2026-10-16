@@ -1,0 +1,26 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# generated machine-readable documentation output
+/public/llms.txt
+/public/llms-full.txt
+/public/docs/*.md
+/public/docs/**/*.md
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment
+.env
+.env.production
+
+# OS
+.DS_Store
+
+# local tool artifacts
+.playwright-mcp/

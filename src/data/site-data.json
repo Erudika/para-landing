@@ -1,0 +1,165 @@
+{
+  "site": {
+    "title": "Para",
+    "tagline": "A general-purpose backend for the cloud",
+    "description": "Para is an open-source, stateless and schemaless backend with a REST API over any database, search index and cache. Self-host it anywhere, or let Para Cloud run it for you.",
+    "url": "https://paraio.org",
+    "contact": "https://github.com/Erudika/para/issues",
+    "company": "Erudika",
+    "companyUrl": "https://erudika.com"
+  },
+  "nav": {
+    "docsTitle": "Para Docs",
+    "backToSite": "Back to site",
+    "docsHome": "Docs Home",
+    "logo": { "text": "Para", "href": "/" },
+    "links": [
+      { "text": "Docs", "href": "/docs/" },
+      { "text": "GitHub", "href": "https://github.com/Erudika/para" }
+    ]
+  },
+  "theme": {
+    "light": "light",
+    "dark": "dark",
+    "toggle": "Toggle light/dark theme"
+  },
+  "hero": {
+    "badge": "open source · Apache-2.0 · since 2013",
+    "headline": "A general-purpose backend for the cloud",
+    "subtext": "Para is an open-source, stateless and schemaless backend with a REST API over any database, search index and cache.",
+    "primaryCta": { "text": "Get started", "href": "/docs/" },
+    "secondaryCta": { "text": "Star on GitHub", "href": "https://github.com/Erudika/para" },
+    "diagram": {
+      "title": "Three layers",
+      "lines": [
+        "┌──────────────────────────────────",
+        "│ REST API",
+        "├──────────────────────────────────",
+        "│ cache     caffeine · hazelcast",
+        "├──────────────────────────────────",
+        "│ search    lucene · elasticsearch",
+        "├──────────────────────────────────",
+        "│ database  sql · mongodb · dynamodb",
+        "└──────────────────────────────────"
+      ]
+    },
+    "quickstart": {
+      "label": "Quickstart",
+      "tabs": [
+        {
+          "id": "curl",
+          "label": "curl",
+          "lines": [
+            "curl -X POST localhost:8080/v1/todo \\",
+            "  -H \"Content-Type: application/json\" \\",
+            "  -d '{\"name\": \"hello para\"}'",
+            "",
+            "{\"id\": \"todo:123\", \"name\": \"hello para\", ...}"
+          ]
+        },
+        {
+          "id": "para-cli",
+          "label": "para-cli",
+          "lines": [
+            "npm install -g para-cli",
+            "para-cli setup",
+            "para-cli new-app \"myapp\" --name \"My App\"",
+            "",
+            "app created: myapp"
+          ]
+        }
+      ]
+    }
+  },
+  "features": {
+    "headline": "Three layers. No schema. No lock-in.",
+    "subtext": "Para is built from swappable layers, not a monolith. Every capability below ships in the core or as a plugin.",
+    "items": [
+      {
+        "title": "Schemaless objects",
+        "body": "Plain JSON in, plain JSON out. No migrations, no ORM ceremony. Works on key-value stores and traditional databases alike."
+      },
+      {
+        "title": "Three layers",
+        "body": "Every object is persisted, indexed and cached by default. Swap the database, the search engine and the cache independently."
+      },
+      {
+        "title": "Stateless scaling",
+        "body": "No sticky sessions, no node-local state. Scaling out is a load balancer decision, not a re-architecture."
+      },
+      {
+        "title": "Multitenant apps",
+        "body": "Each App gets its own table, index and cache. Child apps inherit the root app keys and settings."
+      },
+      {
+        "title": "Pluggable modules",
+        "body": "SQL, MongoDB, Cassandra or DynamoDB. Lucene or Elasticsearch. Caffeine or Hazelcast. Choose per deployment, not per product.",
+        "chips": ["sql", "mongodb", "cassandra", "dynamodb", "lucene", "elasticsearch", "caffeine", "hazelcast"]
+      },
+      {
+        "title": "Auth built in",
+        "body": "JWT, passwordless logins, LDAP, SAML and social login for all the major identity providers.",
+        "chips": ["jwt", "passwordless", "ldap", "saml", "oauth2"]
+      },
+      {
+        "title": "Webhooks",
+        "body": "Signed webhook payloads on object events. Wire Para into anything that speaks HTTP."
+      },
+      {
+        "title": "MCP server",
+        "body": "A built-in MCP server lets AI agents read and write your data directly, with the same permissions as any client."
+      }
+    ]
+  },
+  "comparison": {
+    "headline": "Why not Supabase?",
+    "subtext": "Para is a general-purpose backend, not a hosted database with extras. Different trade-offs, fewer lock-ins.",
+    "columns": ["", "Para", "Supabase", "Firebase", "Parse"],
+    "rows": [
+      { "label": "Databases", "values": ["any (SQL, NoSQL, in-memory)", "PostgreSQL only", "proprietary", "MongoDB"] },
+      { "label": "Data model", "values": ["schemaless JSON", "schema + migrations", "proprietary JSON", "schemaless JSON"] },
+      { "label": "Search included", "values": ["Lucene / Elasticsearch", "third-party", "no", "no"] },
+      { "label": "MCP server for AI agents", "values": ["yes", "no", "no", "no"] },
+      { "label": "Self-host anywhere", "values": ["one JAR or Docker", "self-host stack", "no", "Docker"] },
+      { "label": "License", "values": ["Apache-2.0", "Apache-2.0", "closed", "BSD-3 (community)"] }
+    ],
+    "jab": "// Supabase is a fine Postgres. It is still one database."
+  },
+  "cloud": {
+    "badge": "Para Cloud",
+    "headline": "Prefer not to run it yourself?",
+    "subtext": "Para Cloud is the managed version of Para — hosted, patched and backed up by the makers.",
+    "points": [
+      "Managed hosting by the makers of Para",
+      "Automatic updates, backups and monitoring",
+      "Apps, data and support included"
+    ],
+    "marker": "[x]",
+    "cta": { "text": "Get Para Cloud", "href": "https://paraio.com" },
+    "note": "Pricing at paraio.com"
+  },
+  "cta": {
+    "headline": "Self-host in minutes",
+    "subtext": "One JAR, one config file, any database. The quickstart has you persisting objects before your coffee cools.",
+    "primaryCta": { "text": "Get started", "href": "/docs/" },
+    "secondaryCta": { "text": "Download the JAR", "href": "https://github.com/Erudika/para/releases" }
+  },
+  "footer": {
+    "blurb": "pára means steam in Bulgarian.",
+    "credit": "Built by Erudika, also makers of Scoold.",
+    "scooldUrl": "https://scoold.com",
+    "links": [
+      { "text": "Docs", "href": "/docs/" },
+      { "text": "GitHub", "href": "https://github.com/Erudika/para" },
+      { "text": "Para Cloud", "href": "https://paraio.com" },
+      { "text": "Erudika", "href": "https://erudika.com" }
+    ],
+    "license": "Apache-2.0"
+  },
+  "notFound": {
+    "code": "404",
+    "headline": "Object not found",
+    "subtext": "This page was never persisted, or it was deleted along the way.",
+    "cta": { "text": "Back to home", "href": "/" }
+  }
+}

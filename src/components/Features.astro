@@ -1,0 +1,46 @@
+---
+import siteData from '../data/site-data.json';
+const { features } = siteData;
+
+interface FeatureItem {
+  title: string;
+  body: string;
+  chips?: string[];
+  code?: string;
+}
+const items = features.items as FeatureItem[];
+---
+
+<section class="section-padding border-t border-zinc-200 dark:border-zinc-800">
+  <div class="section-shell">
+    <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{features.headline}</h2>
+    <p class="mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-400">{features.subtext}</p>
+
+    <ul class="mt-12 grid gap-px overflow-hidden rounded-[4px] border border-zinc-200 bg-zinc-200 sm:grid-cols-2 dark:border-zinc-800 dark:bg-zinc-800">
+      {
+        items.map((item, i) => (
+          <li class="group relative bg-zinc-50 p-6 transition-colors hover:bg-white dark:bg-zinc-950 dark:hover:bg-zinc-900">
+            {item.chips && (
+              <div class="dither absolute inset-0 text-zinc-400/20 opacity-0 transition-opacity group-hover:opacity-100 dark:text-zinc-500/20" aria-hidden="true" />
+            )}
+            <div class="relative">
+              <h3 class="font-mono text-sm font-semibold tracking-tight">
+                <span class="mr-2 text-zinc-400 dark:text-zinc-600">{String(i + 1).padStart(2, '0')}</span>
+                {item.title}
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{item.body}</p>
+              {item.chips && (
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {item.chips.map((chip) => (
+                    <span class="chip">{chip}</span>
+                  ))}
+                </div>
+              )}
+              {item.code && <pre class="code-block mt-4">{item.code}</pre>}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+---
+title: Documentation
+description: Para setup, concepts, integrations, and REST API reference.
+---
+
+import LegacyDocsRedirect from '../../../components/LegacyDocsRedirect.astro';
+
+<LegacyDocsRedirect />
+
+Para is a stateless, schemaless backend with a REST API over pluggable persistence, search, and cache layers. Start with the quickstart, then open the topic you need.
+
+## Start here
+
+- [Quickstart](/docs/getting-started/quickstart/): run Para and make a first request.
+- [Self-host Para](/docs/getting-started/standalone/): deploy Para as a standalone service.
+- [Configuration](/docs/configuration/configuration/): set server options and secrets.
+- [Maven](/docs/getting-started/maven/): add Para or the Java client to a JVM project.
+
+## Core concepts
+
+- [ParaObject](/docs/concepts/paraobject/): the base type for stored objects.
+- [Apps](/docs/concepts/apps/): isolate projects with Para's multitenant App model.
+- [Resource permissions](/docs/concepts/resource-permissions/): control access to objects.
+- [Validations](/docs/concepts/validations/): validate object data.
+- [Webhooks](/docs/concepts/webhooks/): respond to object events.
+- [Relationships](/docs/concepts/relationships/one-to-many/): link objects.
+
+## Persistence, search, and cache
+
+- [DAO and database integrations](/docs/data-stores/dao/): choose a persistence implementation.
+- [Search](/docs/search/search-interface/): configure the search layer.
+- [Cache](/docs/cache/cache-interface/): configure the cache layer.
+
+## Security and integrations
+
+- [REST API authentication](/docs/security/rest-api-authentication/): sign API requests and use JWT.
+- [Integrations](/docs/integrations/queue/): connect queues, storage, email, and filters.
+- [MCP server](/docs/getting-started/mcp-server/): connect AI clients to Para.
+- [Plugins](/docs/configuration/plugins/): add optional Para modules.
+
+## REST API reference
+
+- [API overview](/docs/api/): authentication, fields, and request conventions.
+- [Objects](/docs/api/objects/create/): create, read, update, and delete objects.
+- [Search](/docs/api/search/basic-search/): basic and advanced search endpoints.
+- [Authentication](/docs/api/authentication/sign-in/): sign in, refresh, and revoke JWTs.
+- [Permissions](/docs/api/permissions/check/): check and change resource permissions.
+- Browse all endpoint groups in the [REST API sidebar](/docs/api/).

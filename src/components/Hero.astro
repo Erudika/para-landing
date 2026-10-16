@@ -1,0 +1,95 @@
+---
+import siteData from '../data/site-data.json';
+const { hero } = siteData;
+const diagram = hero.diagram.lines.join('\n');
+---
+
+<section class="section-padding">
+  <div class="section-shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <div class="animate-fade-in">
+      <p class="chip mb-6">{hero.badge}</p>
+      <h1 class="text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+        {hero.headline}
+      </h1>
+      <p class="mt-5 max-w-[65ch] text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+        {hero.subtext}
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href={hero.primaryCta.href} class="btn-primary">{hero.primaryCta.text}</a>
+        <a
+          href={hero.secondaryCta.href}
+          class="btn-secondary"
+          target="_blank"
+          rel="noopener noreferrer">{hero.secondaryCta.text}</a
+        >
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-6">
+      <div data-qs class="overflow-hidden rounded-[4px] border border-zinc-300 dark:border-zinc-700">
+        <div
+          class="flex items-center justify-between border-b border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900"
+          role="tablist"
+          aria-label={hero.quickstart.label}
+        >
+          <div class="flex">
+            {
+              hero.quickstart.tabs.map((tab, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  data-qs-tab
+                  aria-selected={i === 0 ? 'true' : 'false'}
+                  class="tab-btn border-r border-zinc-300 px-3 py-2 font-mono text-xs text-zinc-500 transition-colors first:rounded-tl-[3px] dark:border-zinc-700 dark:text-zinc-400"
+                >
+                  {tab.label}
+                </button>
+              ))
+            }
+          </div>
+          <span class="px-3 font-mono text-xs text-zinc-400 dark:text-zinc-600" aria-hidden="true">
+            {hero.quickstart.label.toLowerCase()}
+          </span>
+        </div>
+        {
+          hero.quickstart.tabs.map((tab, i) => (
+            <pre
+              data-qs-panel
+              role="tabpanel"
+              class={`code-block rounded-none border-0 ${i === 0 ? '' : 'hidden'}`}><code>{tab.lines.join('\n')}</code></pre>
+          ))
+        }
+      </div>
+
+      <figure class="relative">
+        <div class="dither absolute inset-0 text-brand-500/15 dark:text-brand-500/10" aria-hidden="true"></div>
+        <pre class="ascii-strong relative" aria-label={hero.diagram.title}>{diagram}</pre>
+        <figcaption class="sr-only">{hero.diagram.title}</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  @reference "../styles/global.css";
+
+  .tab-active {
+    @apply bg-white text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-qs]').forEach((group) => {
+    const tabs = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-qs-tab]'));
+    const panels = Array.from(group.querySelectorAll<HTMLElement>('[data-qs-panel]'));
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t, j) => {
+          t.classList.toggle('tab-active', i === j);
+          t.setAttribute('aria-selected', String(i === j));
+        });
+        panels.forEach((p, j) => p.classList.toggle('hidden', i !== j));
+      });
+    });
+  });
+</script>

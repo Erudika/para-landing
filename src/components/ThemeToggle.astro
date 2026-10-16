@@ -1,0 +1,28 @@
+---
+import siteData from '../data/site-data.json';
+const { theme } = siteData;
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  aria-label={theme.toggle}
+  title={theme.toggle}
+  class="rounded-[4px] border border-zinc-300 px-2.5 py-1 font-mono text-xs text-zinc-600 transition-colors hover:border-zinc-500 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-100"
+>
+  <span class="dark:hidden">{theme.dark}</span>
+  <span class="hidden dark:inline">{theme.light}</span>
+</button>
+
+<script>
+  document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const root = document.documentElement;
+      const dark = !root.classList.contains('dark');
+      root.classList.toggle('dark', dark);
+      root.dataset.theme = dark ? 'dark' : 'light';
+      // Same storage key Starlight uses, so the whole site stays in sync.
+      localStorage.setItem('starlight-theme', dark ? 'dark' : 'light');
+    });
+  });
+</script>

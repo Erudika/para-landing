@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import Comparison from '../components/Comparison.astro';
+import ParaCloud from '../components/ParaCloud.astro';
+import CTASection from '../components/CTASection.astro';
+import siteData from '../data/site-data.json';
+
+const { site } = siteData;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: site.title,
+  description: site.description,
+  url: site.url,
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Cross-platform',
+  license: 'https://www.apache.org/licenses/LICENSE-2.0',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
+---
+
+<BaseLayout jsonLd={jsonLd}>
+  <Hero />
+  <Features />
+  <Comparison />
+  <ParaCloud />
+  <CTASection />
+</BaseLayout>

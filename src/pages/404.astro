@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteData from '../data/site-data.json';
+const { notFound } = siteData;
+---
+
+<BaseLayout title={notFound.headline} noindex>
+  <section class="section-padding relative">
+    <div class="dither absolute inset-x-0 top-0 h-16 text-zinc-300/40 dark:text-zinc-600/30" aria-hidden="true"></div>
+    <div class="section-shell text-center">
+      <p class="font-mono text-7xl font-semibold tracking-tight text-zinc-900 sm:text-8xl dark:text-zinc-100">
+        {notFound.code}
+      </p>
+      <h1 class="mt-6 text-2xl font-semibold tracking-tight sm:text-3xl">{notFound.headline}</h1>
+      <p class="mx-auto mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-400">{notFound.subtext}</p>
+      <a href={notFound.cta.href} class="btn-primary mt-8">{notFound.cta.text}</a>
+    </div>
+  </section>
+</BaseLayout>

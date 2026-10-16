@@ -1,0 +1,15 @@
+<script>
+  import legacyRoutes from '../data/legacy-doc-routes.json';
+
+  let legacyFragment = window.location.hash.slice(1);
+  try {
+    legacyFragment = decodeURIComponent(legacyFragment);
+  } catch {
+    // Ignore malformed fragments. They are not valid legacy section IDs.
+  }
+  const destination = legacyRoutes[legacyFragment as keyof typeof legacyRoutes];
+
+  // The old single-page /docs/ route is now the docs home. Keep old section
+  // bookmarks working by sending known fragment IDs to their new topic pages.
+  if (destination?.startsWith('/docs/')) window.location.replace(destination);
+</script>

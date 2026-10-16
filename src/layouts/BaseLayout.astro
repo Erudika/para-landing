@@ -1,0 +1,56 @@
+---
+import SEOHead from '../components/SEOHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import siteData from '../data/site-data.json';
+import '../styles/global.css';
+
+const { site } = siteData;
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: object;
+  canonicalUrl?: string;
+}
+
+const { title, description = site.description, ogImage, noindex, jsonLd, canonicalUrl } = Astro.props;
+const pageTitle = title ? `${title} - ${site.title}` : `${site.title} — ${site.tagline}`;
+const canonical = canonicalUrl ?? new URL(Astro.url.pathname, site.url).toString();
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      // Theme: follow stored choice (Starlight-compatible key), else system preference.
+      // Sets both signals: .dark class (landing styles) and data-theme (Starlight docs styles).
+      (() => {
+        const stored = localStorage.getItem('starlight-theme');
+        const dark =
+          stored === 'dark' || stored === 'light'
+            ? stored === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
+    <SEOHead
+      title={pageTitle}
+      description={noindex ? undefined : description}
+      canonical={canonical}
+      image={ogImage}
+      jsonLd={jsonLd}
+    />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+  </head>
+  <body class="flex min-h-screen flex-col antialiased">
+    <Header />
+    <main class="flex-1"><slot /></main>
+    <Footer />
+  </body>
+</html>
