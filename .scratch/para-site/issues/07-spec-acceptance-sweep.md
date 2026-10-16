@@ -45,5 +45,5 @@
 ## Comments
 
 - Local checks: `npm run check` reports 0 errors, warnings, or hints. `npm run build` produces 103 HTML pages; `npm run verify` passes all content, route, sitemap, theme, and link checks.
-- Live checks at `https://new.paraio.org/` confirmed the current staging site, docs search, old fragment redirect, HTTPS, and text/Markdown agent files.
-- The deployed artifact predates this sweep: its canonical URLs and CNAME still name `paraio.org`, and it still has the old hero sample, tab, and footer copy. The working tree fixes these. Ticket 08 tracks publishing the fixes and rechecking the live site. The root `paraio.org` cutover is not part of this ticket.
+- Live checks at `https://new.paraio.org/` confirmed canonical URLs, the CNAME and sitemap origin, docs search, old fragment redirects, themes, HTTPS, and text/Markdown agent files.
+- Ticket 08 published commit `ec35e61` and verified the successful GitHub Actions deployment. The root `paraio.org` cutover is not part of this ticket and remains unchanged.

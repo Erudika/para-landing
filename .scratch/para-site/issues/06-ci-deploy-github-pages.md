@@ -17,5 +17,5 @@
 - CI workflow added and YAML-parsed locally. It runs the type/content check, static build, and output verification on `main`/`master` pushes and pull requests. It deploys only on `main`/`master` pushes or manual runs from those branches. It uses GitHub's Pages artifact/deploy actions and Node 24.
 - User confirmed the GitHub Actions deployment. The latest workflow run completed successfully and reported the Pages URL as `new.paraio.org`.
 - Live verification at `https://new.paraio.org/` confirmed the landing page, docs, search, sitemap, `llms.txt`, `llms-full.txt`, Markdown sidecars, HTTPS, and response types. The current hostname is temporary; `paraio.org` remains the planned final domain. Ticket 07 corrected the checked-in CNAME and canonical URL to match the temporary hostname.
-- The live artifact still reflects the prior commit and returns `paraio.org` at `/CNAME`; ticket 08 tracks publishing the updated CNAME and canonical URL.
+- Ticket 08 published commit `ec35e61`; the current live CNAME and canonical URLs now use `new.paraio.org`.
 - The legacy repository can keep its old deploy script until the final domain cutover. This repository has no manual deploy script.
