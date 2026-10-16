@@ -10,7 +10,7 @@ const { nav } = siteData;
       <img src="/images/logo.svg" alt={nav.logo.text} width="112" height="35" class="h-7 w-auto dark:hidden" />
       <img src="/images/footer-logo.svg" alt={nav.logo.text} width="112" height="35" class="hidden h-7 w-auto dark:block" />
     </a>
-    <nav class="flex items-center gap-4 sm:gap-6" aria-label="Main">
+    <nav class="flex items-center gap-4 sm:gap-6" aria-label={nav.mainLabel}>
       {
         nav.links.map((link) => (
           <a

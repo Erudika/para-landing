@@ -1,6 +1,6 @@
 # [ParaIO.org](ParaIO.org) Landing & Docs page
 
-Landing and documentation site for [Para](https://github.com/Erudika/para), the open-source backend for the cloud. Lives at [paraio.org](https://paraio.org).
+Landing and documentation site for [Para](https://github.com/Erudika/para), the open-source backend for the cloud. Currently live at [new.paraio.org](https://new.paraio.org); `paraio.org` remains the planned final domain.
 
 ## Stack
 
@@ -31,7 +31,7 @@ Run `npm run build && npm run verify` before declaring any ticket done — `dist
 
 ## Deployment
 
-GitHub Pages at paraio.org, via `.github/workflows/pages.yml`. Pushes to `main` or `master` build and verify the site before deployment; pull requests run the same checks but do not deploy. Set the repository's Pages source to **GitHub Actions**. `public/CNAME` keeps the custom domain, and GitHub Pages provides HTTPS. This repository uses the workflow instead of a manual deploy script.
+GitHub Pages at new.paraio.org, via `.github/workflows/pages.yml`. Pushes to `main` or `master` build and verify the site before deployment; pull requests run the same checks but do not deploy. Set the repository's Pages source to **GitHub Actions**. `public/CNAME` keeps the current custom domain, and GitHub Pages provides HTTPS. This repository uses the workflow instead of a manual deploy script.
 
 Each `npm run build` first generates `llms.txt`, `llms-full.txt`, and individual Markdown files for the docs under `public/docs/`. The build then copies these files into `dist/` with the site. The workflow runs `npm ci`, `npm run check`, `npm run build`, and `npm run verify` before it uploads a deployment artifact.
 

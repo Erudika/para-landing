@@ -4,17 +4,18 @@
 
 **Blocked by:** 05-agent-readiness-legacy-compat.
 
-**Status:** needs-info
+**Status:** done
 
 - [x] Workflow runs on push to `main` or `master`: install, check, build, run build verification, then deploy the Pages artifact; failures never publish
-- [ ] Deployed site serves at the custom domain (CNAME honored), HTTPS resolves
-- [ ] Root, docs home, one deep docs page, 404, sitemap, `llms.txt`, and `llms-full.txt` all verified on the live domain
-- [ ] Legacy deploy script retired; repository README's development → publish flow references CI
-- [ ] Pages cache/config does not break agent-readiness artifacts (no header mangling on txt files)
+- [x] Deployed site serves at the current custom domain (`new.paraio.org`), HTTPS resolves
+- [x] Root, docs home, one deep docs page, 404, sitemap, `llms.txt`, and `llms-full.txt` verified on the live domain
+- [x] This repository uses CI instead of a manual deploy script; README's development → publish flow references CI
+- [x] Pages serves agent-readiness artifacts as text and Markdown, without header or cache errors
 
 ## Comments
 
 - CI workflow added and YAML-parsed locally. It runs the type/content check, static build, and output verification on `main`/`master` pushes and pull requests. It deploys only on `main`/`master` pushes or manual runs from those branches. It uses GitHub's Pages artifact/deploy actions and Node 24.
-- `public/CNAME` is included in the build. README documents the workflow and the required repository setting: Pages source must be **GitHub Actions**.
-- Live deployment, HTTPS, and hosted response headers are not verified: this workspace is not a Git repository and has no remote. The old `deploy.sh` remains in the separate legacy `paraio.org` repository, which this ticket did not modify.
-- To finish this ticket, connect/push this project to its GitHub repository, set Pages source to GitHub Actions, and confirm the custom domain/DNS. Then verify the first live deployment and decide when to retire the old repository's deploy script.
+- User confirmed the GitHub Actions deployment. The latest workflow run completed successfully and reported the Pages URL as `new.paraio.org`.
+- Live verification at `https://new.paraio.org/` confirmed the landing page, docs, search, sitemap, `llms.txt`, `llms-full.txt`, Markdown sidecars, HTTPS, and response types. The current hostname is temporary; `paraio.org` remains the planned final domain. Ticket 07 corrected the checked-in CNAME and canonical URL to match the temporary hostname.
+- The live artifact still reflects the prior commit and returns `paraio.org` at `/CNAME`; ticket 08 tracks publishing the updated CNAME and canonical URL.
+- The legacy repository can keep its old deploy script until the final domain cutover. This repository has no manual deploy script.

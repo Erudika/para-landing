@@ -19,5 +19,5 @@
 
 - Done 2026-10-16. `npm run build` now creates `llms.txt`, `llms-full.txt`, and 101 individual Markdown sidecars under `/docs/` before Astro builds. The LLM index has one title link per documentation page; the full file follows the old fragment order.
 - Legacy fragment IDs map to their new Starlight page. Since `/docs/` is already the new docs home, no separate redirect page is needed; the same URL stays canonical. Verified the old `#034-api-jwt-signin` bookmark redirects to `/docs/api/authentication/sign-in/` in the browser.
-- `sitemap-0.xml` includes all 101 docs routes. `CNAME` contains `paraio.org` and appears in build output. The docs pages have one H1 each; API Request and Response use H2 headings.
+- `sitemap-0.xml` includes all 101 docs routes. `CNAME` matches the active `new.paraio.org` domain and appears in build output. The docs pages have one H1 each; API Request and Response use H2 headings.
 - `npm run verify` checks generated artifacts, sidecar count, sitemap coverage, fragment mappings, heading count, trailing slashes, and internal page links. `npm run check` reports 0 errors, 0 warnings, and 0 hints.

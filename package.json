@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Landing and documentation site for Para, at paraio.org",
+  "description": "Landing and documentation site for Para, currently at new.paraio.org",
   "scripts": {
     "dev": "astro dev",
     "prebuild": "node scripts/generate-llms.mjs",

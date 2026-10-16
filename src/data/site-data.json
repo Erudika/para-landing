@@ -3,7 +3,7 @@
     "title": "Para",
     "tagline": "A general-purpose backend for the cloud",
     "description": "Para is an open-source, stateless and schemaless backend with a REST API over any database, search index and cache. Self-host it anywhere, or let Para Cloud run it for you.",
-    "url": "https://paraio.org",
+    "url": "https://new.paraio.org",
     "contact": "https://github.com/Erudika/para/issues",
     "company": "Erudika",
     "companyUrl": "https://erudika.com"
@@ -12,6 +12,8 @@
     "docsTitle": "Para Docs",
     "backToSite": "Back to site",
     "docsHome": "Docs Home",
+    "mainLabel": "Main navigation",
+    "footerLabel": "Footer navigation",
     "logo": { "text": "Para", "href": "/" },
     "links": [
       { "text": "Docs", "href": "/docs/" },
@@ -50,22 +52,18 @@
           "id": "curl",
           "label": "curl",
           "lines": [
-            "curl -X POST localhost:8080/v1/todo \\",
-            "  -H \"Content-Type: application/json\" \\",
-            "  -d '{\"name\": \"hello para\"}'",
+            "curl -i http://localhost:8080/v1/_health",
             "",
-            "{\"id\": \"todo:123\", \"name\": \"hello para\", ...}"
+            "{\"message\": \"healthy\"}"
           ]
         },
         {
-          "id": "para-cli",
-          "label": "para-cli",
+          "id": "java",
+          "label": "Java client",
           "lines": [
-            "npm install -g para-cli",
-            "para-cli setup",
-            "para-cli new-app \"myapp\" --name \"My App\"",
-            "",
-            "app created: myapp"
+            "ParaClient client = new ParaClient(accessKey, secretKey);",
+            "client.setEndpoint(\"http://localhost:8080\");",
+            "client.me();"
           ]
         }
       ]
@@ -147,7 +145,6 @@
   "footer": {
     "blurb": "pára means steam in Bulgarian.",
     "credit": "Built by Erudika, also makers of Scoold.",
-    "scooldUrl": "https://scoold.com",
     "links": [
       { "text": "Docs", "href": "/docs/" },
       { "text": "GitHub", "href": "https://github.com/Erudika/para" },

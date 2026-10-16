@@ -9,7 +9,7 @@ Para has no modern web presence. Its current landing page and documentation are 
 
 ## Solution
 
-One Astro-based static site at paraio.org that replaces the legacy site entirely:
+One Astro-based static site that replaces the legacy site. It is currently published at `new.paraio.org`; `paraio.org` remains the intended final domain:
 
 - A landing page that sells Para to developers: minimal monochrome ASCII-art aesthetic, quickstart-first hero, feature grid, "why not Supabase" comparison, Para Cloud promo block, and clear self-host CTAs.
 - Multi-page documentation with a sidebar and search, migrated from the legacy doc sources, structured so an LLM agent is the primary consumer (agent-ready docs).
@@ -44,7 +44,7 @@ One Astro-based static site at paraio.org that replaces the legacy site entirely
 
 ## Implementation Decisions
 
-- **Stack (mandated by the adopted scaffold skill):** Astro 6 static output, Starlight 0.38 for docs, Tailwind CSS 4 via the Vite plugin, daisyUI 5 via CSS `@plugin`, needs-package alignment to the skill's known-good versions.
+- **Stack (mandated by the updated scaffold skill):** Astro 7 static output, Starlight 0.42+ for docs, Tailwind CSS 4 via the Vite plugin, daisyUI 5.7+ via CSS `@plugin`, with peer-compatible package versions pinned in the project manifest.
 - **Single source of truth:** every visible landing-site string lives in a site data JSON file; components read from it, never hardcode copy. The docs body remains markdown within the Starlight content collections.
 - **Routing:** `trailingSlash: 'always'`; all internal links end with `/`. The sitemap integration registers before Starlight.
 - **Legacy landing sections mapped to new sections:** hero, features grid, comparison, Para Cloud promo, final CTA, footer credit. No blog; no FAQ; no local pricing (Para Cloud CTA points to the hosted service's own pricing page).
@@ -52,7 +52,7 @@ One Astro-based static site at paraio.org that replaces the legacy site entirely
 - **Agent-ready docs:** `llms.txt` + `llms-full.txt` emitted at the site root at build time, markdown sources kept clean, headings preserved; one document source serves both humans and agents — no forked machine copies. JavaDocs dropped; linked to Maven Central instead.
 - **Brand:** logo SVG (speech-bubble glyph + wordmark) imported with a viewBox added for scaling; glyph sky blue, gray wordmark; accents sky blue and deep yellow on the dark theme; system fonts only; minimal monochrome with ASCII-art flavor, dithering effects on graphics, 3–5px corner rounding as the component-level radius convention.
 - **Theming:** light + dark both supported via a toggle; default resolved from system preference; both themes verified at the seam.
-- **Deployment:** GitHub Pages from this repo via GitHub Actions on push; legacy CNAME retained. The manual deploy script is retired.
+- **Deployment:** GitHub Pages from this repo via GitHub Actions on push. The current custom domain is `new.paraio.org`; `paraio.org` is the planned final domain. The CNAME in the build must match the active Pages domain.
 - **Code samples:** curl/HTTP-first in hero and throughout docs; one secondary SDK language tab (highest-priority SDK per the legacy sources).
 
 ## Testing Decisions

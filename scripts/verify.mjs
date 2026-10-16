@@ -6,6 +6,9 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const DIST = 'dist';
+const siteData = JSON.parse(await readFile('src/data/site-data.json', 'utf8'));
+const site = siteData.site;
+const siteUrl = new URL(site.url);
 let failures = 0;
 
 function fail(msg) {
@@ -70,9 +73,49 @@ for (const page of [
 
 // 2. Landing content renders
 const index = await readFile(join(DIST, 'index.html'), 'utf8');
-for (const needle of ['general-purpose backend', 'Get started', 'Para Cloud', 'Quickstart', 'curl']) {
+for (const needle of [
+  'general-purpose backend',
+  'Get started',
+  'Para Cloud',
+  'Quickstart',
+  'curl -i http://localhost:8080/v1/_health',
+  'Java client',
+  'ParaClient client',
+]) {
   if (index.includes(needle)) pass(`index.html contains "${needle}"`);
   else fail(`index.html missing "${needle}"`);
+}
+for (const feature of siteData.features.items) {
+  if (index.includes(feature.title)) pass(`feature "${feature.title}" is present`);
+  else fail(`feature "${feature.title}" is missing`);
+}
+if (index.includes('Why not Supabase?') && index.includes('Firebase') && index.includes('Parse')) {
+  pass('BaaS comparison covers Supabase, Firebase, and Parse');
+} else {
+  fail('BaaS comparison is incomplete');
+}
+if (!/\bBlog\b|\bFAQ\b|Frequently asked questions/i.test(index)) pass('no blog or FAQ section is present');
+else fail('unexpected blog or FAQ section is present');
+if ((index.match(/<table\b/g) ?? []).length === 1 && index.includes('Pricing at paraio.com')) {
+  pass('only the comparison table is local; Para Cloud pricing links out');
+} else {
+  fail('unexpected local pricing table or missing Para Cloud pricing link');
+}
+const footerText = index.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] ?? '';
+if (footerText.includes('Built by Erudika') && (footerText.match(/Scoold/g) ?? []).length === 1) {
+  pass('footer credits Erudika and Scoold once');
+} else {
+  fail('footer credit is missing or duplicated');
+}
+if (index.includes(`<link rel="canonical" href="${siteUrl.origin}/"`)) {
+  pass(`landing canonical matches ${siteUrl.origin}`);
+} else {
+  fail(`landing canonical does not match ${siteUrl.origin}`);
+}
+if (index.includes('<header') && index.includes('<main') && footerText) {
+  pass('landing uses header, main, and footer landmarks');
+} else {
+  fail('landing is missing a semantic page landmark');
 }
 
 // 3. Theme toggle wired: pre-paint script + toggle button
@@ -113,7 +156,7 @@ const markdownFiles = (await walkFiles(join(DIST, 'docs'))).filter((path) => pat
 if (markdownFiles.length === 101) pass('all documentation pages are available as Markdown files');
 else fail(`expected 101 documentation Markdown files; found ${markdownFiles.length}`);
 const cname = (await readFile(join(DIST, 'CNAME'), 'utf8')).trim();
-if (cname === 'paraio.org') pass('CNAME contains paraio.org');
+if (cname === siteUrl.hostname) pass(`CNAME contains ${siteUrl.hostname}`);
 else fail(`CNAME has unexpected domain: ${cname}`);
 
 // 3d. The old docs anchors map to pages that now exist.
@@ -148,10 +191,12 @@ else fail('legacy docs hash redirect code is missing from the build');
 // 3e. The sitemap index includes the new docs routes.
 const sitemap = await readFile(join(DIST, 'sitemap-0.xml'), 'utf8');
 for (const needle of ['/docs/', '/docs/getting-started/quickstart/', '/docs/api/objects/create/']) {
-  if (sitemap.includes(needle)) pass(`sitemap includes ${needle}`);
+  if (sitemap.includes(`${siteUrl.origin}${needle}`)) pass(`sitemap includes ${needle}`);
   else fail(`sitemap missing ${needle}`);
 }
-const sitemapDocsCount = [...sitemap.matchAll(/<loc>https:\/\/paraio\.org\/docs\/[^<]*<\/loc>/g)].length;
+const sitemapDocsCount = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
+  .map(([, url]) => new URL(url))
+  .filter((url) => url.origin === siteUrl.origin && url.pathname.startsWith('/docs/')).length;
 if (sitemapDocsCount === 101) pass('sitemap lists all 101 docs routes');
 else fail(`sitemap lists ${sitemapDocsCount} docs routes; expected 101`);
 
@@ -197,7 +242,7 @@ for (const file of htmlFiles) {
   for (const match of html.matchAll(/href="([^"]*)"/g)) {
     const href = match[1];
     if (!href.startsWith('/') || href.startsWith('//') || fileLike.test(href)) continue;
-    const pathname = new URL(href, 'https://paraio.org').pathname;
+    const pathname = new URL(href, siteUrl).pathname;
     if (pathname.includes('.')) continue;
     const target = join(DIST, pathname.replace(/^\//, ''), 'index.html');
     if (!(await exists(target))) {
