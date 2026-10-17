@@ -9,6 +9,7 @@
 /* Dark mode: class-based on the landing site, data-theme on Starlight docs pages.
    Both signals are kept in sync by the toggle + init script. */
 @custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where(.light, .light *, [data-theme="light"], [data-theme="light"] *));
 
 @theme {
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,

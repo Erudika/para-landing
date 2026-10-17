@@ -31,20 +31,6 @@
     "subtext": "Para is an open-source, stateless and schemaless backend with a REST API over any database, search index and cache.",
     "primaryCta": { "text": "Get started", "href": "/docs/" },
     "secondaryCta": { "text": "Star on GitHub", "href": "https://github.com/Erudika/para" },
-    "diagram": {
-      "title": "Three layers",
-      "lines": [
-        "┌──────────────────────────────────",
-        "│ REST API",
-        "├──────────────────────────────────",
-        "│ cache     caffeine · hazelcast",
-        "├──────────────────────────────────",
-        "│ search    lucene · elasticsearch",
-        "├──────────────────────────────────",
-        "│ database  sql · mongodb · dynamodb",
-        "└──────────────────────────────────"
-      ]
-    },
     "quickstart": {
       "label": "Quickstart",
       "tabs": [

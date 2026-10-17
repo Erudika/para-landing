@@ -16,5 +16,5 @@
 ## Comments
 
 - Done 2026-10-16. Version pins in the skill's Step 11 were stale (Astro 6.0.5 / Starlight 0.38.1); verified against the npm registry and pinned to the mutually compatible latest set instead.
-- Starlight 0.42+ serves docs from the site root by default; docs content lives under `src/content/docs/docs/` per the official subpath convention so docs serve at `/docs/`.
+- Starlight 0.42+ serves docs from the site root by default; docs content lives under `src/content/docs/` per the official subpath convention so docs serve at `/docs/`.
 - Build seam verified: 3 pages built (`/`, `/404`, `/docs/`), sitemap + Pagefind search green, `astro check` 0 errors / 0 warnings, `npm run verify` all green.

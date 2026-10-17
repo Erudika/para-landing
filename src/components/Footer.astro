@@ -1,5 +1,6 @@
 ---
 import siteData from '../data/site-data.json';
+import ThemeToggle from './ThemeToggle.astro';
 const { footer, nav, site } = siteData;
 ---
 
@@ -30,6 +31,8 @@ const { footer, nav, site } = siteData;
         {footer.credit}
       </p>
       <p>{footer.license}</p>
+      <span class="text-zinc-300 dark:text-zinc-700" aria-hidden="true">|</span>
+      <ThemeToggle />
     </div>
   </div>
 </footer>

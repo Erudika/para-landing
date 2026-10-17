@@ -1,6 +1,5 @@
 ---
 import siteData from '../data/site-data.json';
-import ThemeToggle from './ThemeToggle.astro';
 const { nav } = siteData;
 ---
 
@@ -22,8 +21,7 @@ const { nav } = siteData;
           </a>
         ))
       }
-      <span class="text-zinc-300 dark:text-zinc-700" aria-hidden="true">|</span>
-      <ThemeToggle />
+      
     </nav>
   </div>
 </header>

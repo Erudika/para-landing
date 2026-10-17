@@ -1,14 +1,21 @@
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import starlight from '@astrojs/starlight';
 import tailwind from '@tailwindcss/vite';
 import { site, nav } from './src/data/site-data.json';
+import rehypeTableRowIds from './src/plugins/rehype-table-row-ids.mjs';
 
 export default defineConfig({
   site: site.url,
   output: 'static',
   trailingSlash: 'always', // REQUIRED — all internal links must end with /
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeTableRowIds],
+    }),
+  },
   integrations: [
     sitemap(), // Register BEFORE starlight
     starlight({
@@ -21,9 +28,12 @@ export default defineConfig({
       disable404Route: true,
       customCss: ['./src/styles/global.css'],
       expressiveCode: {
-        styleOverrides: { borderRadius: '0.2rem' },
+        styleOverrides: {
+          borderRadius: '0.2rem'
+        },
         themes: ['dark-plus', 'min-light'],
       },
+      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/Erudika/para' }],
       sidebar: [
         { label: nav.backToSite, link: '/' },
         { label: nav.docsHome, link: '/docs/' },

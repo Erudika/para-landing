@@ -4,7 +4,7 @@ import siteData from '../src/data/site-data.json' with { type: 'json' };
 import legacyRoutes from '../src/data/legacy-doc-routes.json' with { type: 'json' };
 
 const projectRoot = process.cwd();
-const docsRoot = resolve(projectRoot, 'src/content/docs/docs');
+const docsRoot = resolve(projectRoot, 'src/content/docs');
 const publicRoot = resolve(projectRoot, 'public');
 
 async function collectMarkdown(dir) {
