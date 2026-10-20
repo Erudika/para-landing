@@ -1,0 +1,38 @@
+---
+import siteData from '../data/site-data.json';
+import SdkTab from './SdkTab.astro';
+
+const { sdks } = siteData;
+---
+
+<section class="border-zinc-200 dark:border-zinc-800 border-t section-padding">
+  <div class="section-shell">
+    <h2 class="font-semibold text-3xl sm:text-4xl tracking-tight">
+      {sdks.headline}
+    </h2>
+    <p class="mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-400">
+      {sdks.subtext}
+    </p>
+
+    <div
+      class="m-0 mt-8 p-0 w-full max-w-full overflow-x-auto tabs"
+      role="radiogroup"
+      aria-label={sdks.tabsLabel}
+    >
+      {
+        sdks.tabs.map((sdk, index) => (
+          <SdkTab
+            sdk={sdk}
+            index={index}
+            sourceLabel={sdks.sourceLabel}
+            exampleLabel={sdks.exampleLabel}
+          />
+        ))
+      }
+    </div>
+
+    <p class="mt-5 text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed">
+      {sdks.securityNote}
+    </p>
+  </div>
+</section>

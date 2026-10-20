@@ -10,14 +10,16 @@
   },
   "nav": {
     "docsTitle": "Para Docs",
-    "backToSite": "Back to site",
+    "backToSite": "↩ Back to site",
     "docsHome": "Docs Home",
     "mainLabel": "Main navigation",
     "footerLabel": "Footer navigation",
     "logo": { "text": "Para", "href": "/" },
     "links": [
       { "text": "Docs", "href": "/docs/" },
-      { "text": "GitHub", "href": "https://github.com/Erudika/para" }
+      { "text": "Features", "href": "/features/" },
+      { "text": "Download", "href": "/download/" },
+      { "text": "Para Cloud", "href": "/cloud-hosting/" }
     ]
   },
   "theme": {
@@ -26,7 +28,7 @@
     "toggle": "Toggle light/dark theme"
   },
   "hero": {
-    "badge": "open source · Apache-2.0 · since 2013",
+    "badge": "Our backend-as-a-sevice is here - try <a class=\"underline\" href=\"/cloud-hosting/\">Para Cloud</a> for free!",
     "headline": "A general-purpose backend for the cloud",
     "subtext": "Para is an open-source, stateless and schemaless backend with a REST API over any database, search index and cache.",
     "primaryCta": { "text": "Get started", "href": "/docs/" },
@@ -56,7 +58,7 @@
     }
   },
   "features": {
-    "headline": "Three layers. No schema. No lock-in.",
+    "headline": "Bring your own database. Batteries-included. No schema. No lock-in.",
     "subtext": "Para is built from swappable layers, not a monolith. Every capability below ships in the core or as a plugin.",
     "items": [
       {
@@ -69,11 +71,11 @@
       },
       {
         "title": "Stateless scaling",
-        "body": "No sticky sessions, no node-local state. Scaling out is a load balancer decision, not a re-architecture."
+        "body": "No sticky sessions, no node-local state. Scaling out just requires more nodes, not a re-architecture."
       },
       {
         "title": "Multitenant apps",
-        "body": "Each App gets its own table, index and cache. Child apps inherit the root app keys and settings."
+        "body": "Each App gets its own table, index and cache. Better efficiency and resource utilization."
       },
       {
         "title": "Pluggable modules",
@@ -81,9 +83,9 @@
         "chips": ["sql", "mongodb", "cassandra", "dynamodb", "lucene", "elasticsearch", "caffeine", "hazelcast"]
       },
       {
-        "title": "Auth built in",
+        "title": "Built-in auth",
         "body": "JWT, passwordless logins, LDAP, SAML and social login for all the major identity providers.",
-        "chips": ["jwt", "passwordless", "ldap", "saml", "oauth2"]
+        "chips": ["jwt", "social", "passwordless", "ldap", "saml", "oauth2"]
       },
       {
         "title": "Webhooks",
@@ -97,45 +99,279 @@
   },
   "comparison": {
     "headline": "Why not Supabase?",
-    "subtext": "Para is a general-purpose backend, not a hosted database with extras. Different trade-offs, fewer lock-ins.",
+    "subtext": "Para is a general-purpose backend, not a hosted database with extras. Different trade-offs, fewer lock-ins. ",
     "columns": ["", "Para", "Supabase", "Firebase", "Parse"],
     "rows": [
       { "label": "Databases", "values": ["any (SQL, NoSQL, in-memory)", "PostgreSQL only", "proprietary", "MongoDB"] },
       { "label": "Data model", "values": ["schemaless JSON", "schema + migrations", "proprietary JSON", "schemaless JSON"] },
-      { "label": "Search included", "values": ["Lucene / Elasticsearch", "third-party", "no", "no"] },
-      { "label": "MCP server for AI agents", "values": ["yes", "no", "no", "no"] },
-      { "label": "Self-host anywhere", "values": ["one JAR or Docker", "self-host stack", "no", "Docker"] },
-      { "label": "License", "values": ["Apache-2.0", "Apache-2.0", "closed", "BSD-3 (community)"] }
+      { "label": "Full-text search", "values": ["yes, auto-indexing", "third-party", "yes, manual indexing", "yes, manual indexing"] },
+      { "label": "MCP server for AI agents", "values": ["yes", "yes", "yes", "no"] },
+      { "label": "Self-host anywhere", "values": ["yes", "yes", "no", "yes"] },
+      { "label": "License", "values": ["Apache-2.0", "Apache-2.0", "Proprietary", "BSD-3 (community)"] }
     ],
-    "jab": "// Supabase is a fine Postgres. It is still one database."
+    "jab": "Para was designed to provide a straightforward developer experience and is optimized for LLM-based workflows and rapid prototyping. Para is a good fit if you ask yourself any of the following questions:",
+    "questions": [
+      "What if I don't want to manage a full PostgreSQL cluster?", 
+      "What if my schema is not clarified yet or my data is too dynamic?",
+      "What if I want to connect a no-code solution to my backend?",
+      "What if I need to prototype an app quickly with a set-it-and-forget-it backend?"
+    ]
+  },
+  "sdks": {
+    "headline": "Use the client you know",
+    "subtext": "All Para clients share the same REST API. Create, read, update, and delete a user, then search users with one query.",
+    "tabsLabel": "Para client SDK examples",
+    "exampleLabel": "SDK code example",
+    "sourceLabel": "View SDK source",
+    "securityNote": "Keep secret keys on trusted servers. Browser and mobile apps should leave the secret key blank, sign in, and use the permissions granted to that user.",
+    "tabs": [
+      {
+        "id": "java",
+        "label": "Java",
+        "package": "Maven · com.erudika:para-client",
+        "language": "java",
+        "source": "https://github.com/Erudika/para/tree/master/para-client",
+        "code": [
+          "import com.erudika.para.client.ParaClient;",
+          "import com.erudika.para.core.ParaObject;",
+          "import com.erudika.para.core.Sysprop;",
+          "import java.util.List;",
+          "",
+          "ParaClient pc = new ParaClient(\"app:myapp\", \"secret\");",
+          "pc.setEndpoint(\"http://localhost:8080\");",
+          "",
+          "Sysprop draft = new Sysprop();",
+          "draft.setType(\"user\");",
+          "draft.setName(\"Ada\");",
+          "ParaObject created = pc.create(draft);",
+          "",
+          "ParaObject user = pc.read(\"user\", created.getId());",
+          "user.setName(\"Ada Lovelace\");",
+          "ParaObject updated = pc.update(user);",
+          "",
+          "List<ParaObject> users = pc.findQuery(\"user\", \"*\");",
+          "pc.delete(updated);"
+        ]
+      },
+      {
+        "id": "javascript",
+        "label": "JavaScript/TypeScript",
+        "package": "npm · para-client-js",
+        "language": "js",
+        "source": "https://github.com/Erudika/para-client-js",
+        "code": [
+          "import { ParaClient, ParaObject } from \"para-client-js\";",
+          "",
+          "const pc = new ParaClient(\"app:myapp\", \"secret\");",
+          "pc.setEndpoint(\"http://localhost:8080\");",
+          "",
+          "const draft = new ParaObject();",
+          "draft.setType(\"user\");",
+          "draft.setName(\"Ada\");",
+          "const created = await pc.create(draft);",
+          "",
+          "const user = await pc.read(\"user\", created.getId());",
+          "user.setName(\"Ada Lovelace\");",
+          "const updated = await pc.update(user);",
+          "",
+          "const users = await pc.findQuery(\"user\", \"*\");",
+          "await pc.delete(updated);"
+        ]
+      },
+      {
+        "id": "python",
+        "label": "Python",
+        "package": "pip · paraclient",
+        "language": "python",
+        "source": "https://github.com/Erudika/para-client-python",
+        "code": [
+          "from paraclient import ParaClient, ParaObject",
+          "",
+          "pc = ParaClient(\"app:myapp\", \"secret\")",
+          "pc.setEndpoint(\"http://localhost:8080\")",
+          "",
+          "draft = ParaObject(type_=\"user\")",
+          "draft.name = \"Ada\"",
+          "created = pc.create(draft)",
+          "",
+          "user = pc.read(\"user\", created.id)",
+          "user.name = \"Ada Lovelace\"",
+          "updated = pc.update(user)",
+          "",
+          "users = pc.findQuery(\"user\", \"*\")",
+          "pc.delete(updated)"
+        ]
+      },
+      {
+        "id": "php",
+        "label": "PHP",
+        "package": "Composer · erudika/para-client-php",
+        "language": "php",
+        "source": "https://github.com/Erudika/para-client-php",
+        "code": [
+          "<?php",
+          "use Para\\ParaClient;",
+          "use Para\\ParaObject;",
+          "",
+          "$pc = new ParaClient(\"app:myapp\", \"secret\");",
+          "$pc->setEndpoint(\"http://localhost:8080\");",
+          "",
+          "$draft = new ParaObject(null, \"user\");",
+          "$draft->setName(\"Ada\");",
+          "$created = $pc->create($draft);",
+          "",
+          "$user = $pc->read(\"user\", $created->getId());",
+          "$user->setName(\"Ada Lovelace\");",
+          "$updated = $pc->update($user);",
+          "",
+          "$users = $pc->findQuery(\"user\", \"*\");",
+          "$pc->delete($updated);"
+        ]
+      },
+      {
+        "id": "csharp",
+        "label": ".NET (C#)",
+        "package": "NuGet · para_client_csharp",
+        "language": "csharp",
+        "source": "https://github.com/Erudika/para-client-csharp",
+        "code": [
+          "using Para.Client;",
+          "using System.Collections.Generic;",
+          "",
+          "var pc = new ParaClient(\"app:myapp\", \"secret\");",
+          "pc.setEndpoint(\"http://localhost:8080\");",
+          "",
+          "var draft = new ParaObject();",
+          "draft.type = \"user\";",
+          "draft.name = \"Ada\";",
+          "ParaObject created = pc.create(draft);",
+          "",
+          "ParaObject user = pc.read(\"user\", created.id);",
+          "user.name = \"Ada Lovelace\";",
+          "ParaObject updated = pc.update(user);",
+          "",
+          "List<ParaObject> users = pc.findQuery(\"user\", \"*\");",
+          "pc.delete(updated);"
+        ]
+      },
+      {
+        "id": "ios",
+        "label": "iOS (Swift)",
+        "package": "Swift Package Manager · para-client-ios",
+        "language": "swift",
+        "source": "https://github.com/Erudika/para-client-ios",
+        "code": [
+          "import ParaClient",
+          "",
+          "let pc = ParaClient(accessKey: \"app:myapp\", secretKey: \"\")",
+          "pc.setEndpoint(\"https://your-para-host\")",
+          "",
+          "pc.signIn(\"password\", providerToken: \"ada@example.com::PASSWORD\", callback: { session in",
+          "    guard session != nil else { return }",
+          "",
+          "    let draft = ParaObject()",
+          "    draft.type = \"user\"",
+          "    draft.name = \"Ada\"",
+          "    pc.create(draft, callback: { created in",
+          "        guard let created else { return }",
+          "        pc.read(\"user\", id: created.id, callback: { user in",
+          "            guard let user else { return }",
+          "            user.name = \"Ada Lovelace\"",
+          "            pc.update(user, callback: { updated in",
+          "                guard let updated else { return }",
+          "                pc.findQuery(\"user\", query: \"*\", callback: { users in",
+          "                    print(\"Found \\(users?.count ?? 0) users\")",
+          "                    pc.delete(updated)",
+          "                })",
+          "            })",
+          "        })",
+          "    })",
+          "})"
+        ]
+      },
+      {
+        "id": "android",
+        "label": "Android",
+        "package": "Gradle · com.erudika:para-client-android",
+        "language": "java",
+        "source": "https://github.com/Erudika/para-client-android",
+        "code": [
+          "import android.content.Context;",
+          "import android.util.Log;",
+          "import com.erudika.para.client.Listener;",
+          "import com.erudika.para.client.ParaClient;",
+          "import com.erudika.para.core.ParaObject;",
+          "import com.erudika.para.core.Sysprop;",
+          "import java.util.List;",
+          "",
+          "void runExample(Context context) {",
+          "    ParaClient pc = new ParaClient(\"app:myapp\", null, context);",
+          "    pc.setEndpoint(\"https://your-para-host\");",
+          "    pc.signIn(\"password\", \"ada@example.com::PASSWORD\", new Listener<Sysprop>() {",
+          "        @Override public void onResponse(Sysprop session) {",
+          "            if (session == null) return;",
+          "            Sysprop draft = new Sysprop();",
+          "            draft.setType(\"user\");",
+          "            draft.setName(\"Ada\");",
+          "            pc.create(draft, new Listener<ParaObject>() {",
+          "                @Override public void onResponse(ParaObject created) {",
+          "                    if (created == null) return;",
+          "                    pc.read(Sysprop.class, created.getId(), new Listener<Sysprop>() {",
+          "                        @Override public void onResponse(Sysprop user) {",
+          "                            if (user == null) return;",
+          "                            user.setName(\"Ada Lovelace\");",
+          "                            pc.update(user, new Listener<ParaObject>() {",
+          "                                @Override public void onResponse(ParaObject updated) {",
+          "                                    if (updated == null) return;",
+          "                                    pc.findQuery(\"user\", \"*\", null, new Listener<List<ParaObject>>() {",
+          "                                        @Override public void onResponse(List<ParaObject> users) {",
+          "                                            Log.d(\"Para\", \"Users: \" + (users == null ? 0 : users.size()));",
+          "                                            pc.delete(updated, null);",
+          "                                        }",
+          "                                    });",
+          "                                }",
+          "                            });",
+          "                        }",
+          "                    });",
+          "                }",
+          "            });",
+          "        }",
+          "    });",
+          "}"
+        ]
+      }
+    ]
   },
   "cloud": {
     "badge": "Para Cloud",
-    "headline": "Prefer not to run it yourself?",
-    "subtext": "Para Cloud is the managed version of Para — hosted, patched and backed up by the makers.",
+    "headline": "Prefer a managed BaaS?",
+    "subtext": "Para Cloud is our fully managed backend-as-a-service — hosted, patched and production-ready.",
     "points": [
       "Managed hosting by the makers of Para",
       "Automatic updates, backups and monitoring",
-      "Apps, data and support included"
+      "Basic support included"
     ],
-    "marker": "[x]",
-    "cta": { "text": "Get Para Cloud", "href": "https://paraio.com" },
-    "note": "Pricing at paraio.com"
+    "marker": "✓",
+    "cta": { "text": "Try Para Cloud", "href": "https://paraio.com" },
+    "note": "Flat pricing of €25 / app"
   },
   "cta": {
     "headline": "Self-host in minutes",
     "subtext": "One JAR, one config file, any database. The quickstart has you persisting objects before your coffee cools.",
-    "primaryCta": { "text": "Get started", "href": "/docs/" },
+    "docker": "Prefer containers?",
+    "dockertext": "Run Para in Docker with one command:",
+    "primaryCta": { "text": "Get started", "href": "/docs/getting-started/quickstart/" },
     "secondaryCta": { "text": "Download the JAR", "href": "https://github.com/Erudika/para/releases" }
   },
   "footer": {
-    "blurb": "pára means steam in Bulgarian.",
-    "credit": "Built by Erudika, also makers of Scoold.",
+    "blurb": "the backend for busy developers",
+    "credit": "Made in the 🇪🇺 by <a class='link ' href='https://erudika.com'>Erudika</a>",
     "links": [
       { "text": "Docs", "href": "/docs/" },
+      { "text": "Features", "href": "/features/" },
+      { "text": "Para Cloud", "href": "/cloud-hosting/" },
       { "text": "GitHub", "href": "https://github.com/Erudika/para" },
-      { "text": "Para Cloud", "href": "https://paraio.com" },
-      { "text": "Erudika", "href": "https://erudika.com" }
+      { "text": "🟢 System Status", "href": "https://status.erudika.com" }
     ],
     "license": "Apache-2.0"
   },

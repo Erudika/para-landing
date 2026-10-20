@@ -1,0 +1,60 @@
+---
+import { Code } from "astro:components";
+
+interface Props {
+  sdk: {
+    id: string;
+    label: string;
+    package: string;
+    source: string;
+    code: string[];
+    language: string;
+  };
+  index: number;
+  sourceLabel: string;
+  exampleLabel: string;
+}
+
+const { sdk, index, sourceLabel, exampleLabel } = Astro.props;
+const tabId = `sdk-tab-${sdk.id}`;
+const panelId = `sdk-panel-${sdk.id}`;
+---
+
+<input
+  id={tabId}
+  type="radio"
+  name="para-sdk-tabs"
+  class="whitespace-nowrap tab"
+  aria-label={sdk.label}
+  aria-controls={panelId}
+  checked={index === 0}
+/>
+<div
+  id={panelId}
+  class="border w-full tab-content"
+  role="tabpanel"
+  aria-labelledby={tabId}
+  aria-label={`${sdk.label} ${exampleLabel}`}
+>
+  <div class="mt-2 border border-zinc-800 rounded-[4px] overflow-hidden">
+    <Code
+      code={sdk.code.join("\n")}
+      lang={sdk.language}
+      theme="dark-plus"
+      class="p-5"
+    />
+  </div>
+  <div class="flex flex-wrap justify-between items-center gap-3 pt-2">
+    <p class="font-mono text-zinc-500 dark:text-zinc-400 text-xs">
+      {sdk.package}
+    </p>
+    <a
+      class="font-mono text-xs link"
+      href={sdk.source}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {sourceLabel}
+    </a>
+  </div>
+</div>

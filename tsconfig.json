@@ -2,11 +2,10 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "strictNullChecks": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@data/*": ["src/data/*"],
-      "@components/*": ["src/components/*"]
+      "@/*": ["./src/*"],
+      "@data/*": ["./src/data/*"],
+      "@components/*": ["./src/components/*"]
     }
   },
   "exclude": ["dist", ".astro"]

@@ -1,0 +1,166 @@
+@import "tailwindcss";
+@import '@astrojs/starlight-tailwind';
+@plugin "@tailwindcss/typography";
+
+
+/* Dark mode: class-based on the landing site, data-theme on Starlight docs pages.
+   Both signals are kept in sync by the toggle + init script. */
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where(.light, .light *, [data-theme="light"], [data-theme="light"] *));
+
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  /* Brand: sky blue, anchored on the logo glyph color #31c7ff */
+  --color-brand-50: #f0faff;
+  --color-brand-100: #dcf3fe;
+  --color-brand-200: #b9e7fe;
+  --color-brand-300: #8adbff;
+  --color-brand-400: #55ccff;
+  --color-brand-500: #31c7ff; /* logo glyph — primary accent */
+  --color-brand-600: #0ea9e6;
+  --color-brand-700: #0a8ab8;
+  --color-brand-800: #0c6e93;
+  --color-brand-900: #0e5a77;
+  --color-brand-950: #073849;
+
+  /* Deep yellow — secondary accent, reserved for dark backgrounds */
+  --color-accent-400: #facc15;
+  --color-accent-500: #eab308;
+
+  --animate-fade-in: fadeIn 0.4s ease-in-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    color-scheme: light;
+  }
+  html.dark,
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100;
+    font-family: var(--font-sans);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight;
+  }
+  ::selection {
+    @apply bg-brand-500/30;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Layout */
+  .section-shell {
+    @apply mx-auto px-6 sm:px-8 w-full max-w-6xl;
+  }
+  .section-padding {
+    @apply py-16;
+  }
+  .container-base {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+  .para-inline-logo {
+    @apply block shrink-0;
+  }
+  .para-inline-logo svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Buttons — monochrome primary, brand reserved for the one brand CTA */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-700 dark:bg-zinc-100 dark:hover:bg-zinc-300 px-5 py-2.5 rounded-[4px] font-semibold text-zinc-50 dark:text-zinc-950 text-sm transition-colors active:translate-y-[1px] duration-200;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 hover:bg-zinc-100 dark:hover:bg-zinc-900 px-5 py-2.5 border border-zinc-300 hover:border-zinc-500 dark:border-zinc-700 dark:hover:border-zinc-500 rounded-[4px] font-semibold text-zinc-900 dark:text-zinc-100 text-sm transition-colors active:translate-y-[1px] duration-200;
+  }
+  .btn-brand {
+    @apply inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-400 px-5 py-2.5 rounded-[4px] font-semibold text-zinc-950 text-sm transition-colors active:translate-y-[1px] duration-200;
+  }
+
+  /* Surfaces — flat, bordered, no drop shadows (minimal monochrome) */
+  .card {
+    @apply bg-white dark:bg-zinc-900 p-6 border border-zinc-200 dark:border-zinc-800 rounded-[4px] transition-colors duration-200;
+  }
+  .chip {
+    @apply inline-flex items-center gap-2 px-3 py-1 border border-zinc-300 dark:border-zinc-700 rounded-[4px] font-mono text-zinc-600 dark:text-zinc-400 text-xs;
+  }
+
+  /* ASCII-art flavor */
+  .ascii {
+    @apply font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed whitespace-pre;
+  }
+  .ascii-strong {
+    @apply font-mono text-zinc-900 dark:text-zinc-100 text-xs sm:text-sm leading-relaxed whitespace-pre;
+  }
+  .code-block {
+    @apply bg-zinc-950 p-4 border border-zinc-800 rounded-[4px] overflow-x-auto font-mono text-zinc-100 sm:text-[13px] text-xs leading-relaxed;
+  }
+  .code-block .tok-prompt {
+    @apply text-brand-500;
+  }
+  .code-block .tok-dim {
+    @apply text-zinc-500;
+  }
+
+  /* Dithered texture — ordered dot pattern in currentColor */
+  .dither {
+    background-image: radial-gradient(
+        circle at 1px 1px,
+        currentColor 0.75px,
+        transparent 0.75px
+      ),
+      radial-gradient(circle at 3px 3px, currentColor 0.75px, transparent 0.75px);
+    background-size: 4px 4px;
+  }
+  .dither-fade {
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+    mask-image: linear-gradient(to bottom, black, transparent);
+  }
+
+  .highlight {
+    @apply text-brand-600 dark:text-brand-400;
+  }
+  .link {
+    @apply decoration-zinc-400 hover:decoration-brand-500 dark:decoration-zinc-600 underline underline-offset-4 transition-colors;
+  }
+}

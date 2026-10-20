@@ -21,9 +21,11 @@ export default defineConfig({
     starlight({
       title: nav.docsTitle,
       logo: {
-        light: './src/images/logo.svg',
-        dark: './src/images/footer-logo.svg',
+        src: './src/images/logo.svg',
         replacesTitle: true,
+      },
+      components: {
+        SiteTitle: './src/components/starlight/SiteTitle.astro',
       },
       disable404Route: true,
       customCss: ['./src/styles/global.css'],
@@ -46,11 +48,15 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'docs/concepts' } }],
         },
         {
-          label: 'Configuration and plugins',
+          label: 'Configuration',
           items: [{ autogenerate: { directory: 'docs/configuration' } }],
         },
         {
-          label: 'Persistence and data stores',
+          label: 'Plugins',
+          items: [{ autogenerate: { directory: 'docs/plugins' } }],
+        },
+        {
+          label: 'Persistence',
           items: [{ autogenerate: { directory: 'docs/data-stores' } }],
         },
         {
@@ -62,7 +68,7 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'docs/cache' } }],
         },
         {
-          label: 'Authentication and security',
+          label: 'Authentication & Security',
           items: [{ autogenerate: { directory: 'docs/security' } }],
         },
         {
@@ -70,7 +76,7 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'docs/integrations' } }],
         },
         {
-          label: 'Utilities and operations',
+          label: 'Utilities & Operations',
           items: [
             { autogenerate: { directory: 'docs/utilities' } },
             { autogenerate: { directory: 'docs/operations' } },
@@ -80,21 +86,12 @@ export default defineConfig({
           label: 'REST API',
           items: [
             { slug: 'docs/api' },
-            { label: 'Authentication', items: [{ autogenerate: { directory: 'docs/api/authentication' } }] },
-            { label: 'Apps', items: [{ autogenerate: { directory: 'docs/api/apps' } }] },
-            { label: 'Objects', items: [{ autogenerate: { directory: 'docs/api/objects' } }] },
-            { label: 'Batch', items: [{ autogenerate: { directory: 'docs/api/batch' } }] },
-            { label: 'Search', items: [{ autogenerate: { directory: 'docs/api/search' } }] },
-            { label: 'Links', items: [{ autogenerate: { directory: 'docs/api/links' } }] },
-            { label: 'Constraints', items: [{ autogenerate: { directory: 'docs/api/constraints' } }] },
-            { label: 'Permissions', items: [{ autogenerate: { directory: 'docs/api/permissions' } }] },
-            { label: 'Settings', items: [{ autogenerate: { directory: 'docs/api/settings' } }] },
-            { label: 'Data operations', items: [{ autogenerate: { directory: 'docs/api/data' } }] },
-            { label: 'System', items: [{ autogenerate: { directory: 'docs/api/system' } }] },
-            { label: 'Integrations', items: [{ autogenerate: { directory: 'docs/api/integrations' } }] },
           ],
         },
       ],
+      components: {
+        SiteTitle: './src/components/starlight/SiteTitle.astro',
+      }
     }),
     mdx(),
   ],

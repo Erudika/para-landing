@@ -1,0 +1,36 @@
+---
+title: Para API Reference
+description: Para REST API reference - full OpenAPI 3.x specification for interacting with Para programmatically.
+tableOfContents: false
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import ScalarWithThemeSync from '@/components/ScalarWithThemeSync.astro';
+
+<style>{`.sl-container { margin-left: 0; } @media (max-width: 1200px) { .sl-container { max-width: 100% !important; } } @media (min-width: 1200px) { .sl-container { max-width: 80% !important; } }`}</style>
+
+The Para REST API is accessible only if enabled with `para.api_enabled = true`. Authentication uses AWS v4 signatures, or a `Bearer` access token (API key) generated with Para CLI.
+
+<Aside type="tip">
+  You can also browse the full interactive API console, available at `/apidocs` on your running Para instance.
+</Aside>
+
+## Limiting which fields are returned by the API
+
+Field limiting is supported on all requests by using the query parameter `select=xxx,yyy`.
+This parameter takes a comma separated list of fields to include. For example:
+
+```
+GET /myobjects?select=id,name,my_field1,my_field2
+```
+
+<ScalarWithThemeSync
+  url="https://demo.scoold.com/api.json"
+  proxyUrl="https://proxy.scalar.com"
+  persistAuth={true}
+  hideSearch={true}
+  withDefaultFonts={false}
+  telemetry={false}
+  layout="modern"
+  showDeveloperTools="true"
+/>

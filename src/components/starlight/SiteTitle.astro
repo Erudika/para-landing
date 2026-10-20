@@ -1,0 +1,74 @@
+---
+import site from "@/data/site-data.json";
+import logo from '@/images/logo.svg?raw';
+import docs from "@/images/navdocs.svg?raw";
+import line from "@/images/line.svg";
+const self = "/docs/";
+
+const { nav } = site;
+---
+
+<!-- 
+<span class="sl-flex site-title">
+  <a href={nav.logo.href} aria-label={nav.logo.text}>
+    
+  </a>
+</span>
+
+<style>
+  .site-title a {
+    display: flex;
+  }
+
+  .site-title a:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 0.33rem;
+  }
+</style> -->
+<span class="sl-flex site-title">
+  <a class="para-logo" href="/" set:html={logo} aria-label="Scoold" />
+  <img class="line" src={line.src} alt="line" />
+  <a class="docs-logo" href={self} set:html={docs} aria-label="Docs" />
+</span>
+
+<style>
+  .site-title {
+    gap: 1rem;
+  }
+  .site-title a {
+    display: flex;
+  }
+  .para-logo {
+    width: 100px;
+    color: var(--sl-color-white);
+  }
+  .docs-logo {
+    color: var(--sl-color-text-accent);
+    width: 70px;
+    height: 74px;
+  }
+  .line {
+    margin-top: 7px;
+    height: 60px;
+    width: 1px;
+  }
+
+  /* On focus, outline <img> and <svg> rather than <a> */
+  .site-title a:focus-visible {
+    outline: 0;
+  }
+  .site-title a:focus-visible > :global(*) {
+    outline: auto;
+    outline-offset: 0.33rem;
+    border-radius: 1px;
+  }
+  /* Adjust svg sizes to full nav height */
+  .site-title :global(svg) {
+    --display-height: 1rem;
+    /* `auto` ensures the `<svg>` scales down on really narrow viewports */
+    width: auto;
+    height: auto;
+    margin-block: calc((var(--sl-nav-height) - var(--display-height)) / 2);
+    transition: transform 0.18s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+</style>

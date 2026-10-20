@@ -3,18 +3,24 @@ import siteData from '../data/site-data.json';
 import HeroAscii from '@/components/HeroAscii.astro';
 const { hero } = siteData;
 ---
-
+<!--  -->
 <section class="section-padding">
-  <div class="section-shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-    <div class="animate-fade-in">
-      <p class="chip mb-6">{hero.badge}</p>
-      <h1 class="text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+  <div class="items-center gap-12 lg:gap-16 grid lg:grid-cols-2 section-shell">
+    <div class="max-lg:text-center animate-fade-in">
+
+      <div class="inline-flex items-center gap-2 bg-olive-200 mb-6 px-3 py-1.5 border border-olive-800 rounded-full font-semibold text-amber-950 text-xs">
+        <!-- <span class="bg-brand-600 rounded-full w-1.5 h-1.5 animate-pulse"></span> -->
+          <strong class="font-bold text-sky-600">❈</strong>
+          <span set:html={hero.badge}></span>
+      </div>
+
+      <h1 class="font-semibold text-4xl sm:text-5xl lg:text-5xl text-balance leading-tight tracking-tight">
         {hero.headline}
       </h1>
-      <p class="mt-5 max-w-[65ch] text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+      <p class="sm:mx-auto mt-5 max-w-[65ch] text-zinc-600 dark:text-zinc-400 text-lg leading-relaxed">
         {hero.subtext}
       </p>
-      <div class="mt-8 flex flex-wrap gap-4">
+      <div class="flex flex-wrap max-lg:justify-center gap-4 mt-8">
         <a href={hero.primaryCta.href} class="btn-primary">{hero.primaryCta.text} &rarr; </a>
         <a
           href={hero.secondaryCta.href}
@@ -27,7 +33,7 @@ const { hero } = siteData;
       </div>
     </div>
 
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6 sm:mx-auto">
       <HeroAscii/>
     </div>
   </div>
@@ -37,7 +43,7 @@ const { hero } = siteData;
   @reference "../styles/global.css";
 
   .tab-active {
-    @apply bg-white text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100;
+    @apply bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100;
   }
 </style>
 

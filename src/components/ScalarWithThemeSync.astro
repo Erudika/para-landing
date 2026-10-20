@@ -1,0 +1,64 @@
+---
+interface Props {
+  url: string;
+  proxyUrl?: string;
+  persistAuth?: boolean;
+  hideSearch?: boolean;
+  withDefaultFonts?: boolean;
+  telemetry?: boolean;
+  layout?: string;
+  authentication?: Record<string, unknown>;
+}
+const config = JSON.stringify(Astro.props);
+---
+
+<div id="scalar-app" data-scalar-config={config}></div>
+
+<script>
+  const el = document.getElementById('scalar-app');
+  if (el && el.dataset.scalarConfig) {
+    const config = JSON.parse(el.dataset.scalarConfig);
+
+    const isDark = () => document.documentElement.dataset.theme === 'dark';
+
+    let scalarRef: { destroy?: () => void } | null = null;
+
+    const initScalar = () => {
+      scalarRef = (window as any).Scalar.createApiReference('#scalar-app', {
+        ...config,
+        authentication: {
+          preferredSecurityScheme: 'scoold_auth',
+        },
+        forceDarkModeState: isDark() ? "dark" : "light",
+      });
+    };
+
+    const syncTheme = () => {
+      if (!scalarRef || typeof (window as any).Scalar === 'undefined') return;
+      scalarRef.destroy?.();
+      el.innerHTML = '';
+      initScalar();
+    };
+
+    new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === 'data-theme') {
+          syncTheme();
+          break;
+        }
+      }
+    }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
+    if (typeof (window as any).Scalar !== 'undefined') {
+      initScalar();
+    } else {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@scalar/api-reference';
+      s.onload = initScalar;
+      document.head.appendChild(s);
+    }
+  }
+</script>

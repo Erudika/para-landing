@@ -1,20 +1,31 @@
 ---
-import siteData from '../data/site-data.json';
+import siteData from "../data/site-data.json";
 const { comparison } = siteData;
 ---
 
-<section class="section-padding border-t border-zinc-200 dark:border-zinc-800">
+<section class="border-zinc-200 dark:border-zinc-800 border-t section-padding">
   <div class="section-shell">
-    <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{comparison.headline}</h2>
-    <p class="mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-400">{comparison.subtext}</p>
+    <h2 class="font-semibold text-3xl sm:text-4xl tracking-tight">
+      {comparison.headline}
+    </h2>
+    <p class="mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-400">
+      {comparison.subtext}
+    </p>
 
-    <div class="mt-10 overflow-x-auto rounded-[4px] border border-zinc-200 dark:border-zinc-800">
-      <table class="w-full border-collapse text-sm">
+    <div
+      class="mt-10 border border-zinc-200 dark:border-zinc-800 rounded-[4px] overflow-x-auto"
+    >
+      <table class="w-full text-sm border-collapse">
         <thead>
-          <tr class="border-b border-zinc-200 text-left font-mono text-xs uppercase tracking-wider text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+          <tr
+            class="border-zinc-200 dark:border-zinc-00 border-b font-mono text-zinc-800 dark:text-zinc-400 text-xs text-left tracking-wider"
+          >
             {
               comparison.columns.map((col, i) => (
-                <th scope="col" class={`px-4 py-3 font-medium ${i === 1 ? 'bg-brand-500/10 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300' : ''}`}>
+                <th
+                  scope="col"
+                  class={`px-4 py-3 font-medium ${i === 1 ? "bg-gray-500/10 text-brand-700 dark:bg-gray-500/10 dark:text-brand-300" : ""}`}
+                >
                   {col}
                 </th>
               ))
@@ -24,18 +35,21 @@ const { comparison } = siteData;
         <tbody>
           {
             comparison.rows.map((row) => (
-              <tr class="border-b border-zinc-200 last:border-b-0 dark:border-zinc-800">
-                <th scope="row" class="px-4 py-3 text-left font-mono text-xs font-medium text-zinc-500 dark:text-zinc-400">
+              <tr class="border-zinc-200 dark:border-zinc-800 border-b last:border-b-0">
+                <th
+                  scope="row"
+                  class="px-4 py-3 font-mono font-medium text-zinc-500 dark:text-zinc-400 text-xs text-left"
+                >
                   {row.label}
                 </th>
                 {row.values.map((value, i) => (
                   <td
                     class={`px-4 py-3 ${
                       i === 0
-                        ? 'bg-brand-500/10 font-medium text-zinc-900 dark:bg-brand-500/10 dark:text-zinc-100'
-                        : value === 'no'
-                          ? 'text-zinc-400 dark:text-zinc-600'
-                          : 'text-zinc-600 dark:text-zinc-400'
+                        ? "bg-gray-500/10 font-medium text-zinc-900 dark:bg-gray-500/10 dark:text-zinc-100"
+                        : value === "no"
+                          ? "text-zinc-400 dark:text-zinc-600"
+                          : "text-zinc-600 dark:text-zinc-400"
                     }`}
                   >
                     {value}
@@ -47,6 +61,13 @@ const { comparison } = siteData;
         </tbody>
       </table>
     </div>
-    <p class="ascii mt-6">{comparison.jab}</p>
+    <p class="mt-4 w-fit text-zinc-600 dark:text-zinc-400">{comparison.jab}</p>
+    <ul class="mt-2 text-zinc-700 dark:text-zinc-300">
+      {
+        comparison.questions.map((q, i) => 
+          <li class="list-disc list-inside">{q}</li>
+        )
+      }
+    </ul>
   </div>
 </section>

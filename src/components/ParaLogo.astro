@@ -1,0 +1,12 @@
+---
+import logo from '../images/logo.svg?raw';
+
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className = '' } = Astro.props;
+---
+
+<span class:list={['para-inline-logo', className]} role="img" aria-label={label} set:html={logo}></span>

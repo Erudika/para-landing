@@ -6,6 +6,7 @@ import Comparison from '../components/Comparison.astro';
 import ParaCloud from '../components/ParaCloud.astro';
 import CTASection from '../components/CTASection.astro';
 import siteData from '../data/site-data.json';
+import SdkSection from '@/components/SdkSection.astro';
 
 const { site } = siteData;
 
@@ -26,6 +27,7 @@ const jsonLd = {
   <Hero />
   <Features />
   <Comparison />
-  <ParaCloud />
   <CTASection />
+  <SdkSection />
+  <ParaCloud />
 </BaseLayout>
