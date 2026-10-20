@@ -69,7 +69,20 @@ export default defineConfig({
         },
         {
           label: 'Authentication & Security',
-          items: [{ autogenerate: { directory: 'docs/security' } }],
+          items: [
+            { slug: 'docs/security/passwords' },
+            { slug: 'docs/security/passwordless' },
+            { slug: 'docs/security/oauth2' },
+            { slug: 'docs/security/saml' },
+            { slug: 'docs/security/ldap' },
+            { slug: 'docs/security/roles' },
+            { slug: 'docs/security/csrf' },
+            { slug: 'docs/security/rest-api-authentication' },
+            {
+              label: 'Identity providers',
+              items: [{ autogenerate: { directory: 'docs/security/providers' } }],
+            },
+          ],
         },
         {
           label: 'Integrations',
@@ -79,7 +92,14 @@ export default defineConfig({
           label: 'Utilities & Operations',
           items: [
             { autogenerate: { directory: 'docs/utilities' } },
-            { autogenerate: { directory: 'docs/operations' } },
+            {
+              label: 'Observability',
+              items: [{ autogenerate: { directory: 'docs/operations/observability' } }],
+            },
+            {
+              label: 'Internationalization',
+              items: [{ autogenerate: { directory: 'docs/operations/i18n' } }],
+            },
           ],
         },
         {
@@ -89,9 +109,6 @@ export default defineConfig({
           ],
         },
       ],
-      components: {
-        SiteTitle: './src/components/starlight/SiteTitle.astro',
-      }
     }),
     mdx(),
   ],

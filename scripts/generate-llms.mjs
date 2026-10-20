@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import siteData from '../src/data/site-data.json' with { type: 'json' };
 import legacyRoutes from '../src/data/legacy-doc-routes.json' with { type: 'json' };
@@ -139,6 +139,9 @@ function pageSummary(body, fallback) {
 const files = await collectMarkdown(docsRoot);
 const byRoute = new Map();
 const pages = [];
+
+// Remove sidecars from previous builds so renamed or deleted pages do not linger.
+await rm(join(publicRoot, 'docs'), { recursive: true, force: true });
 
 for (const filePath of files) {
   const { title, description, body } = frontmatter(await readFile(filePath, 'utf8'));

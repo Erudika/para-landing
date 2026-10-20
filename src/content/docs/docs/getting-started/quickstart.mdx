@@ -96,33 +96,30 @@ $ docker run -ti -p 8080:8080 --rm -v $(pwd)/data:/para/data \
 You can create a custom Para container with all plugins and JDBC drivers you need by using `docker compose`.
 Below is an example build of Para, using `para-dao-sql`, `para-search-lucene` and PosgreSQL as a database.
 
+<Steps>
+
 1. First, create a new `Dockerfile-plugins` which does a multi-stage build like so:
 
-### `Dockerfile-plugins`
+    ```docker title="Dockerfile-plugins"
+    ARG PARA_VERSION="0.0.0"
+    ARG SQL_DAO_VERSION="0.0.0"
+    FROM erudikaltd/para:v${PARA_VERSION} AS base
+    FROM erudikaltd/para-dao-sql:${SQL_DAO_VERSION} AS dao
+    FROM erudikaltd/para-search-lucene:${SEARCH_VERSION} AS search
+    FROM base AS final
+    COPY --from=dao /para/lib/*.jar /para/lib
+    COPY --from=search /para/lib/*.jar /para/lib
 
-```docker
-ARG PARA_VERSION="0.0.0"
-ARG SQL_DAO_VERSION="0.0.0"
-FROM erudikaltd/para:v${PARA_VERSION} AS base
-FROM erudikaltd/para-dao-sql:${SQL_DAO_VERSION} AS dao
-FROM erudikaltd/para-search-lucene:${SEARCH_VERSION} AS search
-FROM base AS final
-COPY --from=dao /para/lib/*.jar /para/lib
-COPY --from=search /para/lib/*.jar /para/lib
-
-# EXAMPLE: Add a PostgreSQL JDBC Driver
-ARG PG_JDBC_VERSION="0.0.0"
-ADD https://jdbc.postgresql.org/download/postgresql-${PG_JDBC_VERSION}.jar /para/lib/
-```
-
+    # EXAMPLE: Add a PostgreSQL JDBC Driver
+    ARG PG_JDBC_VERSION="0.0.0"
+    ADD https://jdbc.postgresql.org/download/postgresql-${PG_JDBC_VERSION}.jar /para/lib/
+    ```
 
 2. Then, create a `docker-compose.yml` file:
 
-### `docker-compose.yml`
-
-```yml
-services:
-   para:
+    ```yml title="docker-compose.yml"
+    services:
+       para:
      depends_on:
        - db
      build:
@@ -150,7 +147,7 @@ services:
      environment:
        - JAVA_OPTS=-Dconfig.file=/para/application.conf -Dloader.path=/para/lib
 
-   db:
+       db:
      image: postgres:latest
      ports:
        - "5432:5432"
@@ -162,28 +159,26 @@ services:
      environment:
        - POSTGRES_PASSWORD=mysecretpassword
        - PGDATA=/var/lib/postgresql/data
-volumes:
-  paraData:
-  paraLib:
-  postgresData:
-```
+    volumes:
+      paraData:
+      paraLib:
+      postgresData:
+    ```
 
+3. Also create the Para configuration file `para-application.conf`:
 
-3. Also reate the Para configuration file `para-application.conf`:
+    ```ini title="para-application.conf"
+    para.env = "production"
+    para.dao = "SqlDAO"
+    para.sql.driver = "org.postgresql.Driver"
+    para.sql.url = "postgresql://db:5432/para"
+    para.sql.user = "postgres"
+    para.sql.password = "mysecretpassword"
+    ```
 
-### `para-application.conf`
+4. Finally, run `docker compose build para && docker compose up`.
 
-```ini
-para.env = "production"
-para.dao = "SqlDAO"
-para.sql.driver = "org.postgresql.Driver"
-para.sql.url = "postgresql://db:5432/para"
-para.sql.user = "postgres"
-para.sql.password = "mysecretpassword"
-```
-
-
-4. Finally, run `docker compose build para && docker compose up`
+</Steps>
 
 ## Maven
 
@@ -215,7 +210,9 @@ The rest of the client libraries only have synchronous methods.
 In certain environments like serverless (AWS Lambda, CloudFlare Workers, etc.) the environment restricts code to run on a single thread.
 In those cases, applications connecting to Para with a client must not use async functions or set `para.executor_service_enabled = false`.
 
-> We've built a full-blown StackOverflow clone with Para - check it out at https://scoold.com
+<Aside type="note">
+We've built a full-blown StackOverflow clone with Para - check it out at https://scoold.com
+</Aside>
 
 ## Client libraries
 
