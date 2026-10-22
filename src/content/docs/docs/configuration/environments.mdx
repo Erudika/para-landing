@@ -1,0 +1,29 @@
+---
+title: "Environment profiles"
+description: "Para documentation: Environment profiles."
+sidebar:
+  order: 3
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+`para.env` is an important configuration property that turns features on and off. There are two main
+values for it - `development`, `production`, but you can define more.
+
+By default, Para will use **H2** as a database and pure **Lucene** as a search engine.
+This is the simplest way to get started with Para as you don't need to configure anything.
+
+When you are in `development` mode Para will store data locally in the `./data/` folder. 
+The search index is in directory `./data/para-{appid}` and the main database file is in `/data/para.mv.db`
+
+Finally when you are ready to deploy your app to a real server set `para.env` to `production`. This will enable object
+caching and will try to connect to the real AWS DynamoDB service. Also you have to set up a new node for Elasticsearch
+or run it locally.
+
+
+
+
+| `para.env` | `DAO` | `Cache` | `Search` |
+| --- | --- | --- | --- |
+| `development` | `H2DAO` | `CaffeineCache` | `LuceneSearch` |
+| `production` | `any` | `any` | `any` |

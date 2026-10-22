@@ -1,26 +1,45 @@
-# build output
+node_modules
+_site
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+site/css/*
+.vscode
+11ty/
+skills-lock.json
+worktrees/
 dist/
-# generated types
+CLAUDE.md
+AGENTS.md
+prd.md
+.agent/
+.agents/
+.claude/
+tmp
+temp
+TODO.md
+vendor
+_gh_pages
+_gh-pages
+*.sublime-*
+nbproject
+build/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
 .astro/
 
-# generated machine-readable documentation output
-/public/llms.txt
-/public/llms-full.txt
-/public/docs/*.md
-/public/docs/**/*.md
+.vscode
+old_website/
+dist/
 
-# dependencies
-node_modules/
+content-assets.mjs
+content-modules.mjs
 
-# logs
-npm-debug.log*
+SEO_AUDIT_REPORT.md
+Para_SEO.md
 
-# environment
-.env
-.env.production
-
-# OS
-.DS_Store
-
-# local tool artifacts
 .playwright-mcp/
+
+public/docs

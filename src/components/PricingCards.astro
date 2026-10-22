@@ -1,0 +1,122 @@
+---
+import herobg from '../images/cloudbg.png';
+interface Plan {
+  popular: boolean,
+  badge?: string,
+  name: string,
+  description: string,
+  price: string,
+  price_note: string,
+  cta_href: string,
+  cta_style: string,
+  cta_label: string,
+  features: string[]
+}
+
+interface PageBlock {
+  plans: Plan[];
+  note: string;
+}
+
+interface Props {
+  pageBlock: PageBlock;
+  title?: string;
+}
+
+const { title,pageBlock } = Astro.props;
+---
+
+<section class="border-zinc-200 dark:border-zinc-800 border-t section-padding" id="pricing">
+  <div class="section-shell">
+    <!-- Section header -->
+    <div class={`mx-auto mb-10 max-w-2xl text-center ${title ? '' : 'hidden'}`}>
+      <h2 class="font-semibold text-3xl sm:text-4xl tracking-tight">
+        {title}
+      </h2>
+    </div>
+
+    <!-- Pricing cards -->
+    <div class="gap-6 lg:gap-8 grid md:grid-cols-2 mx-auto max-w-3xl">
+      {pageBlock.plans.map((plan) => (
+        <div style={plan.popular ? `background-image: url(${herobg.src});` : ``}
+          class:list={[
+            'relative rounded-[4px] p-7 flex flex-col bg-scroll bg-size-[128rem]',
+            plan.popular
+              ? 'bg-zinc-900 text-zinc-50 ring-1 ring-zinc-700 shadow-2xl shadow-zinc-900/20'
+              : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800',
+          ]}
+        >
+          {/* Popular badge */}
+          {/* {plan.popular && plan.badge && (
+            <div class="-top-3.5 left-1/2 absolute -translate-x-1/2">
+              <span class="inline-block bg-brand-500 px-3 py-1 rounded-full font-bold text-zinc-950 text-xs uppercase tracking-wider">
+                {plan.badge}
+              </span>
+            </div>
+          )} */}
+
+          {/* Plan name */}
+          <div class="mb-5">
+            <h3 class:list={['text-lg font-bold mb-1', plan.popular ? 'text-zinc-50' : 'text-zinc-900 dark:text-zinc-50']}>
+              {plan.name}
+            </h3>
+            <p class:list={['text-sm leading-relaxed', plan.popular ? 'text-zinc-300' : 'text-zinc-600 dark:text-zinc-400']}>
+              {plan.description}
+            </p>
+          </div>
+
+          {/* Price */}
+          <div class="mb-6">
+            <div class:list={['text-4xl font-extrabold tracking-tight', plan.popular ? 'text-zinc-50' : 'text-zinc-900 dark:text-zinc-50']}>
+              {plan.price}
+            </div>
+            <div class:list={['text-sm font-medium mt-0.5', plan.popular ? 'text-zinc-300' : 'text-zinc-500 dark:text-zinc-400']}>
+              {plan.price_note}
+            </div>
+          </div>
+
+          {/* CTA button */}
+          <a
+            href={plan.cta_href}
+            class:list={[
+              'block text-center px-5 py-3 rounded-[4px] font-semibold text-sm transition-all duration-200 mb-6',
+              plan.popular
+                ? 'bg-neutral-100 text-zinc-950 hover:bg-neutral-200'
+                : plan.cta_style === 'outline'
+                  ? 'border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                  : 'bg-zinc-900 text-zinc-50 hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-300',
+            ]}
+            {...(plan.cta_href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {plan.cta_label}
+          </a>
+
+          {/* Features list */}
+          <ul class="flex-1 space-y-3">
+            {plan.features.map((feature) => (
+              <li class="flex items-start gap-3">
+                <svg
+                  class:list={['w-4 h-4 shrink-0 mt-0.5', plan.popular ? 'text-neutral-100' : 'text-brand-500 dark:text-brand-400']}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class:list={['text-sm', plan.popular ? 'text-zinc-100' : 'text-zinc-600 dark:text-zinc-400']}>
+                  {feature}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center">
+      <p class="mt-10 lg:px-40 text-zinc-600 dark:text-zinc-400 text-sm text-center">
+        {pageBlock.note}
+      </p>
+    </div>
+  </div>
+</section>

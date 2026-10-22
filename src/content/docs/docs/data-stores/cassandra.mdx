@@ -1,0 +1,54 @@
+---
+title: "Cassandra"
+description: "Para documentation: Cassandra."
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The Cassandra plugin adds [support for Apache Cassandra](https://github.com/Erudika/para-dao-cassandra).
+The class `CassandraDAO` is a `DAO` implementation and is responsible for connecting to a [Cassandra](https://cassandra.apache.org/)
+cluster and storing/retrieving objects (items) to/from it. All operations are carried out using the latest Cassandra
+Java Driver by DataStax, compatible with Cassandra 3.x.
+
+There are several configuration properties for Cassandra (these go in your `para-application.conf` file):
+
+
+
+
+| property | description |
+| --- | --- |
+| `para.cassandra.hosts` | Comma-separated server hostnames (contact points). Defaults to `localhost`. |
+| `para.cassandra.port` | The server port to connect to. Defaults to `9042`. |
+| `para.cassandra.keyspace` | The keyspace name that Para will use. Default is equal to `para.app_name`. |
+| `para.cassandra.user` | The username with access to the database. Defaults to `""`. |
+| `para.cassandra.password` | The password. Defaults to `""`. |
+| `para.cassandra.replication_factor` | Replication factor for the keyspace. Defaults to `1`. |
+| `para.cassandra.ssl_enabled` | Enables the secure SSL/TLS transport. Defaults to `false`. |
+
+The plugin is on Maven Central. Here's the Maven snippet to include in your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>com.erudika</groupId>
+  <artifactId>para-dao-cassandra</artifactId>
+  <version>{version}</version>
+</dependency>
+```
+
+Alternatively you can download the JAR from the "Releases" tab above put it in a `lib` folder alongside the server
+JAR file `para-x.y.z.jar`. Para will look for plugins inside `lib` and pick up the Cassandra plugin.
+
+Finally, set the config property:
+```ini title="para-application.conf"
+para.dao = "CassandraDAO"
+```
+This could be a Java system property or part of a `para-application.conf` file on the classpath.
+This tells Para to use the Cassandra Data Access Object (DAO) implementation instead of the default.
+
+See [Plugins](/docs//plugins/plugins/) for more information about how you can create your own plugins.
+
+<Aside type="note">
+For more information about using Cassandra, see the [official docs](https://cassandra.apache.org/doc/latest/).
+</Aside>

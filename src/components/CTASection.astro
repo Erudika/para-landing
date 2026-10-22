@@ -1,9 +1,9 @@
 ---
 import siteData from "../data/site-data.json";
-const { cta } = siteData;
+const { download, cta } = siteData;
 ---
 
-<section class="border-zinc-200 dark:border-zinc-800 border-t section-padding"  data-theme="dark">
+<section class="border-y border-zinc-200 dark:border-zinc-200 section-padding"  data-theme="dark">
   <div
     class="flex lg:flex-row flex-col lg:justify-between lg:items-end gap-8 section-shell"
   >
@@ -20,13 +20,13 @@ const { cta } = siteData;
       </p>
 
       <code
-        class="inline-flex items-center space-x-4 bg-gray-800 p-4 pl-6 rounded-lg text-white text-sm sm:text-base text-left"
+        class="inline-flex items-center space-x-4 bg-gray-900 p-4 pl-6 rounded-lg text-white text-sm sm:text-base text-left"
       >
         <span class="flex gap-4">
           <span class="text-gray-500 shrink-0"> $ </span>
           <span class="flex-1">
-            <span> docker run -it erudikaltd/para: </span>
-            <span class="text-yellow-500"> latest_stable </span>
+            <span> {download.options[1].command}:</span>
+            <span class="text-yellow-500">{download.options[1].tag}</span>
           </span>
         </span>
       </code>

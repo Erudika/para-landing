@@ -1,0 +1,56 @@
+---
+title: "MongoDB"
+description: "Para documentation: MongoDB."
+sidebar:
+  order: 4
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Since v1.18.0 Para supports plugins and the the first official plugin adds [support for MongoDB](https://github.com/Erudika/para-dao-mongodb).
+The class `MongoDBDAO` is a `DAO` implementation and is responsible for connecting to a [MongoDB](https://www.mongodb.org/)
+server and storing/retrieving objects (items) to/from it. All operations are carried out using the latest MongoDB
+Java Driver compatible with MongoDB 3.2.
+
+There are several configuration properties for MongoDB (these go in your `para-application.conf` file):
+
+
+
+
+| property | description |
+| --- | --- |
+| `para.mongodb.uri` | The client URI string. See [MongoClientURI](https://mongodb.github.io/mongo-java-driver/3.4/javadoc/com/mongodb/MongoClientURI.html). Overrides `host`, `port`, `user` and `password` if set. Defaults to blank. |
+| `para.mongodb.host` | The hostname of the MongoDB server. Defaults to `localhost`. |
+| `para.mongodb.port` | The server port to connect to. Defaults to `27017`. |
+| `para.mongodb.database` | The database name that Para will use. Default is equal to `para.app_name`. |
+| `para.mongodb.user` | The username with access to the database. Defaults to blank. |
+| `para.mongodb.password` | The password. Defaults to blank. |
+| `para.mongodb.ssl_enabled` | Enables the secure SSL/TLS transport. Defaults to `false`. |
+| `para.mongodb.ssl_allow_all` | Allows any hostname by skipping the certificate verification. Defaults to `false`. |
+
+The plugin is on Maven Central. Here's the Maven snippet to include in your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>com.erudika</groupId>
+  <artifactId>para-dao-mongodb</artifactId>
+  <version>{version}</version>
+</dependency>
+```
+
+Alternatively you can [download the JAR](https://github.com/Erudika/para-dao-mongodb/releases) and put it in a
+`lib` folder alongside the server JAR file `para-x.y.z.jar`. Para will look for plugins inside `lib` and pick up
+the plugin.
+
+Finally, set the config property:
+```ini title="para-application.conf"
+para.dao = "MongoDBDAO"
+```
+This could be a Java system property or part of a `para-application.conf` file on the classpath.
+This tells Para to use the MongoDB Data Access Object (DAO) implementation instead of the default.
+
+See [Plugins](/docs//plugins/plugins/) for more information about how you can create your own plugins.
+
+<Aside type="note">
+For more information about using MongoDB, see the [official manual](https://docs.mongodb.org/manual/).
+</Aside>

@@ -1,13 +1,14 @@
 ---
 import siteData from '../data/site-data.json';
+import herobg from '../images/cloudbg.png';
 const { cloud } = siteData;
 ---
 
-<section class="border-zinc-200 dark:border-zinc-800 border-t section-padding">
+<section class="bg-cover border-zinc-200 dark:border-zinc-800 border-t section-padding" style={`background-image: url(${herobg.src});`}>
   <div class="section-shell">
     <div class="relative bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[4px] overflow-hidden">
       <div class="top-0 absolute inset-x-0 h-6 text-zinc-400/30 dark:text-zinc-500/20 dither" aria-hidden="true"></div>
-      <div class="relative lg:items-center gap-10 grid lg:grid-cols-[2fr_1fr] py-12 section-shell">
+      <div class="relative lg:items-center gap-10 grid lg:grid-cols-[2fr_1fr] py-12 section-shell" >
         <div>
           <!-- <p class="chip">{cloud.badge}</p> -->
           <h2 class="mt-4 font-semibold text-3xl sm:text-4xl tracking-tight">{cloud.headline}</h2>
@@ -26,7 +27,7 @@ const { cloud } = siteData;
           </ul>
         </div>
         <div class="flex flex-col items-start lg:items-end gap-3">
-          <a href={cloud.cta.href} class="btn-brand" target="_blank" rel="noopener noreferrer">{cloud.cta.text}</a>
+          <a href={cloud.cta.href} class="btn-primary">{cloud.cta.text}</a>
           <p class="font-mono text-zinc-600 dark:text-zinc-500 text-xs">{cloud.note}</p>
         </div>
       </div>

@@ -27,7 +27,7 @@ const config = JSON.stringify(Astro.props);
       scalarRef = (window as any).Scalar.createApiReference('#scalar-app', {
         ...config,
         authentication: {
-          preferredSecurityScheme: 'scoold_auth',
+          preferredSecurityScheme: 'para_auth',
         },
         forceDarkModeState: isDark() ? "dark" : "light",
       });

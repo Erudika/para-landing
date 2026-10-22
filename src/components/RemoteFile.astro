@@ -1,0 +1,16 @@
+---
+import { Code } from '@astrojs/starlight/components';
+
+const { url, lang, title, raw } = Astro.props;
+var data;
+try {
+  const res = await fetch(url);
+  if (res.status === 200) {
+    data = await (res).text();
+  }
+} catch (error) {
+    console.error(error);
+    data = "";
+}
+---
+{raw ? <pre class="text-wrap">{data}</pre> : <Code code={data} lang={lang} title={title} />}

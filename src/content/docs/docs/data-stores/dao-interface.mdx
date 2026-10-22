@@ -1,0 +1,59 @@
+---
+title: "DAO interface"
+description: "Para documentation: DAO interface."
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The `DAO` interface declares the following methods:
+
+
+
+
+| method | description |
+| --- | --- |
+| `String create(P obj)` | Persists an object. A new `id` *should* be generated if absent. |
+| `P read(String key)` | Reads an object from the data store for a given `id`. Returns `null` if the object for this `id` is missing. |
+| `void update(P obj)` | Updates an object. Implementations of this method *should* set a timestamp to the field `updated`. |
+| `void delete(P obj)` | Deletes an object completely (the opposite of `create`). |
+| `List<P> readAll(List<String> keys, boolean all)` | Batch operation for `read()`. If `all` is `false`, only the `id` and `type` columns should be returned. |
+| `void createAll(List<P> objects)` | Batch operation for `create()`. |
+| `void updateAll(List<P> objects)` | Batch operation for `update()`. |
+| `void deleteAll(List<P> objects)` | Batch operation for `delete()`. |
+
+## Optimistic locking
+
+Each `DAO` implementation is responsible for supporting optimistic locking if the underlying database is capable of
+performing conditional write operations natively. The `ParaObject` interface contains a `version` field which can be
+used to store information about the current version of each object and it's value should be incremented by the database,
+if an update operation succeeds. The locking mechanism is simple - the database checks if the supplied object version
+matches the one stored in the database. If the two versions match, the update operation is executed, otherwise it fails.
+A `version` value of `-1` indicates a failed update and it's the responsibility of the API clients to handle such failures.
+If the `version` value is positive, the update has been successful, and `0` means the field is unused or the object
+has not been persisted yet.
+
+Optimistic locking is enabled for each `ParaObject` individually by setting its `version` field to a positive value
+different than 0. To disable, set the `version` field back to 0.
+
+<Aside type="note">
+A `DAO` object only deals with storing objects in a database. It is not concerned with relationships between objects or
+constraint validation or any other operations like caching, indexing, etc.
+</Aside>
+
+## Data consistency and resilience
+
+Para is designed to store data in more than one place - a database and a search index. Both the database and index may
+be configured to have multiple replicas of the same data to ensure resilience to data loss. If the database loses its
+data, we could still recover it from the search index with `para.read_from_index = true`. If the index is corrupted, we
+can simply rebuild it with the request `POST /v1/_reindex`.
+
+Para makes an effort to keep the database and index in sync at all times but there might be occasional failures in
+either of the two layers and we end up with inconsistent data. So when an object is indexed but does not appear in the
+database, Para will print out a warning log message. If an object is persisted to DB but an error occurs during indexing,
+you have the option to set `para.es.fail_on_indexing_errors` (Elasticsearch only). This will cascade an exception back to
+the client and it can decide whether to revert the operation or try again. Additionally, if an update operation fails due
+to a version mismatch (see optimistic locking above), Para automatically prevents the indexing and caching of that object.
+In relation to this, `para.fail_on_write_errors` is `true` by default, which means that if there's any error returned
+from the DB on write operations, all subsequent index operations will be skipped.

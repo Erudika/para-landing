@@ -86,6 +86,19 @@
   }
 }
 
+@layer starlight.base {
+  .sl-markdown-content ol {
+    list-style: decimal;
+    list-style-position: inherit;
+    padding-left: 1rem;
+  }
+
+  .sl-markdown-content ul {
+    list-style: disc;
+    list-style-position: inside;
+  }
+}
+
 @layer components {
   /* Layout */
   .section-shell {

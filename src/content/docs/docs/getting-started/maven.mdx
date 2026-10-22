@@ -1,0 +1,69 @@
+---
+title: "Maven & Gradle"
+description: "Para documentation: Maven."
+sidebar:
+  order: 5
+---
+import { Aside, Badge, LinkCard, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Para is hosted on Maven Central. To add it to your project just include this into your `pom.xml`:
+
+<Tabs syncKey="para-server">
+  <TabItem label="Maven">
+
+```xml
+<dependency>
+  <groupId>com.erudika</groupId>
+  <artifactId>para-server</artifactId>
+  <version>{VERSION}</version>
+</dependency>
+```
+
+  </TabItem>
+  <TabItem label="Gradle">
+
+```gradle
+implementation("com.erudika:para-server:{VERSION}")
+```
+  </TabItem>
+</Tabs>
+
+
+For building Para client applications, use the Para client library:
+
+<Tabs syncKey="para-client">
+  <TabItem label="Maven">
+
+```xml
+<dependency>
+  <groupId>com.erudika</groupId>
+  <artifactId>para-client</artifactId>
+  <version>{VERSION}</version>
+</dependency>
+```
+
+  </TabItem>
+  <TabItem label="Gradle">
+
+```gradle
+implementation("com.erudika:para-client:{VERSION}")
+```
+  </TabItem>
+</Tabs>
+
+
+In your own project you can create a new `ParaClient` instance like so:
+
+```java
+ParaClient pc = new ParaClient(accessKey, secretKey);
+// Para endpoint - http://localhost:8080 or https://paraio.com
+pc.setEndpoint(paraServerURL);
+// Set this to true if you want ParaClient to throw exceptions on HTTP errors
+pc.throwExceptionOnHTTPError(false);
+// send a test request - this should return a JSON object of type 'app'
+pc.me();
+```
+
+## JavaDocs and sources
+
+JavaDocs and sources, as well as other Para server artifacts and metadata, are published on [Maven Central](https://central.sonatype.com/artifact/com.erudika/para-server).

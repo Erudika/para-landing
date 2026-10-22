@@ -1,0 +1,144 @@
+---
+title: "Para Architecture"
+description: "Para documentation: Architecture."
+sidebar:
+  order: 2
+---
+import { Image } from 'astro:assets';
+import { Badge, LinkCard, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+import arch1 from '@/images/docs/arch2.svg?raw';
+
+Para is a **stateless, schemaless, 3-layer backend system** with a REST API in front of it.
+The first layer is the [**database**](docs/data-stores/dao-interface/), the second layer is the 
+[**search index**](docs/search/search-interface/) and the third -- the [**cache**](docs/cache/cache-interface/).
+Depending on how you use it, Para can either be a standalone backend service or a persistence
+framework that is part of your code base. Each request to the API is stateless, meaning you can scale out easily.
+The data model requires no schema -- it's based around plain old Java/JSON objects and is optimized for schemaless
+key-value data stores, but also works with traditional databases.
+
+Para is also **multitenant**, which means you can deploy it as a standalone service on one or more nodes and host one
+or more [**apps**](/docs/concepts/apps/) on it. An app can be a website, mobile app, desktop app or even a command-line tool.
+This is made possible by the REST API which talks JSON to your apps, and with the help of the client libraries below,
+it's easy to get started. If you're building an application on the JVM, you can also add Para as Maven dependency to
+your project. You can still keep the REST API or turn it off completely.
+
+Running a standalone server allows you to build a cluster of distributed Para nodes and connect to it
+through the REST API. Here's a simple diagram of this architecture:
+
+<Image src={import(`@/images/docs/arch1.svg`)}
+    alt="Architecture diagram 1"
+    class="py-5 w-fit"
+    background='inherit'
+    loading="eager"/>
+
+{/* ```
+---
+config:
+  themeVariables:
+    lineColor: '#AA2222'
+    defaultLinkColor: '#475569'
+  layout: elk
+---
+flowchart TB
+    A["Your app + Para API client library"]
+    C["Cluster Load Balancer (HTTPS)"]
+
+    A --> C
+    C --> N1 & N2 & NN
+
+    subgraph N1["Para Node 1"]
+        direction TB
+        P1["REST API"]
+        APP1["Apps 1..N"]
+        P1 --- APP1
+    end
+
+    subgraph N2["Para Node 2 - REST API"]
+        direction TB
+        P2["REST API"]
+        APP2["Apps 1..N"]
+        P2 --- APP2
+    end
+
+    subgraph NN["Para Node N"]
+        direction TB
+        PN["REST API"]
+        APPN["Apps 1..N"]
+        PN --- APPN
+    end
+
+    subgraph X["Para Cluster"]
+        N1
+        N2
+        NN
+    end
+
+    Z1@{ shape: docs, label: "Search index" }
+    Z2@{ shape: cyl, label: "Database" }
+    Z3@{ shape: procs, label: "Distributed Memory Cache" }
+
+    X---Z1
+    X---Z2
+    X---Z3
+
+
+    style A fill:#e8f0fe,stroke:#4285f4,color:#1a1a1a
+    style C fill:#fff3cd,stroke:#d6a400,color:#1a1a1a
+    style P1 fill:#d9ead3,stroke:#6aa84f,color:#1a1a1a
+    style P2 fill:#d9ead3,stroke:#6aa84f,color:#1a1a1a
+    style PN fill:#d9ead3,stroke:#6aa84f,color:#1a1a1a
+
+``` */}
+
+
+### Embed Para server into your JVM application
+
+By building your JVM app on top of Para, you have full control over persistence, caching and indexing operations.
+Here's a simple diagram of this architecture:
+
+<Image src={import(`@/images/docs/arch2.svg`)}
+    alt="Architecture diagram 1"
+    class="py-5 w-fit"
+    background='inherit'
+    loading="eager"/>
+
+{/* ```
+---
+config:
+  themeVariables:
+    lineColor: '#AA2222'
+    defaultLinkColor: '#475569'
+  layout: elk
+---
+flowchart TB
+ subgraph CLIENTS["Clients"]
+    direction LR
+        WEB("Web app\npara-client-php")
+        API_CLIENT("TUI app\npara-client-js")
+        MOBILE("Mobile app\npara-client-ios")
+  end
+ subgraph N1["Your Server Application"]
+    direction TB
+        P1["Para embedded"]
+        S1["Cache"]
+        S2["Database"]
+        S3["Search"]
+  end
+    WEB --> C["Cluster Load Balancer (HTTPS)"]
+    API_CLIENT --> C
+    MOBILE --> C
+    C --> N1
+    P1 --- S1
+    S1 --- S2
+    S2 --- S3
+
+     P1:::Sky
+     S1:::Ash
+     S2:::Peach
+     S3:::Aqua
+    classDef Sky stroke-width:1px, stroke-dasharray:none, stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    classDef Ash stroke-width:1px, stroke-dasharray:none, stroke:#999999, fill:#EEEEEE, color:#000000
+    classDef Peach stroke-width:1px, stroke-dasharray:none, stroke:#FBB35A, fill:#FFEFDB, color:#8F632D
+    classDef Aqua stroke-width:1px, stroke-dasharray:none, stroke:#46EDC8, fill:#DEFFF8, color:#378E7A
+    style C fill:#fff3cd,stroke:#d6a400,color:#1a1a1a
+``` */}

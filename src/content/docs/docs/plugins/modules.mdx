@@ -1,0 +1,106 @@
+---
+title: "Modules"
+description: "Para documentation: Modules."
+sidebar:
+  order: 2
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+In the `para-server` package, there are several core modules:
+
+- `PersistenceModule` - defines the core persistence class implementation
+- `SearchModule` - defines the core search class implementation
+- `CacheModule` - defines the core cache class implementation
+- `EmailModule` - defines an email service implementation for sending emails
+- `QueueModule` - defines a queue service implementation
+- `StorageModule` - defines a file storage service, e.g. Amazon S3
+
+Para uses the `ServiceLoader` mechanism in Java to load other plugins and implementations.
+
+For example, let's say you want to implement a new `PersistenceModule` which connects to MySQL.
+You can define it like so:
+
+```java
+package org.acme.para.dao.impl;
+
+import com.erudika.para.core.persistence.DAO;
+
+class MyDAO implements DAO {
+	// TODO: implement all CRUD methods
+}
+```
+Then implement the `DAO` interface in your class `MyDAO`.
+
+You can then load the module programmatically like this:
+
+```java
+DAO dao = new MyDAO();
+ParaServer.initialize(dao, new CaffeineCache(), new LuceneSearch(dao), new LocalQueue(), new LocalFileStore());
+```
+
+Alternatively, you can use the `ServiceLoader` route and register a new `DAO` implementation.
+
+<Steps>
+
+1. Create the file `src/main/resources/META-INF/services/com.erudika.para.core.persistence.DAO`.
+   Put the full class name on one line inside that file:
+
+   ```text
+   org.acme.para.dao.impl.MyDAO
+   ```
+
+2. Configure Para to load the module:
+	```ini title="para-application.conf"
+	para.dao = "MyDAO"
+	```
+
+</Steps>
+
+## Lifecycle events
+
+To initialize and destroy Para programmatically with the default modules, call these methods:
+
+```java
+// Initialize Para and call each listener.onInitialize()
+ParaServer.initialize();
+
+// Finally, destroy all resources by calling each listener.onDestroy()
+ParaServer.destroy();
+```
+
+If you're defining your own custom classes, don't forget to set:
+```java
+System.setProperty("para.core_package_name", "com.company.myapp.core");
+```
+
+There are two additional methods `Para.initialize()` and `Para.destroy()` which are now part of `para-core`. The
+difference between these and the ones above is:
+
+```java
+// Invokes all registered InitializeListener
+// instances and prints out logo to console;
+Para.initialize()
+```
+
+```java
+// Loads all modules, and starts all registered 
+// InitializeListener objects, then calls Para.initialize()
+ParaServer.initialize()
+```
+
+```java
+// Invokes all registered `DestroyListener` instances 
+// and prints out a log message
+Para.destroy()
+```
+
+```java
+// injects concrete types into each `DestroyListener` 
+// and calls `Para.destroy()
+ParaServer.destroy()
+```
+
+<Aside type="note">
+Para uses [Spring](https://spring.org) for injection and module management.
+</Aside>

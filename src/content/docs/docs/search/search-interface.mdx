@@ -1,0 +1,45 @@
+---
+title: "Search interface"
+description: "Para documentation: Search interface."
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Para indexes objects based on their type. For example, a `User` objects has a `type` field with the value "user".
+Most of the search methods below ask for a `type` to search for (i.e. the `type` field acts as a filter).
+
+The `Search` interface defines the following methods used for search:
+
+
+
+
+| Method | Description |
+| --- | --- |
+| `P findById(String id)` | Returns the object with the given `id` from the index or `null`. |
+| `List<P> findByIds(List<String> ids)` | Returns all objects for the given ids. |
+| `List<P> findNearby(String type, String query, int radius, double lat, double lng)` | Location-based search query. |
+| `List<P> findPrefix(String type, String field, String prefix)` | Searches for objects containing a field (property) that starts with the given prefix. |
+| `List<P> findNestedQuery(String type, String field, String query)` | Searches inside a nested field `nstd` (a list of objects). |
+| `List<P> findQuery(String type, String query)` | The main search method. Follows the Lucene query parser syntax. |
+| `List<P> findSimilar(String type, String filterKey, String[] fields, String liketext)` | "More like this" search. |
+| `List<P> findTagged(String type, String[] tags)` | Search for objects tagged with a set of tags. |
+| `List<P> findTags(String keyword)` | Shortcut method for listing all tags. |
+| `List<P> findTermInList(String type, String field, List<?> terms)` | Searches for objects containing any of the terms in the given list (matched exactly). |
+| `List<P> findTerms(String type, Map<String, ?> terms, boolean matchAll)` | Searches for objects containing all of the specified terms (matched exactly) |
+| `List<P> findWildcard(String type, String field, String wildcard)` | A wildcard query like "example*". |
+
+All methods accept an optional `Pager` parameter for paginating and sorting the search results.
+
+Also there are a few methods for indexing and unindexing objects but you should avoid calling them directly.
+These methods are:
+
+- `void index(ParaObject obj)`
+- `void indexAll(List<P> objects)`
+- `void unindex(ParaObject obj)`
+- `void unindexAll(List<P> objects)`
+
+<Aside type="note">
+You should *not* index/unindex your objects manually - Para does this for you.
+</Aside>

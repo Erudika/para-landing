@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site, components, legal_index } from '../../data/site-data.json';
+
+const { breadcrumbs } = components;
+const baseUrl = site.url;
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: breadcrumbs.home, item: baseUrl },
+    { "@type": "ListItem", position: 2, name: breadcrumbs.legal, item: `${baseUrl}/legal/` }
+  ]
+};
+---
+
+<BaseLayout title={legal_index.title} description={legal_index.subtitle} jsonLd={[breadcrumbJsonLd]}>
+  <section class="section-padding">
+    <div class="mx-auto px-6 sm:px-8 max-w-4xl">
+      <!-- Header -->
+      <div class="mb-12 text-center">
+        <!-- <span class="mb-4 chip">{legal_index.badge}</span> -->
+        <h1 class="mb-4 font-semibold text-zinc-900 dark:text-zinc-100 text-4xl tracking-tight">{legal_index.title}</h1>
+        <p class="text-zinc-600 dark:text-zinc-400 text-lg">{legal_index.subtitle}</p>
+      </div>
+
+      <!-- Cards -->
+      <div class="gap-6 grid sm:grid-cols-2">
+        {legal_index.cards.map((card) => (
+          <a
+            href={card.href}
+            class="group flex flex-col gap-3 hover:border-zinc-400 dark:hover:border-zinc-600 card"
+          >
+            <h2 class="font-mono font-semibold text-zinc-900 dark:text-zinc-100 text-lg transition-colors">
+              {card.label}
+            </h2>
+            <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed grow">{card.description}</p>
+            <span class="flex justify-end items-center gap-1 font-medium text-sm link">
+              {legal_index.read_label} &rarr;
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

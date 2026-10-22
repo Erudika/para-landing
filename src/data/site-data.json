@@ -8,6 +8,14 @@
     "company": "Erudika",
     "companyUrl": "https://erudika.com"
   },
+  "components": {
+    "breadcrumbs": {
+      "home": "Home",
+      "legal": "Legal",
+      "imprint": "Imprint",
+      "contact": "Contact"
+    }
+  },
   "nav": {
     "docsTitle": "Para Docs",
     "backToSite": "↩ Back to site",
@@ -16,9 +24,9 @@
     "footerLabel": "Footer navigation",
     "logo": { "text": "Para", "href": "/" },
     "links": [
-      { "text": "Docs", "href": "/docs/" },
       { "text": "Features", "href": "/features/" },
       { "text": "Download", "href": "/download/" },
+      { "text": "Docs", "href": "/docs/" },
       { "text": "Para Cloud", "href": "/cloud-hosting/" }
     ]
   },
@@ -230,7 +238,7 @@
       },
       {
         "id": "csharp",
-        "label": ".NET (C#)",
+        "label": "C# (.NET)",
         "package": "NuGet · para_client_csharp",
         "language": "csharp",
         "source": "https://github.com/Erudika/para-client-csharp",
@@ -352,8 +360,171 @@
       "Basic support included"
     ],
     "marker": "✓",
-    "cta": { "text": "Try Para Cloud", "href": "https://paraio.com" },
-    "note": "Flat pricing of €25 / app"
+    "cta": { "text": "Explore Para Cloud", "href": "/cloud-hosting/" },
+    "note": "Free plan available · €25 / app / month"
+  },
+  "cloud_page": {
+    "title": "Para Cloud Hosting",
+    "title_short": "Para Cloud Hosting",
+    "image_alt": "Para Cloud",
+    "badge": "MANAGED PARA",
+    "description": "Para Cloud is the fully managed Para backend. We host, patch, back up and monitor it for you.",
+    "subtitle": "The backend for busy developers, fully managed.",
+    "hero_text": "Para Cloud runs the open-source Para backend for you. Keep the same JSON API and client libraries, and skip the infrastructure work.",
+    "url": "https://paraio.com/signin",
+    "explore_cta_label": "Get started for free",
+    "subscriptions": "Flat pricing",
+    "features_title": "Fully managed, production-ready BaaS",
+    "features": [
+      {
+        "icon": "shield",
+        "title": "Advanced authentication",
+        "description": "Authenticate users with social accounts, LDAP or Active Directory. Para issues a JWT and applies resource permissions."
+      },
+      {
+        "icon": "search",
+        "title": "Full-text search",
+        "description": "Every object is indexed automatically. Query by field, wildcard, geo point or more-like-this."
+      },
+      {
+        "icon": "code",
+        "title": "JSON API",
+        "description": "Create, read, update and delete objects with a simple, secure JSON API. Pagination and field limiting are included."
+      },
+      {
+        "icon": "battery",
+        "title": "Distributed cache",
+        "description": "Objects are cached when they are created or updated. This speeds up reads and reduces load on the database."
+      },
+      {
+        "icon": "globe",
+        "title": "Global scalability",
+        "description": "Hosted on AWS inside a private cloud. Scale up and down quickly, with data replicated across regions."
+      },
+      {
+        "icon": "refresh",
+        "title": "Backup and restore",
+        "description": "The paid plan includes backup and restore. Export a JSON archive and restore it when you need it."
+      }
+    ],
+    "comparison": {
+      "title": "Para Cloud or self-hosted Para?",
+      "headers": ["Feature", "Para Cloud", "Self-hosted Para"],
+      "rows": [
+        ["Updates", "Automatic", "You manage"],
+        ["Backups", "Included on paid plans", "You configure"],
+        ["Scaling", "Automatic", "You scale"],
+        ["Support", "Email support", "Community support"],
+        ["Data location", "AWS (US, EU or JP)", "Your choice"],
+        ["Starting price", "Free", "Your infrastructure"]
+      ]
+    },
+    "pricing_faq": {
+      "title": "Questions about Para Cloud",
+      "subtitle": "The details behind the plans.",
+      "items": [
+        {
+          "q": "Is VAT included in the price?",
+          "a": "No. Prices exclude European Union VAT. VAT does not apply to customers outside the EU."
+        },
+        {
+          "q": "Can I pay annually?",
+          "a": "Yes. Annual billing is available: pay for 10 months and get 2 months free."
+        },
+        {
+          "q": "What is included in the free plan?",
+          "a": "One app, a shared database, up to 10K objects, global failover, email support, and community support on GitHub."
+        },
+        {
+          "q": "What happens if I exceed 10K objects?",
+          "a": "Upgrade to the paid plan. Para Cloud does not stop the service abruptly; we contact you by email and ask for payment details. If you do not provide them within 7 days, we deactivate the account until payment is provided."
+        },
+        {
+          "q": "Can I export my data?",
+          "a": "Yes. The paid plan includes backup and restore, and you can download a JSON archive. On termination, request your data within 14 days."
+        },
+        {
+          "q": "Where is Para Cloud hosted?",
+          "a": "Para Cloud runs on AWS inside a private cloud, with automatic failover in one of three regions (EU, US, JP)."
+        }
+      ]
+    },
+    "plans": [
+      {
+        "popular": false,
+        "name": "Free",
+        "description": "For prototypes and small apps.",
+        "price": "Free",
+        "price_note": "No credit card required",
+        "cta_href": "https://paraio.com/signin",
+        "cta_style": "outline",
+        "cta_label": "Start free",
+        "features": [
+          "One app",
+          "Shared database",
+          "Maximum 10 000 objects in storage",
+          "High availability & failover",
+          "Encryption at rest",
+          "Community support"
+        ]
+      },
+      {
+        "popular": true,
+        "badge": "Most popular",
+        "name": "Paid",
+        "description": "Ready for production.",
+        "price": "25€",
+        "price_note": "per app, per month",
+        "cta_href": "https://paraio.com/signin",
+        "cta_style": "solid",
+        "cta_label": "Get started",
+        "features": [
+          "Dedicated database",
+          "10 GB storage included",
+          "1.5€ per additional GB, per month",
+          "Automatic scalability",
+          "High availability & failover",
+          "Point-in-time recovery",
+          "Encryption at rest",
+          "Backup and restore",
+          "Email support"
+        ]
+      }
+    ],
+    "note": "Prices exclude EU VAT (not applicable to customers outside the EU). Billing is monthly. Annual billing is available: pay 10 months and get 2 months free. Additional storage and app credits can be purchased at any time."
+  },
+  "features_page": {
+    "title": "Features",
+    "title_short": "Features",
+    "badge": "PLATFORM",
+    "description": "Para features: schemaless objects, built-in auth, full-text search, caching, webhooks and an MCP server.",
+    "subtitle": "Everything you need to store, search and secure your data, without a schema or a platform team.",
+    "extra": [
+      {
+        "title": "Full-text search",
+        "body": "Every object is indexed automatically. Query by field, wildcard, geo point or more-like-this.",
+        "chips": ["lucene", "elasticsearch"],
+        "image": 2
+      },
+      {
+        "title": "Geo and wildcard queries",
+        "body": "Find objects by location, prefix or wildcard. Results are ranked and paginated.",
+        "chips": ["geo", "wildcard"],
+        "image": 2
+      },
+      {
+        "title": "Resource permissions",
+        "body": "Grant read and write access per object or per app. Para applies permissions on every request.",
+        "chips": ["acl", "jwt"],
+        "image": 6
+      }
+    ],
+    "categories": [
+      { "name": "Data", "items": [0, 1, 4] },
+      { "name": "Security", "items": [5, 10] },
+      { "name": "Search", "items": [8, 9] },
+      { "name": "Operations", "items": [2, 3, 6, 7] }
+    ]
   },
   "cta": {
     "headline": "Self-host in minutes",
@@ -363,6 +534,163 @@
     "primaryCta": { "text": "Get started", "href": "/docs/getting-started/quickstart/" },
     "secondaryCta": { "text": "Download the JAR", "href": "https://github.com/Erudika/para/releases" }
   },
+  "download": {
+    "title": "Download Para",
+    "title_short": "Download",
+    "description": "Download Para - free, open-source backend server. Get the Docker image, JAR, or browse GitHub releases.",
+    "subtitle": "Free to download, free to deploy. Apache 2.0 open source.",
+    "hero_badge": "DOWNLOAD",
+    "view_releases_label": "View releases",
+    "requirements_title": "System requirements",
+    "docs_cta": "Need the full setup guide?",
+    "docs_link_label": "Read the documentation →",
+    "docs_href": "/docs/getting-started/quickstart/",
+    "options": [
+      {
+        "title": "Download executable",
+        "description": "Download the latest JAR file from the GitHub releases page.",
+        "href": "https://github.com/Erudika/para/releases",
+        "icon": "github"
+      },
+      {
+        "title": "Docker",
+        "description": "Prefer Docker? Get up and running quickly with Docker Compose.",
+        "command": "docker run -it erudikaltd/para",
+        "tag": "latest_stable",
+        "icon": "docker"
+      }
+    ],
+    "requirements": [
+      "Java runtime environment (21 or higher)",
+      "512 MB RAM minimum (1 GB recommended for production)",
+      "Any operating system / Docker v28 or higher"
+    ],
+    "github_releases_url": "https://github.com/Erudika/para/releases"
+  },
+  "legal": {
+    "effective_date_label": "Effective date",
+    "terms": {
+      "title": "Terms of Service",
+      "description": "Terms of Service for Para Cloud, ParaIO.com, and ParaIO.org, operated by Erudika LTD.",
+      "effective_date": "21 October 2026"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "How Para Cloud, ParaIO.com, and ParaIO.org collect, use, and protect personal information.",
+      "effective_date": "21 October 2026"
+    },
+    "dpa": {
+      "title": "Data Processing Agreement (DPA)",
+      "description": "Data Processing Agreement for Para Cloud, operated by Erudika LTD.",
+      "effective_date": "21 October 2026"
+    }
+  },
+  "legal_index": {
+    "badge": "LEGAL",
+    "title": "Legal Documents",
+    "subtitle": "Terms, privacy, and data processing for Para Cloud.",
+    "read_label": "Read",
+    "cards": [
+      {
+        "label": "Terms of Service",
+        "href": "/legal/terms-of-service/",
+        "description": "The rules for using Para Cloud, ParaIO.com, and ParaIO.org."
+      },
+      {
+        "label": "Privacy Policy",
+        "href": "/legal/privacy-policy/",
+        "description": "What we collect, how we use it, and the choices you have."
+      },
+      {
+        "label": "Data Processing Agreement",
+        "href": "/legal/gdpr-dpa/",
+        "description": "How Erudika processes personal data on behalf of Para Cloud customers."
+      },
+      {
+        "label": "Licenses",
+        "href": "/legal/licenses/",
+        "description": "The open-source license that covers Para."
+      }
+    ]
+  },
+  "licenses_page": {
+    "badge": "LEGAL",
+    "title": "Licenses",
+    "description": "The open-source license that covers Para.",
+    "subtitle": "Para is open source under the Apache License 2.0.",
+    "license_name": "Apache License 2.0",
+    "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+    "license_link_label": "Read the canonical license",
+    "note": "The full license text is reproduced below. The canonical version is available from the Apache Software Foundation."
+  },
+  "imprint": {
+    "contact": {
+      "badge": "CONTACT",
+      "title": "Contact us",
+      "title_short": "Contact",
+      "description": "Contact Erudika about Para and Para Cloud.",
+      "subtitle": "Questions about Para, Para Cloud, or your account? Write to us.",
+      "channels": [
+        {
+          "icon": "mail",
+          "label": "Technical support",
+          "value": "support@paraio.com",
+          "href": "mailto:support@paraio.com"
+        },
+        {
+          "icon": "github",
+          "label": "GitHub",
+          "value": "Erudika/para",
+          "href": "https://github.com/Erudika/para"
+        },
+        {
+          "icon": "twitter",
+          "label": "Twitter / X.com",
+          "value": "@para_io",
+          "href": "https://x.com/para_io"
+        }
+      ]
+    },
+    "contact_form": {
+      "title": "Shoot us a message",
+      "thanks": "Thank you!",
+      "thanks_msg": "Your message has been sent. We will reply as soon as possible.",
+      "name_label": "Name",
+      "name_placeholder": "Your name",
+      "email_label": "Email",
+      "email_placeholder": "you@example.com",
+      "subject_label": "Subject",
+      "subject_placeholder": "How can we help?",
+      "message_label": "Message",
+      "message_placeholder": "Write your message",
+      "file_label": "File attachment (optional)",
+      "submit_label": "Send message",
+      "form_credit_href": "https://erudika.com/blog/how-to-add-html-form-handling-to-your-website-for-free/",
+      "form_action": "https://paraio.com/v1/_forms/erudika/2024037066106474496",
+      "captcha_key": "6Ldp7-kdAAAAALn1WuUtBGblIQJ9KvqbzoedDVLG"
+    },
+    "impressum": {
+      "company": "Erudika EOOD",
+      "address": "4 Lelinska chuka Str.",
+      "country": "Sofia, 1618, Bulgaria",
+      "vat": "BG-200368755",
+      "managing_director": "Alexander Bogdanovski",
+      "email": "contact@erudika.com",
+      "website": "https://erudika.com"
+    },
+    "impressum_page": {
+      "title": "Impressum",
+      "subtitle": "Para, ParaIO.com and ParaIO.org are property of Erudika.",
+      "labels": {
+        "company_name": "Legal entity",
+        "registered_address": "Registered address",
+        "vat_number": "VAT number",
+        "managing_director": "Legally authorized representative (МОЛ)",
+        "email": "Email",
+        "website": "Website"
+      }
+    }
+  },
   "footer": {
     "blurb": "the backend for busy developers",
     "credit": "Made in the 🇪🇺 by <a class='link ' href='https://erudika.com'>Erudika</a>",
@@ -371,6 +699,9 @@
       { "text": "Features", "href": "/features/" },
       { "text": "Para Cloud", "href": "/cloud-hosting/" },
       { "text": "GitHub", "href": "https://github.com/Erudika/para" },
+      { "text": "Legal", "href": "/legal/" },
+      { "text": "Contact", "href": "/imprint/contact-us/" },
+      { "text": "Imprint", "href": "/imprint/impressum/" },
       { "text": "🟢 System Status", "href": "https://status.erudika.com" }
     ],
     "license": "Apache-2.0"

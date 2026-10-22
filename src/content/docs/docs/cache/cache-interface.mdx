@@ -1,0 +1,27 @@
+---
+title: "Cache interface"
+description: "Para documentation: Cache interface."
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The `Cache` interface defines the following methods used for object caching:
+
+
+
+
+| method | description |
+| --- | --- |
+| `void put(String id, T object)` | Caches an object with a key equal to its `id`. Should skip `null` objects. |
+| `void putAll(Map<String, T> objects)` | Caches multiple objects. Should skip `null` objects. |
+| `T get(String id)` | Retrieves an object from cache. Returns `null` if the object isn't cached. |
+| `Map<String, T> getAll(List<String> ids)` | Retrieves multiple objects from cache. |
+| `void remove(String id)` | Removes an object from cache. |
+| `void removeAll()` | Clears the cache completely. |
+| `void removeAll(List<String> ids)` | Clears only the objects with the specified ids. |
+
+<Aside type="note">
+You should avoid calling cache related methods directly - Para does this for you.
+</Aside>

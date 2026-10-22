@@ -28,7 +28,9 @@ export default defineConfig({
         SiteTitle: './src/components/starlight/SiteTitle.astro',
       },
       disable404Route: true,
-      customCss: ['./src/styles/global.css'],
+      customCss: [
+        './src/styles/starlight.css',
+      ],
       expressiveCode: {
         styleOverrides: {
           borderRadius: '0.2rem'
@@ -42,6 +44,10 @@ export default defineConfig({
         {
           label: 'Getting started',
           items: [{ autogenerate: { directory: 'docs/getting-started' } }],
+        },
+        {
+          label: 'Deployment',
+          items: [{ autogenerate: { directory: 'docs/deployment' } }],
         },
         {
           label: 'Core concepts',
@@ -80,7 +86,7 @@ export default defineConfig({
             { slug: 'docs/security/rest-api-authentication' },
             {
               label: 'Identity providers',
-              items: [{ autogenerate: { directory: 'docs/security/providers' } }],
+              items: [{ autogenerate: { directory: 'docs/security/id-providers' } }],
             },
           ],
         },
@@ -103,10 +109,8 @@ export default defineConfig({
           ],
         },
         {
-          label: 'REST API',
-          items: [
-            { slug: 'docs/api' },
-          ],
+          label: 'Reference',
+          items: [{ autogenerate: { directory: 'docs/reference' } }],
         },
       ],
     }),

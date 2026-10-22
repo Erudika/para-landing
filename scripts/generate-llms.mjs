@@ -3,6 +3,10 @@ import { dirname, join, relative, resolve, sep } from 'node:path';
 import siteData from '../src/data/site-data.json' with { type: 'json' };
 import legacyRoutes from '../src/data/legacy-doc-routes.json' with { type: 'json' };
 
+const clientLibraryLinks = siteData.sdks.tabs
+  .map((sdk) => `- [${sdk.label}](${sdk.source})`)
+  .join('\n');
+
 const projectRoot = process.cwd();
 const docsRoot = resolve(projectRoot, 'src/content/docs/docs');
 const publicRoot = resolve(projectRoot, 'public');
@@ -82,6 +86,7 @@ function convertHtmlTables(markdown) {
 function toPlainMarkdown(rawBody) {
   let body = rawBody
     .replace(/^import\s+.*?;\s*$/gm, '')
+    .replace(/<ClientLibraries\s*\/>/g, () => `\n${clientLibraryLinks}\n`)
     .replace(/<Tabs\b[^>]*>/g, '')
     .replace(/<\/Tabs>/g, '')
     .replace(/<TabItem\s+label="([^"]+)"[^>]*>/g, '\n### $1\n\n')
@@ -173,8 +178,17 @@ const legacyOrderedRoutes = [
 ];
 const orderedPages = [home, ...legacyOrderedRoutes.map((route) => byRoute.get(route))].filter(Boolean);
 
+// New reference pages do not have a legacy fragment. Add them after the
+// historically ordered pages so every Markdown file appears in llms.txt.
+const includedRoutes = new Set(orderedPages.map((page) => page.route));
+orderedPages.push(
+  ...pages
+    .filter((page) => !includedRoutes.has(page.route))
+    .sort((a, b) => a.route.localeCompare(b.route)),
+);
+
 if (orderedPages.length !== files.length) {
-  throw new Error(`Only mapped ${orderedPages.length} of ${files.length} documentation pages.`);
+  throw new Error(`Only included ${orderedPages.length} of ${files.length} documentation pages.`);
 }
 
 const links = orderedPages

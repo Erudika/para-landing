@@ -1,0 +1,53 @@
+---
+title: "Basic Configuration"
+description: "Para documentation: Para Configuration."
+sidebar:
+  order: 1
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+Once deployed, Para will initialize itself by loading the default configuration file `reference.conf`.
+To load your own configuration you need to set one of the following system properties:
+
+- `config.file` specifies a filesystem path, again it should include the file extension
+- `config.url` specifies the URL from which to load the config file
+
+For example:
+```sh
+java -jar -Dconfig.file=./para-application.conf para.jar
+```
+
+You need to set these properties before calling `Para.initialize()` or at the startup of your servlet container.
+If you have a file called `para-application.conf` or `application.json` on the classpath, Para will pick it up automatically.
+
+Here's a minimal example of the Para configuration file:
+
+```ini title="para-application.conf"
+para.env = "production"
+para.print_logo = true
+para.port = 8080
+```
+
+The configuration logic is to read system properties first, then environment properties and finally check the config file.
+So the order of precedence is as follows:
+```
+System.getProperty() > System.getenv() > para-application.conf
+```
+
+Note that environment properties containing `.` (dots) are invalid and will be replaced with `_` (underscore).
+For example, the environment property `$para_env` is equivalent to `para.env` in the config file.
+
+<Aside type="caution">
+In a production environment, set `para.app_secret_key` to some randomly generated secret string.
+This is important for securing your server because this secret key is used for signing and verifying authentication tokens.
+</Aside>
+
+All configuration properties can be overridden using system properties, e.g. `System.setProperty("para.port", "8081")`,
+or `-Dpara.port=8081` or using ENV variables `export para_port=8081`.
+
+<LinkCard
+  title="Configuration Reference"
+  href="/docs/reference/configuration/"
+  description="For the complete list of configuration options, visit the configuration reference page."
+/>

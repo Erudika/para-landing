@@ -5,7 +5,7 @@ import { visit } from 'unist-util-visit';
  * <code> element found in the first <td> of each row, and wraps that <code>
  * in an <a href="#id"> so the property key is a clickable anchor link.
  *
- * Example: `scoold.app_name` → <tr id="scoold_app_name"><td><a href="#scoold_app_name"><code>…</code></a>
+ * Example: `para.app_name` → <tr id="para_app_name"><td><a href="#para_app_name"><code>…</code></a>
  */
 export default function rehypeTableRowIds() {
   return (tree) => {

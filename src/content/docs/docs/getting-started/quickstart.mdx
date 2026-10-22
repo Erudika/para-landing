@@ -7,40 +7,73 @@ sidebar:
 
 import { Aside, Badge, LinkCard, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 import { Image } from 'astro:assets';
+import ClientLibraries from '@/components/ClientLibraries.astro';
 
 Para is a flexible backend service, created as an open-source project from the very beginning, in 2013.
 It was born out of our need to have a robust system which would allow us to persist objects easily to anything -
 RDBMS, NoSQL and in-memory databases. We needed a simple solution with an API which would scale well and provide a
 solid foundation for our future projects.
 
-Para is a **stateless, schemaless, 3-layer backend system** with a REST API in front of it.
-The first layer is the **database**, the second layer is the **search index** and the third -- the **cache**.
-Depending on how you use it, Para can either be a standalone backend service or a persistence
-framework that is part of your code base. Each request to the API is stateless, meaning you can scale out easily.
-The data model requires no schema -- it's based around plain old Java/JSON objects and is optimized for schemaless
-key-value data stores, but also works with traditional databases.
+Here are some key features and benefits:
 
-Para is also **multitenant**, which means you can deploy it as a standalone service on one or more nodes and host one
-or more applications on it ("apps"). An app can be a website, mobile app, desktop app or even a command-line tool.
-This is made possible by the REST API which talks JSON to your apps, and with the help of the client libraries below,
-it's easy to get started. If you're building an application on the JVM, you can also add Para as Maven dependency to
-your project. You can still keep the REST API or turn it off completely.
+- Para is **multitenant** - deploy and host multiple applications on the same server.
+- Para is **stateless and schemaless** - no sticky sessions or database schema configurations needed.
+- Para is **database-agnostic** - bring your own database
+- Para is **resilient and scalable** - the [three-layer architecture](/docs/getting-started/architecture/) stores data in more than one place.
 
-## Install and run Para
+## Download and run the Para server
+
+<Tabs syncKey="para-client">
+  <TabItem label="JAR">
 
 <Steps>
 1. [Download the latest executable JAR](https://github.com/Erudika/para/releases)
-2. Create a configuration file `application.conf` file in the same directory as the JAR package.
-3. Start Para with `java -Dconfig.file=./application.conf -jar para-*.jar`
+2. Create a configuration file `para-application.conf` file in the same directory as the JAR package.
+3. Start Para:
+    ```sh 
+    java -Dconfig.file=./para-application.conf -jar para-*.jar
+    ```
 4. Install [Para CLI](https://github.com/Erudika/para-cli) with `npm install -g para-cli`
 5. Create a new dedicated app for your project and save the access keys:
     ```bash
     # run setup and set endpoint to either 'http://localhost:8080' or 'https://paraio.com'
-    # the keys for the root app are inside application.conf
+    # the keys for the root app are inside para-application.conf
     $ para-cli setup
     $ para-cli new-app "myapp" --name "My App"
     ```
 </Steps>
+
+</TabItem>
+  <TabItem label="Docker">
+    Docker one-liner command:
+    ```sh
+    docker run -it erudikaltd/para:latest_stable
+    ```
+  </TabItem>
+</Tabs>
+
+## Para client libraries
+
+Choose one of the official Para clients, available for the following platforms:
+
+<ClientLibraries />
+
+The Java, JavaScript and Android Para client libraries have asynchronous versions of every API method.
+The rest of the client libraries only have synchronous methods. Here's the matrix of all supported features, for each client:
+
+|                          | Emails  | Files  | Async methods| Websockets (planned) |
+|--------------------------|---------|--------|--------------|---------------|
+| para-client-java         | ✅      | ❌     | ✅          |  ❌           |
+| para-client-csharp       | ❌      | ❌     | ❌          |  ❌           |
+| para-client-js           | ❌      | ❌     | ✅          |  ❌           |
+| para-client-python       | ❌      | ❌     | ❌          |  ❌           |
+| para-client-php          | ❌      | ❌     | ❌          |  ❌           |
+| para-client-android      | ❌      | ❌     | ✅          |  ❌           |
+| para-client-ios          | ❌      | ❌     | ❌          |  ❌           |
+
+
+In certain environments like serverless (AWS Lambda, CloudFlare Workers, etc.) the environment restricts code to run on a single thread.
+In those cases, applications connecting to Para with a client must not use async functions or set `para.executor_service_enabled = false`.
 
 ## Make your first request
 
@@ -54,7 +87,7 @@ curl -i http://localhost:8080/v1/_health
 ```
 
   </TabItem>
-  <TabItem label="Java client">
+  <TabItem label="Para Client">
 
 ```java
 ParaClient client = new ParaClient(accessKey, secretKey);
@@ -73,165 +106,10 @@ or integrate Para directly into your project with one of the API clients below.
 Users are created either programmatically with `paraClient.signIn(...)` or with an API request to `POST /v1/jwt_auth`. See
 [Sign in](/docs/api/authentication/sign-in/) or [Authentication](/docs/security/rest-api-authentication/) sections for more details.
 
-## Docker
 
-Tagged Docker images for Para are located at `erudikaltd/para` on Docker Hub.
-**It's highly recommended that you pull only release images like `:1.51.0` or `:latest_stable`
-because the `:latest` tag can be broken or unstable.**
-First, create an `application.conf` file and a `data` folder and start the Para container:
+## Building Para from source
 
-```bash
-$ touch application.conf && mkdir data
-$ docker run -ti -p 8080:8080 --rm -v $(pwd)/data:/para/data \
-  -v $(pwd)/application.conf:/para/application.conf \
-  -e JAVA_OPTS="-Dconfig.file=/para/application.conf" erudikaltd/para:latest_stable
-```
-
-**Environment variables**
-
-`JAVA_OPTS` - Java system properties, defaults to `-Dloader.path=lib`
-
-**Plugins**
-
-You can create a custom Para container with all plugins and JDBC drivers you need by using `docker compose`.
-Below is an example build of Para, using `para-dao-sql`, `para-search-lucene` and PosgreSQL as a database.
-
-<Steps>
-
-1. First, create a new `Dockerfile-plugins` which does a multi-stage build like so:
-
-    ```docker title="Dockerfile-plugins"
-    ARG PARA_VERSION="0.0.0"
-    ARG SQL_DAO_VERSION="0.0.0"
-    FROM erudikaltd/para:v${PARA_VERSION} AS base
-    FROM erudikaltd/para-dao-sql:${SQL_DAO_VERSION} AS dao
-    FROM erudikaltd/para-search-lucene:${SEARCH_VERSION} AS search
-    FROM base AS final
-    COPY --from=dao /para/lib/*.jar /para/lib
-    COPY --from=search /para/lib/*.jar /para/lib
-
-    # EXAMPLE: Add a PostgreSQL JDBC Driver
-    ARG PG_JDBC_VERSION="0.0.0"
-    ADD https://jdbc.postgresql.org/download/postgresql-${PG_JDBC_VERSION}.jar /para/lib/
-    ```
-
-2. Then, create a `docker-compose.yml` file:
-
-    ```yml title="docker-compose.yml"
-    services:
-       para:
-     depends_on:
-       - db
-     build:
-       context: .
-       dockerfile: Dockerfile
-       args:
-         PARA_VERSION: "1.51.0"
-         SQL_DAO_VERSION: "1.49.1"
-         PG_JDBC_VERSION: "42.7.7"
-     image: para-with-plugins
-     pull_policy: never
-     ports:
-       - "8080:8080"
-     volumes:
-       - type: volume
-         source: paraData
-         target: /para/data
-       - type: volume
-         source: paraLib
-         target: /para/lib
-       - type: bind
-         source: ./para-application.conf
-         target: /para/application.conf
-     restart: always
-     environment:
-       - JAVA_OPTS=-Dconfig.file=/para/application.conf -Dloader.path=/para/lib
-
-       db:
-     image: postgres:latest
-     ports:
-       - "5432:5432"
-     volumes:
-       - type: volume
-         source: postgresData
-         target: /var/lib/postgresql/data
-     restart: always
-     environment:
-       - POSTGRES_PASSWORD=mysecretpassword
-       - PGDATA=/var/lib/postgresql/data
-    volumes:
-      paraData:
-      paraLib:
-      postgresData:
-    ```
-
-3. Also create the Para configuration file `para-application.conf`:
-
-    ```ini title="para-application.conf"
-    para.env = "production"
-    para.dao = "SqlDAO"
-    para.sql.driver = "org.postgresql.Driver"
-    para.sql.url = "postgresql://db:5432/para"
-    para.sql.user = "postgres"
-    para.sql.password = "mysecretpassword"
-    ```
-
-4. Finally, run `docker compose build para && docker compose up`.
-
-</Steps>
-
-## Maven
-
-The Java client for Para is a separate module with these Maven coordinates:
-
-```xml
-<dependency>
-  <groupId>com.erudika</groupId>
-  <artifactId>para-client</artifactId>
-  <version>{VERSION}</version>
-</dependency>
-```
-
-In your own project you can create a new `ParaClient` instance like so:
-
-```java
-ParaClient pc = new ParaClient(accessKey, secretKey);
-// Para endpoint - http://localhost:8080 or https://paraio.com
-pc.setEndpoint(paraServerURL);
-// Set this to true if you want ParaClient to throw exceptions on HTTP errors
-pc.throwExceptionOnHTTPError(false);
-// send a test request - this should return a JSON object of type 'app'
-pc.me();
-```
-
-The Java, JavaScript and Android Para client libraries have asynchronous versions of every API method.
-The rest of the client libraries only have synchronous methods.
-
-In certain environments like serverless (AWS Lambda, CloudFlare Workers, etc.) the environment restricts code to run on a single thread.
-In those cases, applications connecting to Para with a client must not use async functions or set `para.executor_service_enabled = false`.
-
-<Aside type="note">
-We've built a full-blown StackOverflow clone with Para - check it out at https://scoold.com
-</Aside>
-
-## Client libraries
-
-Official clients are available for [Java](https://github.com/Erudika/para/tree/master/para-client), [JavaScript](https://github.com/Erudika/para-client-js), [PHP](https://github.com/Erudika/para-client-php), [C#](https://github.com/Erudika/para-client-csharp), [Android](https://github.com/Erudika/para-client-android), [iOS](https://github.com/Erudika/para-client-ios), and [Python](https://github.com/Erudika/para-client-python).
-
-## Kubernetes
-
-There's a Helm chart inside the `helm/` folder. First edit `helm/para/values.yaml` and then you can deploy Para to
-Kubernetes with a single command:
-
-```
-cd helm; helm install para ./para
-```
-
-For more info, check the quick start guide at [`helm/README.md`](https://github.com/Erudika/para/blob/master/helm/README.md).
-
-## Building Para
-
-Para can be compiled with JDK 8 and up.
+Para can be compiled with **Java SDK 21** and up.
 
 To compile it you'll need Maven. Once you have it, just clone and build:
 

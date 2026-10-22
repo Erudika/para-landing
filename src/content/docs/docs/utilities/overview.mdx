@@ -1,0 +1,94 @@
+---
+title: "Misc. utilities"
+description: "Para documentation: Misc. utilities."
+sidebar:
+  order: 1
+---
+
+The `Utils` static class contains a variety of utility methods. These are summarized below:
+
+## Hashing
+
+
+
+
+| Method | Description |
+| --- | --- |
+| `String MD5(String s)` | Calculates the MD5 hash for a string. |
+| `String bcrypt(String s)` | Calclates the BCrypt hash for a string. Based on Spring Security. |
+| `boolean bcryptMatches(String plain, String storedHash)` | Validates a BCrypt hash. |
+
+## Strings
+
+
+
+
+| Method | Description |
+| --- | --- |
+| `String stripHtml(String html)` | Strips all HTML tags from a string leaving only the text. |
+| `String markdownToHtml(String markdownString)` | Convert a Markdown string to HTML. Based on [Txtmark](https://github.com/rjeschke/txtmark). Supports GFM syntax, tables, task lists, striketrough and emojis. |
+| `String compileMustache(Map<String, Object> scope, String template)` | Compile a Mustache template string to HTML. Based on [Mustache.java](https://github.com/spullara/mustache.java). |
+| `String abbreviate(String str, int max)` | Abbreviates a string to a given length. |
+| `String stripAndTrim(String str)` | Removes punctuation and symbols and normalizes whitespace. |
+| `String noSpaces(String str, String replaceWith)` | Spaces are replaced with something or removed completely. |
+| `String formatMessage(String msg, Object... params)` | Replaces placeholders like `{0}`, `{1}`, etc. with the corresponding objects (numbers, strings, booleans). |
+
+## Numbers
+
+
+
+
+| Method | Description |
+| --- | --- |
+| `String formatPrice(double price)` | Formats a price to a decimal with two fractional digits. |
+| `double roundHalfUp(double d)` | Rounds up a double using the "half up" method, scale is 2 fractional digits. |
+| `double roundHalfUp(double d, int scale)` | Rounds up a double using the "half up" method. |
+| `String abbreviateInt(Number number, int decPlaces)` | Rounds a number like "10000" to "10K", "1000000" to "1M", etc. |
+
+## Dates
+
+
+
+
+| Method | Description |
+| --- | --- |
+| `String formatDate(Long timestamp, String format, Locale loc)` | Formats a date according to a specific locale. |
+| `String[] getMonths(Locale locale)` | A list of the twelve months in the language set by the locale. |
+
+## JSON
+
+
+
+
+| Method | Description |
+| --- | --- |
+| `P fromJSON(String json)` | Converts a JSON string to a `ParaObject`. Requires the `type` property. Based on Jackson. |
+| `String toJSON(P obj)` | Converts a `ParaObject` to a JSON string. Based on Jackson. |
+
+## Objects
+
+
+
+
+| Method | Description |
+| --- | --- |
+| `boolean typesMatch(ParaObject so)` | Validates that an object's class matches its `type` property. |
+| `Map<String, Object> getAnnotatedFields(P bean)` | Returns a map of all fields marked with the `Stored` annotation for a given object. |
+| `P setAnnotatedFields(Map<String, Object> data)` | Reconstruct an object from a map of fields and their values. |
+| `P toObject(String type)` | Constructs a new instance of the given type (must be a known `ParaObject`). |
+| `Class<? extends ParaObject> toClass(String type)` | Returns the `Class` instance of a given type (must be a known `ParaObject`). |
+| `boolean isBasicType(Class<?> clazz)` | Checks if a class is primitive, String or a primitive wrapper. |
+| `String[] validateObject(ParaObject content)` | Runs the Hibernate Validator against an object. Returns a list of errors or an empty array if that object is valid. |
+| `String getNewId()` | Generates a new `id`. Based on [Twitter's Snowflake](https://github.com/twitter/snowflake/) algorithm. You *must* set `para.worker_id` to be different on each node. |
+| `String type(Class<? extends ParaObject> clazz)` |  |
+
+## URLs
+
+
+
+
+| Method | Description |
+| --- | --- |
+| `boolean isValidURL(String url)` | Validates a URL. |
+| `String getHostFromURL(String url)` | Returns the host name of a URL - "example.com" |
+| `String getBaseURL(String url)` | Returns the base URL, e.g. http://example.com |

@@ -1,0 +1,70 @@
+---
+title: "OAuth 2.0 support"
+description: "Para documentation: OAuth 2.0 support."
+sidebar:
+  order: 3
+---
+
+A generic OAuth 2.0 filter is available for situations where you need to use your own authentication server.
+It follows the standard OAuth 2.0 flow and requires that you redirect users to a login page first (on your server).
+Then, upon successful login, the user is redirected back to `/oauth2_auth` and an access token is obtained.
+Finally, the filter tries to get the user's profile with that token, from a specified server, which could be the same
+server used for authentication.
+
+Support for generic OAuth authentication is implemented by the `GenericOAuth2Filter`. The default URL for this filter is
+`/oauth2_auth`.
+
+The endpoint expects an `appid` value from the 'state' parameter, e.g. `?state={appid}`. If that parameter is missing,
+the default (root) app will be used as authentication target.
+
+These are the configuration options for this filter:
+
+
+
+
+| property | description |
+| --- | --- |
+| `para.security.oauth.profile_url` | API endpoint for user profile. |
+| `para.security.oauth.token_url` | The URL from which the access token will be requested (via `POST`). |
+| `para.security.oauth.scope` | The `scope` parameter of the access token request payload. |
+| `para.security.oauth.accept_header` | The `Accept` header - if blank, the header won't be set. (default is blank). |
+| `para.security.oauth.download_avatars` | If `true`, Para will fetch profile pictures from IDP and store them locally or to a cloud storage provider. (default is `false`). |
+| `para.security.oauth.parameters.id` | The `id` parameter for requesting the user `id` (default is `sub`). |
+| `para.security.oauth.parameters.picture` | The `picture` parameter for requesting the user's avatar (default is `picture`). |
+| `para.security.oauth.parameters.email` | The `email` parameter for requesting the user's email (default is `email`). |
+| `para.security.oauth.parameters.name` | The `name` parameter for requesting the user's full name (default is `name`). |
+| `para.security.oauth.parameters.given_name` | The `given_name` parameter for requesting the user's first name (default is `given_name`). |
+| `para.security.oauth.parameters.family_name` | The `family_name` parameter for requesting the user's last name (default is `family_name`). |
+| `para.security.oauth.domain` | This domain name is used if a valid email can't be obtained (optional). |
+| `para.security.oauth.token_delegation_enabled` | Enable/disable access token delegation. If enabled, access tokens will be saved inside the user object's `password` field and sent for validation to the IDP on each authentication request (using JWTs). (default is `false`). |
+
+You can configure the URLs for authentication success and failure in the configuration file (see [the config](/docs/configuration/configuration/))
+
+You can also set all configuration properties through the [app settings API](/docs/api/settings/add/):
+```
+{
+	"oa2_app_id": "some_appid",
+	"oa2_secret": "some_secret",
+	"security.oauth.token_url": "https://myidp.com/oauth/token",
+	"security.oauth.profile_url": "https://myidp.com/oauth/userinfo",
+	"security.oauth.scope": "openid email profile",
+	...
+	"signin_success": "http://success.url",
+	"signin_failure": "http://failure.url"
+}
+```
+
+You can add two additional custom OAuth 2.0/OpenID connect providers called "second" and "third". Here's what the settings
+look like for the "second" provider ("third" is identical but replace "second" with "third"):
+```
+{
+	"oa2second_app_id": "some_appid",
+	"oa2second_secret": "some_secret",
+	"security.oauthsecond.token_url": "https://myidp.com/oauth/token",
+	"security.oauthsecond.profile_url": "https://myidp.com/oauth/userinfo",
+	"security.oauthsecond.scope": "openid email profile",
+	...
+}
+```
+
+The endpoints for the "second" and "third" OAuth 2.0 providers are `/oauth2second_auth` and `/oauth2third_auth`, respectively.

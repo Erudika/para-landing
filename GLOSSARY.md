@@ -51,8 +51,16 @@ Para's pluggable persistence interface; concrete implementations exist for SQL, 
 _Avoid_: repository, datastore(if referring to the layer)
 
 **Para Cloud**:
-Erudika's paid, managed hosting of Para at paraio.com; the self-hosted alternative is the executable JAR/Docker image.
+Erudika's managed hosting of Para. The public product page is `/cloud-hosting/` on the new site; the service and sign-in stay at paraio.com. The self-hosted alternative is the executable JAR/Docker image.
 _Avoid_: SaaS, hosted version, cloud version
+
+**ParaIO.com**:
+The service domain for Para Cloud and the legal name used in the Terms and Privacy Policy. Do not use it as the product name in marketing copy.
+_Avoid_: ParaIO (as a product name)
+
+**ParaIO.org**:
+The public marketing and documentation site. It is not the service domain; sign-in and billing remain at paraio.com.
+_Avoid_: using it for the app console or sign-in
 
 **Agent-ready docs**:
 Documentation structured so LLM agents and AI coding tools can consume it directly: clean markdown sources, markdown file availability, and `llms.txt` at the site root.

@@ -1,0 +1,79 @@
+---
+title: "Cloud Deployment"
+description: "Para documentation: Cloud Deployment."
+sidebar:
+  order: 3
+---
+import { Aside, Badge, LinkCard, Card, LinkButton, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+import RemoteFile from '@/components/RemoteFile.astro';
+
+Para can be deployed to any cloud provider that supports Docker containers or Java applications.
+
+
+## Para Cloud <Badge text="fully managed" variant="note" />
+
+Don't want to deal with servers and performance issues? We offer managed [Para cloud hosting](/cloud-hosting/).
+Para Cloud is **free for developers**! If you're developing a new app, you can store up to **10 000 objects, for free**.
+Browse and manage your users and objects, do backups and edit permissions with a few clicks in the web console.
+By upgrading to a premium account you will be able to scale you projects up and down in seconds and manage multiple apps.
+
+<Card title="On Para Cloud you get:" icon="star">
+  - Flat pricing, per app
+  - Scalable & affordable BaaS
+  - Data encryption at rest
+  - Web admin console for easy configuration
+  
+  <LinkButton href="/cloud-hosting">Check out Para Cloud &rarr;</LinkButton>
+</Card>
+
+## Hostinger
+
+[![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostg.xyz/aff_c?offer_id=815&aff_id=243576&url_id=6844)
+
+## AWS
+
+### EC2 & Lightsail
+
+<Steps>
+1. Open the [Lightsail console](https://lightsail.aws.amazon.com/ls/webapp/create/instance) or the EC2 console.
+2. Choose a "Linux" AMI (e.g. "Ubuntu 24.04 LTS" or later)
+3. Click *"Add launch script"* (user data) and copy the contents of `installer.sh`:
+    <details>
+      <summary><code>installer.sh</code></summary>
+      <RemoteFile url="https://raw.githubusercontent.com/Erudika/para/master/installer.sh" lang="bash" title="installer.sh" />
+    </details>
+4. Download the default SSH key pair or upload your own
+5. Choose the 512MB instance or larger (1GB recommended)
+6. Wait for the instance to start and open the IP address in your browser at port `8000`
+</Steps>
+
+### Elatic Beanstalk
+
+<Steps>
+1. Clone the Para project repository change directory to it
+    ```sh
+    git clone https://github.com/Erudika/para.git
+    cd para
+    ```
+2. Build the JAR file: 
+    ```sh
+    mvn -Pfatjar package
+    ```
+3. Create a `Buildfile` 
+    ```ini title="Buildfile"
+    build: mvn -Pfatjar clean package
+    ```
+4. Create a `Procfile` 
+    ```ini title="Procfile"
+    web: java -jar target/para-server.jar
+    ```
+5. [↗ Install EB CLI](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html#eb-cli3-install)
+6. Initialize your EB CLI repository with the `eb init` command:
+    ```sh
+    eb init -p corretto para-server --region us-east-2
+    ```
+7. Create an environment and deploy your application to it with `eb create`:
+    ```sh
+    eb create para-server
+    ```
+</Steps>

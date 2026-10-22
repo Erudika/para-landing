@@ -39,26 +39,3 @@ const { hero } = siteData;
   </div>
 </section>
 
-<style>
-  @reference "../styles/global.css";
-
-  .tab-active {
-    @apply bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100;
-  }
-</style>
-
-<script>
-  document.querySelectorAll('[data-qs]').forEach((group) => {
-    const tabs = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-qs-tab]'));
-    const panels = Array.from(group.querySelectorAll<HTMLElement>('[data-qs-panel]'));
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => {
-        tabs.forEach((t, j) => {
-          t.classList.toggle('tab-active', i === j);
-          t.setAttribute('aria-selected', String(i === j));
-        });
-        panels.forEach((p, j) => p.classList.toggle('hidden', i !== j));
-      });
-    });
-  });
-</script>

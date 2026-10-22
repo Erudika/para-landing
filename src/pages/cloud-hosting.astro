@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { cloud_page } from '../data/site-data.json';
+import PricingCards from '@/components/PricingCards.astro';
+import { Image } from 'astro:assets';
+import icon from '../images/para_cloud.svg';
+import herobg from '../images/cloudbg.png';
+
+const iconPaths: Record<string, string> = {
+  zap: 'M13 10V3L4 14h7v7l9-11h-7z',
+  shield: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+  battery: 'M9.37 4L10.78 6.5L9.37 9H6.63L5.23 6.5L6.63 4H9.37M10.25 2H5.75C5.56 2 5.39 2.11 5.31 2.26L3.09 6.22L3 6.5L3.09 6.78L5.31 10.74C5.39 10.89 5.56 11 5.75 11H10.25C10.44 11 10.61 10.89 10.69 10.74L12.91 6.78L13 6.5L12.91 6.22L10.69 2.26C10.61 2.11 10.44 2 10.25 2M18.62 9.5L20 12L18.62 14.5H15.88L14.5 12L15.88 9.5H18.62M19.5 7.5H15C14.81 7.5 14.64 7.61 14.56 7.76L12.34 11.72L12.25 12L12.34 12.28L14.56 16.24C14.64 16.39 14.81 16.5 15 16.5H19.5C19.69 16.5 19.86 16.39 19.94 16.24L22.16 12.28L22.25 12L22.16 11.72L19.94 7.76C19.86 7.61 19.69 7.5 19.5 7.5M9.37 15L10.78 17.5L9.37 20H6.63L5.23 17.5L6.63 15H9.37M10.25 13H5.75C5.56 13 5.39 13.11 5.31 13.26L3.09 17.22L3 17.5L3.09 17.78L5.31 21.74C5.39 21.89 5.56 22 5.75 22H10.25C10.44 22 10.61 21.89 10.69 21.74L12.91 17.78L13 17.5L12.91 17.22L10.69 13.26C10.61 13.11 10.44 13 10.25 13Z',
+  globe: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+  cloud: 'M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z',
+  thumb: 'M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z',
+  search: 'M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z',
+  code: 'M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z',
+  refresh: 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99',
+};
+---
+<BaseLayout
+  title={cloud_page.title_short}
+  description={cloud_page.description}
+>
+  <!-- Hero -->
+  <section class="bg-cover section-padding" style={`background-image: url(${herobg.src});`}>
+    <div class="mx-auto px-6 sm:px-8 max-w-3xl text-white text-center">
+      <!-- <p class="mb-6 chip">{cloud_page.badge}</p> -->
+      <Image src={icon} width={100} alt={cloud_page.image_alt} loading="eager" fetchpriority="high" class="inline-block mb-6" />
+      <h1 class="mb-5 font-semibold text-4xl sm:text-5xl text-balance tracking-tight">
+        {cloud_page.title}
+      </h1>
+      <p class="mb-4 text-zinc-200 text-lg leading-relaxed">
+        {cloud_page.subtitle}
+      </p>
+      <p class="mx-auto mb-8 max-w-2xl text-zinc-200 text-base leading-relaxed">
+        {cloud_page.hero_text}
+      </p>
+      <div class="flex sm:flex-row flex-col justify-center gap-3">
+        <a
+          href={cloud_page.url}
+          class="btn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{cloud_page.explore_cta_label}</a>
+      </div>
+    </div>
+  </section>
+
+  <PricingCards pageBlock={cloud_page} title={cloud_page.subscriptions} />
+
+  <!-- Features grid -->
+  <section class="border-zinc-200 dark:border-zinc-800 border-t section-padding">
+    <div class="section-shell">
+      <div class="mx-auto">
+        <h2 class="font-semibold text-3xl sm:text-4xl text-center tracking-tight">
+          {cloud_page.features_title}
+        </h2>
+      </div>
+      <div class="gap-6 grid sm:grid-cols-2 lg:grid-cols-3 mt-12">
+        {cloud_page.features.map((feature) => (
+          <div class="card">
+            <div class="flex justify-center items-center bg-neutral-700 mb-4 rounded-[4px] w-10 h-10">
+              <svg class="w-5 h-5 text-blue-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={iconPaths[feature.icon] ?? iconPaths.zap}/>
+              </svg>
+            </div>
+            <h3 class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">{feature.title}</h3>
+            <p class="mt-2 text-zinc-600 dark:text-zinc-400 text-sm text-justify leading-relaxed">{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cloud vs Self-hosted comparison -->
+  <section class="border-zinc-200 dark:border-zinc-800 border-t section-padding">
+    <div class="mx-auto px-6 sm:px-8 max-w-3xl">
+      <h2 class="mb-8 font-semibold text-3xl sm:text-4xl text-center tracking-tight">{cloud_page.comparison.title}</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-zinc-200 dark:border-zinc-800 border-b">
+              {cloud_page.comparison.headers.map((header, i) => (
+                <th class:list={[
+                  'py-3 font-semibold text-zinc-800 dark:text-zinc-200',
+                  i === 0 ? 'text-left pl-4  w-1/2' : i === 1 ? 'text-left px-4 font-bold' : 'text-right text-zinc-500 dark:text-zinc-400',
+                ]}>
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+            {cloud_page.comparison.rows.map((row) => (
+              <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-900">
+                <td class="py-3 pl-4 font-medium text-zinc-700 dark:text-zinc-300">{row[0]}</td>
+                <td class="px-4 py-3 font-medium text-left">{row[1]}</td>
+                <td class="py-3 text-zinc-600 dark:text-zinc-400 text-right">{row[2]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cloud FAQ -->
+  <section class="border-zinc-200 dark:border-zinc-800 border-t section-padding">
+    <div class="mx-auto px-6 sm:px-8 max-w-3xl">
+      <div class="mb-10 text-center">
+        <h2 class="mb-3 font-semibold text-3xl sm:text-4xl tracking-tight">{cloud_page.pricing_faq.title}</h2>
+        <p class="text-zinc-600 dark:text-zinc-400">{cloud_page.pricing_faq.subtitle}</p>
+      </div>
+      <div class="space-y-3">
+        {cloud_page.pricing_faq.items.map((item) => (
+          <details class="group border border-zinc-200 hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600 rounded-[4px] overflow-hidden">
+            <summary class="flex justify-between items-center gap-4 px-5 py-4 font-medium text-zinc-800 dark:text-zinc-200 transition-colors cursor-pointer list-none">
+              <span class="text-sm">{item.q}</span>
+              <svg class="w-5 h-5 text-zinc-500 dark:text-zinc-400 group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </summary>
+            <div class="px-5 pt-1 pb-5 border-zinc-200 dark:border-zinc-800 border-t text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
+              {item.a}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
