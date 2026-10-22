@@ -119,10 +119,22 @@
     ],
     "jab": "Para was designed to provide a straightforward developer experience and is optimized for LLM-based workflows and rapid prototyping. Para is a good fit if you ask yourself any of the following questions:",
     "questions": [
-      "What if I don't want to manage a full PostgreSQL cluster?", 
-      "What if my schema is not clarified yet or my data is too dynamic?",
-      "What if I want to connect a no-code solution to my backend?",
-      "What if I need to prototype an app quickly with a set-it-and-forget-it backend?"
+      {
+        "q": "What if I don't want to manage a full PostgreSQL cluster?",
+        "a": "You don't have to. Para runs on an embedded H2 database by default, so a single JAR file is a complete backend with no external database to install or tune. If you need more, you can switch to PostgreSQL, MySQL, MongoDB or another store through a plugin and one configuration property. On Para Cloud, all of this is managed for you."
+      },
+      {
+        "q": "What if my schema is not clarified yet or my data is too dynamic?",
+        "a": "Para stores every record as a schemaless JSON object. There are no migrations, no fixed columns and no table definitions to update: you POST an object with any fields and the search index follows it. Add a field to one object and not to the next, or store different shapes under the same type, and Para accepts it without downtime."
+      },
+      {
+        "q": "What if I want to connect a no-code solution to my backend?",
+        "a": "Para speaks plain HTTP and JSON. Any no-code tool that can send a REST request, such as Retool, Appsmith, n8n or Zapier, can create, read, update and delete objects with an API key or a JWT. Authentication, permissions and validation stay in Para, so the no-code layer only has to handle the screen."
+      },
+      {
+        "q": "What if I need to prototype an app quickly with a set-it-and-forget-it backend?",
+        "a": "Start with java -jar para.jar and an embedded database. Users, social sign-in, permissions, full-text search and webhooks work on the first run, with no infrastructure to provision. When the prototype proves itself, the same API can move to a hosted or self-managed deployment without code changes."
+      }
     ]
   },
   "sdks": {

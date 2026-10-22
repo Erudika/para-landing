@@ -42,7 +42,7 @@ const { title,pageBlock } = Astro.props;
           class:list={[
             'relative rounded-[4px] p-7 flex flex-col bg-scroll bg-size-[128rem]',
             plan.popular
-              ? 'bg-zinc-900 text-zinc-50 ring-1 ring-zinc-700 shadow-2xl shadow-zinc-900/20'
+              ? 'bg-black text-zinc-50 ring-1 ring-zinc-700 shadow-2xl shadow-zinc-900/20'
               : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800',
           ]}
         >
@@ -60,7 +60,7 @@ const { title,pageBlock } = Astro.props;
             <h3 class:list={['text-lg font-bold mb-1', plan.popular ? 'text-zinc-50' : 'text-zinc-900 dark:text-zinc-50']}>
               {plan.name}
             </h3>
-            <p class:list={['text-sm leading-relaxed', plan.popular ? 'text-zinc-300' : 'text-zinc-600 dark:text-zinc-400']}>
+            <p class:list={['text-sm leading-relaxed', plan.popular ? 'text-zinc-300' : 'text-zinc-700 dark:text-zinc-400']}>
               {plan.description}
             </p>
           </div>
@@ -70,7 +70,7 @@ const { title,pageBlock } = Astro.props;
             <div class:list={['text-4xl font-extrabold tracking-tight', plan.popular ? 'text-zinc-50' : 'text-zinc-900 dark:text-zinc-50']}>
               {plan.price}
             </div>
-            <div class:list={['text-sm font-medium mt-0.5', plan.popular ? 'text-zinc-300' : 'text-zinc-500 dark:text-zinc-400']}>
+            <div class:list={['text-sm font-medium mt-0.5', plan.popular ? 'text-zinc-300' : 'text-zinc-700 dark:text-zinc-400']}>
               {plan.price_note}
             </div>
           </div>
@@ -103,7 +103,7 @@ const { title,pageBlock } = Astro.props;
                 >
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                 </svg>
-                <span class:list={['text-sm', plan.popular ? 'text-zinc-100' : 'text-zinc-600 dark:text-zinc-400']}>
+                <span class:list={['text-sm', plan.popular ? 'text-zinc-100' : 'text-zinc-700 dark:text-zinc-400']}>
                   {feature}
                 </span>
               </li>

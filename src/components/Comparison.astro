@@ -62,12 +62,24 @@ const { comparison } = siteData;
       </table>
     </div>
     <p class="mt-4 w-fit text-zinc-600 dark:text-zinc-400">{comparison.jab}</p>
-    <ul class="mt-2 text-zinc-700 dark:text-zinc-300">
+
+    {comparison.questions.map((item, i) =>  (
+      <div class="collapse collapse-arrow bg-base-100 my-3 border border-base-300">
+        <input type="checkbox" class="peer" />
+        <div class="collapse-title">{item.q}</div>
+        <div class="collapse-content px-5 text-zinc-600 dark:text-zinc-400 text-sm">
+          {item.a}
+        </div>
+      </div>
+      ))}
+
+
+    <!-- <ul class="mt-2 text-zinc-700 dark:text-zinc-300">
       {
         comparison.questions.map((q, i) => 
           <li class="list-disc list-inside">{q}</li>
         )
       }
-    </ul>
+    </ul> -->
   </div>
 </section>

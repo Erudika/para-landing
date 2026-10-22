@@ -78,12 +78,12 @@ const iconPaths: Record<string, string> = {
     <div class="mx-auto px-6 sm:px-8 max-w-3xl">
       <h2 class="mb-8 font-semibold text-3xl sm:text-4xl text-center tracking-tight">{cloud_page.comparison.title}</h2>
       <div class="overflow-x-auto">
-        <table class="w-full text-sm">
+        <table class="table-zebra w-full text-sm">
           <thead>
             <tr class="border-zinc-200 dark:border-zinc-800 border-b">
               {cloud_page.comparison.headers.map((header, i) => (
                 <th class:list={[
-                  'py-3 font-semibold text-zinc-800 dark:text-zinc-200',
+                  'py-3 font-semibold text-zinc-800 dark:text-zinc-200 px-3',
                   i === 0 ? 'text-left pl-4  w-1/2' : i === 1 ? 'text-left px-4 font-bold' : 'text-right text-zinc-500 dark:text-zinc-400',
                 ]}>
                   {header}
@@ -96,7 +96,7 @@ const iconPaths: Record<string, string> = {
               <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-900">
                 <td class="py-3 pl-4 font-medium text-zinc-700 dark:text-zinc-300">{row[0]}</td>
                 <td class="px-4 py-3 font-medium text-left">{row[1]}</td>
-                <td class="py-3 text-zinc-600 dark:text-zinc-400 text-right">{row[2]}</td>
+                <td class="px-3 py-3 text-zinc-600 dark:text-zinc-400 text-right">{row[2]}</td>
               </tr>
             ))}
           </tbody>
@@ -112,21 +112,15 @@ const iconPaths: Record<string, string> = {
         <h2 class="mb-3 font-semibold text-3xl sm:text-4xl tracking-tight">{cloud_page.pricing_faq.title}</h2>
         <p class="text-zinc-600 dark:text-zinc-400">{cloud_page.pricing_faq.subtitle}</p>
       </div>
-      <div class="space-y-3">
-        {cloud_page.pricing_faq.items.map((item) => (
-          <details class="group border border-zinc-200 hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600 rounded-[4px] overflow-hidden">
-            <summary class="flex justify-between items-center gap-4 px-5 py-4 font-medium text-zinc-800 dark:text-zinc-200 transition-colors cursor-pointer list-none">
-              <span class="text-sm">{item.q}</span>
-              <svg class="w-5 h-5 text-zinc-500 dark:text-zinc-400 group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </summary>
-            <div class="px-5 pt-1 pb-5 border-zinc-200 dark:border-zinc-800 border-t text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
-              {item.a}
-            </div>
-          </details>
-        ))}
+      {cloud_page.pricing_faq.items.map((item) => (
+      <div class="collapse collapse-arrow bg-base-100 my-3 border border-base-300">
+        <input type="checkbox" class="peer" />
+        <div class="collapse-title">{item.q}</div>
+        <div class="collapse-content px-5 text-zinc-600 dark:text-zinc-400 text-sm">
+          {item.a}
+        </div>
       </div>
+      ))}
     </div>
   </section>
 </BaseLayout>
