@@ -36,8 +36,10 @@ Here are some key features and benefits:
 4. Install [Para CLI](https://github.com/Erudika/para-cli) with `npm install -g para-cli`
 5. Create a new dedicated app for your project and save the access keys:
     ```bash
-    # run setup and set endpoint to either 'http://localhost:8080' or 'https://paraio.com'
-    # the keys for the root app are inside para-application.conf
+    # Run setup and set endpoint: 
+    # 'http://localhost:8080' or 'https://paraio.com'
+    # Then enter the keys for the root app.
+    # Keys are saved in para-application.conf
     $ para-cli setup
     $ para-cli new-app "myapp" --name "My App"
     ```
@@ -61,16 +63,17 @@ Choose one of the official Para clients, available for the following platforms:
 The Java, JavaScript and Android Para client libraries have asynchronous versions of every API method.
 The rest of the client libraries only have synchronous methods. Here's the matrix of all supported features, for each client:
 
-|                          | Emails  | Files  | Async methods| Websockets (planned) |
-|--------------------------|---------|--------|--------------|---------------|
-| para-client-java         | ✅      | ❌     | ✅          |  ❌           |
-| para-client-csharp       | ❌      | ❌     | ❌          |  ❌           |
-| para-client-js           | ❌      | ❌     | ✅          |  ❌           |
-| para-client-python       | ❌      | ❌     | ❌          |  ❌           |
-| para-client-php          | ❌      | ❌     | ❌          |  ❌           |
-| para-client-android      | ❌      | ❌     | ✅          |  ❌           |
-| para-client-ios          | ❌      | ❌     | ❌          |  ❌           |
+|                          | Emails  | Async methods  | Files * | Websockets * |
+|--------------------------|---------|----------------|---------|--------------|
+| para-client-csharp       | ❌      | ❌             | ❌      |  ❌         |  
+| para-client-js           | ❌      | ✅             | ❌      |  ❌         |  
+| para-client-java         | ✅      | ✅             | ❌      |  ❌         |  
+| para-client-python       | ❌      | ❌             | ❌      |  ❌         |  
+| para-client-php          | ❌      | ❌             | ❌      |  ❌         |  
+| para-client-android      | ❌      | ✅             | ❌      |  ❌         |  
+| para-client-ios          | ❌      | ❌             | ❌      |  ❌         |  
 
+<i class="text-gray-400">* planned features</i>
 
 In certain environments like serverless (AWS Lambda, CloudFlare Workers, etc.) the environment restricts code to run on a single thread.
 In those cases, applications connecting to Para with a client must not use async functions or set `para.executor_service_enabled = false`.

@@ -1,29 +1,84 @@
 ---
-import siteData from '../data/site-data.json';
-const { theme } = siteData;
+import siteData from "../data/site-data.json";
+const { footer, theme } = siteData;
 ---
 
 <button
   type="button"
+  id="theme-toggle"
   data-theme-toggle
-  aria-label={theme.toggle}
-  title={theme.toggle}
   class="px-2.5 py-1 border border-zinc-300 hover:border-zinc-500 dark:border-zinc-700 dark:hover:border-zinc-500 rounded-[4px] w-fit max-h-8 font-mono text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 dark:text-zinc-400 text-xs transition-colors cursor-pointer"
+  aria-label={theme.themeLabel}
+  title={theme.themeLabel}
 >
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline mr-2 h-4"><title>brightness-4</title><path d="M12,18C11.11,18 10.26,17.8 9.5,17.45C11.56,16.5 13,14.42 13,12C13,9.58 11.56,7.5 9.5,6.55C10.26,6.2 11.11,6 12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31L23.31,12L20,8.69Z" /></svg>
-  <span class="dark:hidden">{theme.dark}</span>
-  <span class="hidden dark:inline">{theme.light}</span>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="inline mr-2 h-4"
+    ><title>brightness-4</title><path
+      d="M12,18C11.11,18 10.26,17.8 9.5,17.45C11.56,16.5 13,14.42 13,12C13,9.58 11.56,7.5 9.5,6.55C10.26,6.2 11.11,6 12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31L23.31,12L20,8.69Z"
+    ></path>
+  </svg>
+  <span>
+    {theme.labelSystem}
+  </span>
 </button>
 
-<script>
-  document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const root = document.documentElement;
-      const dark = !root.classList.contains('dark');
-      root.classList.toggle('dark', dark);
-      root.dataset.theme = dark ? 'dark' : 'light';
-      // Same storage key Starlight uses, so the whole site stays in sync.
-      localStorage.setItem('starlight-theme', dark ? 'dark' : 'light');
+<script define:vars={{ theme }}>
+  const themeConfig = theme;
+  const themeToggle = document.getElementById("theme-toggle");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const getPreferredTheme = () => {
+    const stored = localStorage.getItem(themeConfig.storageKey);
+    if (stored === themeConfig.light || stored === themeConfig.dark) {
+      return stored;
+    }
+    return prefersDark ? themeConfig.dark : themeConfig.light;
+  };
+
+  const applyTheme = (nextTheme, label) => {
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    if (themeToggle) {
+      themeToggle.getElementsByTagName("span")[0].textContent = label;
+    }
+  };
+
+  const syncTheme = () => {
+    const nextTheme = getPreferredTheme();
+    const label = localStorage.getItem(themeConfig.storageKey)
+      ? nextTheme === themeConfig.dark
+        ? themeConfig.labelDark
+        : themeConfig.labelLight
+      : themeConfig.labelSystem;
+    applyTheme(nextTheme, label);
+  };
+
+  syncTheme();
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", () => {
+      if (!localStorage.getItem(themeConfig.storageKey)) {
+        syncTheme();
+      }
     });
-  });
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const current =
+        document.documentElement.getAttribute("data-theme") ||
+        themeConfig.light;
+      const nextTheme =
+        current === themeConfig.dark ? themeConfig.light : themeConfig.dark;
+      localStorage.setItem(themeConfig.storageKey, nextTheme);
+      applyTheme(
+        nextTheme,
+        nextTheme === themeConfig.dark
+          ? themeConfig.labelDark
+          : themeConfig.labelLight,
+      );
+    });
+  }
 </script>

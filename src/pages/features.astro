@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import CTA from '../components/CTAParaCloud.astro';
-import { Image } from 'astro:assets';
-import { features, features_page } from '../data/site-data.json';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CTA from "../components/CTAParaCloud.astro";
+import { Image } from "astro:assets";
+import { features, features_page } from "../data/site-data.json";
 
 interface FeatureItem {
   title: string;
@@ -12,12 +12,12 @@ interface FeatureItem {
   image?: number;
 }
 
-const allFeatures = [...(features.items as FeatureItem[]), ...(features_page.extra as FeatureItem[])];
+const allFeatures = features.items as FeatureItem[];
 const categories = features_page.categories.map((cat) => ({
   ...cat,
   features: cat.items.map((index) => {
     const feature = allFeatures[index];
-    return { ...feature, imageIndex: feature.image ?? index + 1 };
+    return { ...feature, imageIndex: index + 1 };
   }),
 }));
 ---
@@ -30,10 +30,14 @@ const categories = features_page.categories.map((cat) => ({
   <section class="section-padding">
     <div class="mx-auto px-6 sm:px-8 max-w-6xl text-center">
       <!-- <p class="mb-6 chip">{features_page.badge}</p> -->
-      <h1 class="mx-auto mb-5 max-w-3xl font-semibold text-4xl sm:text-5xl lg:text-6xl text-balance tracking-tight">
+      <h1
+        class="mx-auto mb-5 max-w-3xl font-semibold text-4xl sm:text-5xl lg:text-6xl text-balance tracking-tight"
+      >
         {features_page.title}
       </h1>
-      <p class="mx-auto max-w-2xl text-zinc-600 dark:text-zinc-400 text-lg leading-relaxed">
+      <p
+        class="mx-auto max-w-2xl text-zinc-600 dark:text-zinc-400 text-lg leading-relaxed"
+      >
         {features_page.subtitle}
       </p>
     </div>
@@ -42,34 +46,56 @@ const categories = features_page.categories.map((cat) => ({
   <!-- Screenshots: add feature images here later. -->
 
   <!-- Feature categories -->
-  {categories.map((cat) => (
-    <section class="border-zinc-200 dark:border-zinc-800 border-t section-padding">
-      <div class="section-shell">
-        <h2 class="font-mono font-semibold text-brand-600 dark:text-brand-400 text-sm uppercase tracking-widest">{cat.name}</h2>
-        <div class="gap-6 grid sm:grid-cols-2 lg:grid-cols-3 mt-8">
-          {cat.features.map((feature) => (
-            <div class="card">
-              <div class="mb-5">
-                <Image src={import(`../images/feature${String(feature.imageIndex)}-light.png`)} alt="" loading="lazy" class="dark:hidden w-24"/>
-                <Image src={import(`../images/feature${String(feature.imageIndex)}-dark.png`)} alt="" loading="lazy" class="hidden dark:block w-24"/>
-              </div>
-              <h3 class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
-                {feature.title}
-              </h3>
-              <p class="mt-3 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">{feature.body}</p>
-              {feature.chips && (
-                <div class="flex flex-wrap gap-2 mt-4">
-                  {feature.chips.map((chip) => (
-                    <span class="chip">{chip}</span>
-                  ))}
+  {
+    categories.map((cat) => (
+      <section class="border-zinc-200 dark:border-zinc-800 border-t section-padding">
+        <div class="section-shell">
+          <h2 class="font-mono font-semibold text-sm uppercase tracking-widest">
+            {cat.name}
+          </h2>
+          <div class="gap-6 grid sm:grid-cols-2 lg:grid-cols-3 mt-8">
+            {cat.features.map((feature, i) => (
+              <div class="group relative card">
+                <div class="mb-5">
+                  <Image
+                    src={import(`../images/feature${String(feature.imageIndex)}-light.png`)}
+                    alt=""
+                    loading="lazy"
+                    class="dark:hidden w-16"
+                    style="image-rendering: pixelated;"
+                  />
+                  <Image
+                    src={import(`../images/feature${String(feature.imageIndex)}-dark.png`)}
+                    alt=""
+                    loading="lazy"
+                    class="hidden dark:block w-16"
+                    style="image-rendering: pixelated;"
+                  />
                 </div>
-              )}
-            </div>
-          ))}
+                <div
+                  class="absolute inset-0 opacity-0 group-hover:opacity-100 text-zinc-500/20 dark:text-zinc-500/20 transition-opacity dither"
+                  aria-hidden="true"
+                />
+                <h3 class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
+                  {feature.title}
+                </h3>
+                <p class="mt-3 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
+                  {feature.body}
+                </p>
+                {feature.chips && (
+                  <div class="flex flex-wrap gap-2 mt-4">
+                    {feature.chips.map((chip) => (
+                      <span class="chip">{chip}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  ))}
+      </section>
+    ))
+  }
 
   <CTA />
 </BaseLayout>

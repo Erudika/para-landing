@@ -26,7 +26,7 @@ Para is a stateless, schemaless backend with a REST API over pluggable persisten
 
 ### Persistence, search, and cache
 
-- [DAO and database integrations](/docs/data-stores/dao/): choose a persistence implementation.
+- [DAO and database integrations](/docs/data-stores/dao-interface/): choose a persistence implementation.
 - [Search](/docs/search/search-interface/): configure the search layer.
 - [Cache](/docs/cache/cache-interface/): configure the cache layer.
 
@@ -35,16 +35,12 @@ Para is a stateless, schemaless backend with a REST API over pluggable persisten
 - [REST API authentication](/docs/security/rest-api-authentication/): sign API requests and use JWT.
 - [Integrations](/docs/integrations/queue/): connect queues, storage, email, and filters.
 - [MCP server](/docs/getting-started/mcp-server/): connect AI clients to Para.
-- [Plugins](/docs//plugins/plugins/): add optional Para modules.
+- [Plugins](/docs/plugins/plugins/): add optional Para modules.
 
-### REST API reference
+### Configuration and API reference
 
-- [API overview](/docs/api/): authentication, fields, and request conventions.
-- [Objects](/docs/api/objects/create/): create, read, update, and delete objects.
-- [Search](/docs/api/search/basic-search/): basic and advanced search endpoints.
-- [Authentication](/docs/api/authentication/sign-in/): sign in, refresh, and revoke JWTs.
-- [Permissions](/docs/api/permissions/check/): check and change resource permissions.
-- Browse all endpoint groups in the [REST API sidebar](/docs/api/).
+- [Para API explorer](/docs/reference/para-api/): browse all API endpoints
+- [Configuration reference](/docs/reference/configuration/): full configuration reference
 
 
 ## Quickstart
@@ -337,7 +333,7 @@ Para is hosted on Maven Central. To add it to your project just include this int
 
 #### Gradle
 
-```gradle
+```groovy
 implementation("com.erudika:para-server:{VERSION}")
 ```
 
@@ -355,7 +351,7 @@ For building Para client applications, use the Para client library:
 
 #### Gradle
 
-```gradle
+```groovy
 implementation("com.erudika:para-client:{VERSION}")
 ```
 

@@ -11,7 +11,7 @@ The Para MCP server exposes Para's backend services over the Model Context Proto
 enabling AI assistants like Claude to interact with your Para backend for configuration management,
 data operations, and full-text search.
 
-## 1. Enable the MCP Server in Para
+## Step 1: Enable the MCP Server in Para
 
 The MCP server is disabled by default. To enable the Para MCP server, choose either 
 "r" for read-only mode, or "rw" for full access, then add this to your `para-application.conf`:
@@ -29,7 +29,7 @@ para.mcp_server_mode = "rw"
 | **Read-only** | `r` | Only read operations allowed (recommended for production) |
 | **Read+Write** | `rw` | Full CRUD access including create/update/delete operations |
 
-## 2. Get Your Para App Bearer Token
+## Step 2: Get Your Para App Bearer Token
 
 The MCP server requires authentication using a JWT Bearer token (see 'super tokens' below).
 
@@ -54,7 +54,7 @@ The MCP server requires authentication using a JWT Bearer token (see 'super toke
 
 </Steps>
 
-## 3. Configure Your MCP Client
+## Step 3: Configure Your MCP Client
 
 **Claude Desktop and Claude Code**
 
@@ -81,7 +81,7 @@ Add this configuration to your MCP settings file:
 }
 ```
 
-## 4. Test the Connection
+## Step 4: Test the Connection
 
 Restart your MCP client (Claude Desktop/Code) and verify the connection.
 Usually the commands are `/mcp refresh` and `/mcp list`. You should see Para as an MCP server.

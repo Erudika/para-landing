@@ -6,17 +6,17 @@ const { cloud } = siteData;
 
 <section class="bg-cover border-zinc-200 dark:border-zinc-800 border-t section-padding" style={`background-image: url(${herobg.src});`}>
   <div class="section-shell">
-    <div class="relative bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[4px] overflow-hidden">
+    <div class="relative bg-zinc-100 dark:bg-zinc-900 opacity-90 border border-zinc-200 dark:border-zinc-800 rounded-[4px] overflow-hidden">
       <div class="top-0 absolute inset-x-0 h-6 text-zinc-400/30 dark:text-zinc-500/20 dither" aria-hidden="true"></div>
       <div class="relative lg:items-center gap-10 grid lg:grid-cols-[2fr_1fr] py-12 section-shell" >
         <div>
           <!-- <p class="chip">{cloud.badge}</p> -->
           <h2 class="mt-4 font-semibold text-3xl sm:text-4xl tracking-tight">{cloud.headline}</h2>
-          <p class="mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-400">{cloud.subtext}</p>
+          <p class="mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-100">{cloud.subtext}</p>
           <ul class="space-y-2 mt-6">
             {
               cloud.points.map((point) => (
-                <li class="flex items-start gap-3 text-zinc-700 dark:text-zinc-300 text-sm">
+                <li class="flex items-start gap-3 text-zinc-700 dark:text-zinc-100 text-sm">
                   <span class="mt-0.5 font-mono text-brand-600 dark:text-brand-400 text-xs" aria-hidden="true">
                     {cloud.marker}
                   </span>
@@ -28,7 +28,7 @@ const { cloud } = siteData;
         </div>
         <div class="flex flex-col items-start lg:items-end gap-3">
           <a href={cloud.cta.href} class="btn-primary">{cloud.cta.text}</a>
-          <p class="font-mono text-zinc-600 dark:text-zinc-500 text-xs">{cloud.note}</p>
+          <p class="font-mono text-zinc-600 dark:text-zinc-400 text-xs">{cloud.note}</p>
         </div>
       </div>
     </div>

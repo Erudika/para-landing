@@ -5,88 +5,89 @@
 <div class="ascii-dither-phc9x0">
   <canvas width="512" height="512" role="img" aria-label="Animated monochrome ASCII rendering of Para logo"></canvas>
   <script>
-(function () {
-  'use strict';
-  // Find our own canvas, so the block can be pasted several times on one page.
-  var script = document.currentScript;
-  var root = (script && script.parentNode) || document.querySelector('.ascii-dither-phc9x0');
-  var canvas = root.querySelector('canvas');
-  var TRANSPARENT = true;
-  var ctx = canvas.getContext('2d', { alpha: TRANSPARENT });
-  var WIDTH = 512, HEIGHT = 512;
-  var CELL = 12, CELL_W = 7.44, CELL_H = 13.44;
-  var COLS = 69, ROWS = 39;
-  var RAMP = ' .,:-~=+*#%@';
-  var GLOW = false;
-  var WAVE_RATE = 1.256637, RIPPLE_RATE = 0.628319;
-  
-  var SAMPLES = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADX/v/////////////////6yAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD5/////////////////////////////+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzv//////////////////////////////////+wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM7D7/////wBZ//////////////////////////////////////9OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABd///////////////U////////////////////////////////////////MwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//////////////////////////////////////////////////////////+QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v///////////////////////////////////////////////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAADV/////////////////////////////////////////////////////////////zEAAAAAAAAAAAAAAAAAAAAAAAAAAAD//////////////////////////////////////////////////////////////04AAAAAAAAAAAAAAAAAAAAAAAAAAC3/////////////////AAAAAAAAAAAAAP//////AAAAAAAAAAAAAP///////////2QAAAAAAAAAAAAAAAAAAAAAAAAAAHf///////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD//////////24AAAAAAAAAAAAAAAAAAAAAAAAAALr///////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD//////////3EAAAAAAAAAAAAAAAAAAAAAAAAAAOj///////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD///////////+HAAAAAAAAAAAAAAAAAAAAAAAAAPr/////////////////AAAAAAAAAAAAAP//////AAAAAAAAAAAAAP//////////////////AAAAAAAAAAAAAAAAAAAAAP///////////////////wAAAAAAAAD//////////wAAAAAAAAAA/////////////////////wAAAAAAAAAAAAAAAAAAAP///////////////////////////////////////////////////////////////////////+UAAAAAAAAAAAAAAAAAAP////////////////////////////////////////////////////////////////////////YAAAAAAAAAAAAAAAAAAP///////////////////wAAAAAAAAAA/////////wAAAAAAAAAA//////////////////////gAAAAAAAAAAAAAAAAAAP////////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAP////////////////////gAAAAAAAAAAAAAAAAAAP////////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD///////////////////gAAAAAAAAAAAAAAAAAAP////////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD///////////////////gAAAAAAAAAAAAAAAAAAPf///////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD///////////////////AAAAAAAAAAAAAAAAAAAG3/////////////////AAAAAAAAAAAAAP//////AAAAAAAAAAAAAP///////////////////wAAAAAAAAAAAAAAAAAAAAD/////////////////////////////////////////////////////////////////////8gAAAAAAAAAAAAAAAAAAAAAA///////////////////////////////////////////////////////////////////6AAAAAAAAAAAAAAAAAAAAAAAAAP///////////////////////////////////////////////////////////////3wAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7P////////////////////////////////////////////////////////9IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYun/////////////////////////////////////////////+HIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEv6///////////////////////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACE/f/////////////////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9//////////////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPn////////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKL////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADd///rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    (function () {
+      'use strict';
+      // Find our own canvas, so the block can be pasted several times on one page.
+      var script = document.currentScript;
+      var root = (script && script.parentNode) || document.querySelector('.ascii-dither-phc9x0');
+      var canvas = root.querySelector('canvas');
+      var TRANSPARENT = true;
+      var ctx = canvas.getContext('2d', { alpha: TRANSPARENT });
+      var WIDTH = 512, HEIGHT = 512;
+      var CELL = 12, CELL_W = 7.44, CELL_H = 13.44;
+      var COLS = 69;
+      var RAMP = ' .,:-~=+*#%@';
+      var GLOW = false;
+      var WAVE_RATE = 1.256637
+      var RIPPLE_RATE = 0.628319;
+      
+      var SAMPLES = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADX/v/////////////////6yAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD5/////////////////////////////+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzv//////////////////////////////////+wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM7D7/////wBZ//////////////////////////////////////9OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABd///////////////U////////////////////////////////////////MwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//////////////////////////////////////////////////////////+QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v///////////////////////////////////////////////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAADV/////////////////////////////////////////////////////////////zEAAAAAAAAAAAAAAAAAAAAAAAAAAAD//////////////////////////////////////////////////////////////04AAAAAAAAAAAAAAAAAAAAAAAAAAC3/////////////////AAAAAAAAAAAAAP//////AAAAAAAAAAAAAP///////////2QAAAAAAAAAAAAAAAAAAAAAAAAAAHf///////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD//////////24AAAAAAAAAAAAAAAAAAAAAAAAAALr///////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD//////////3EAAAAAAAAAAAAAAAAAAAAAAAAAAOj///////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD///////////+HAAAAAAAAAAAAAAAAAAAAAAAAAPr/////////////////AAAAAAAAAAAAAP//////AAAAAAAAAAAAAP//////////////////AAAAAAAAAAAAAAAAAAAAAP///////////////////wAAAAAAAAD//////////wAAAAAAAAAA/////////////////////wAAAAAAAAAAAAAAAAAAAP///////////////////////////////////////////////////////////////////////+UAAAAAAAAAAAAAAAAAAP////////////////////////////////////////////////////////////////////////YAAAAAAAAAAAAAAAAAAP///////////////////wAAAAAAAAAA/////////wAAAAAAAAAA//////////////////////gAAAAAAAAAAAAAAAAAAP////////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAP////////////////////gAAAAAAAAAAAAAAAAAAP////////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD///////////////////gAAAAAAAAAAAAAAAAAAP////////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD///////////////////gAAAAAAAAAAAAAAAAAAPf///////////////8AAAAAAAAAAAAAAP//////AAAAAAAAAAAAAAD///////////////////AAAAAAAAAAAAAAAAAAAG3/////////////////AAAAAAAAAAAAAP//////AAAAAAAAAAAAAP///////////////////wAAAAAAAAAAAAAAAAAAAAD/////////////////////////////////////////////////////////////////////8gAAAAAAAAAAAAAAAAAAAAAA///////////////////////////////////////////////////////////////////6AAAAAAAAAAAAAAAAAAAAAAAAAP///////////////////////////////////////////////////////////////3wAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7P////////////////////////////////////////////////////////9IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYun/////////////////////////////////////////////+HIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEv6///////////////////////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACE/f/////////////////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9//////////////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPn////////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKL////////rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADd///rAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 
-  var decoded = atob(SAMPLES);
-  var mask = new Uint8Array(decoded.length);
-  for (var i = 0; i < decoded.length; i++) mask[i] = decoded.charCodeAt(i);
+      var decoded = atob(SAMPLES);
+      var mask = new Uint8Array(decoded.length);
+      for (var i = 0; i < decoded.length; i++) mask[i] = decoded.charCodeAt(i);
 
-  var wavePhase = 0, ripplePhase = 0, last = 0, running = true;
+      var wavePhase = 0, ripplePhase = 0, last = 0, running = true;
 
-  function render() {
-    var WHITE_TEXT = document.getElementsByTagName("html")[0].getAttribute("data-theme") === 'dark';
-    var BACKGROUND = WHITE_TEXT ? '#050505' : '#f5f5f5';
-    if (TRANSPARENT) ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    else {
-      ctx.fillStyle = BACKGROUND;
-      ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    }
-    ctx.textBaseline = 'top';
-    ctx.font = CELL + 'px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
-    if (GLOW) {
-      ctx.shadowBlur = 1;
-      ctx.shadowColor = WHITE_TEXT ? 'rgba(210,210,210,.18)' : 'rgba(0,0,0,.18)';
-    } else {
-      ctx.shadowBlur = 0;
-    }
-    var row = 0;
-    for (var y = 0; y < HEIGHT; y += CELL_H) {
-      var col = 0;
-      for (var x = 0; x < WIDTH; x += CELL_W) {
-        var a = mask[row * COLS + col] / 255;
-        col += 1;
-        if (a < .15) continue;
-        var wave = Math.sin(x * .014 + y * .009 - wavePhase);
-        var ripple = Math.sin(x * .055 + y * .037 + ripplePhase);
-        var grain = Math.sin((x + y) * .21) * .12;
-        var intensity = Math.max(0, Math.min(1, .52 + wave * .25 + ripple * .16 + grain));
-        var gray = WHITE_TEXT ? Math.round(105 + intensity * 150) : Math.round(150 - intensity * 150);
-        ctx.fillStyle = 'rgba(' + gray + ',' + gray + ',' + gray + ',' + Math.min(1, a * 1.7) + ')';
-        ctx.fillText(RAMP.charAt(Math.min(RAMP.length - 1, Math.floor(intensity * (RAMP.length - 1)))), x, y);
+      function render() {
+        var WHITE_TEXT = document.getElementsByTagName("html")[0].getAttribute("data-theme") === 'dark';
+        var BACKGROUND = WHITE_TEXT ? '#050505' : '#f5f5f5';
+        if (TRANSPARENT) ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        else {
+          ctx.fillStyle = BACKGROUND;
+          ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        }
+        ctx.textBaseline = 'top';
+        ctx.font = CELL + 'px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+        if (GLOW) {
+          ctx.shadowBlur = 1;
+          ctx.shadowColor = WHITE_TEXT ? 'rgba(210,210,210,.18)' : 'rgba(0,0,0,.18)';
+        } else {
+          ctx.shadowBlur = 0;
+        }
+        var row = 0;
+        for (var y = 0; y < HEIGHT; y += CELL_H) {
+          var col = 0;
+          for (var x = 0; x < WIDTH; x += CELL_W) {
+            var a = mask[row * COLS + col] / 255;
+            col += 1;
+            if (a < .15) continue;
+            var wave = Math.sin(x * .014 + y * .009 - wavePhase);
+            var ripple = Math.sin(x * .055 + y * .037 + ripplePhase);
+            var grain = Math.sin((x + y) * .21) * .12;
+            var intensity = Math.max(0, Math.min(1, .52 + wave * .25 + ripple * .16 + grain));
+            var gray = WHITE_TEXT ? Math.round(105 + intensity * 150) : Math.round(150 - intensity * 150);
+            ctx.fillStyle = 'rgba(' + gray + ',' + gray + ',' + gray + ',' + Math.min(1, a * 1.7) + ')';
+            ctx.fillText(RAMP.charAt(Math.min(RAMP.length - 1, Math.floor(intensity * (RAMP.length - 1)))), x, y);
+          }
+          row += 1;
+        }
       }
-      row += 1;
-    }
-  }
 
-  function step(now) {
-    if (!running) return;
-    var delta = last ? Math.min(40, now - last) / 1000 : 0;
-    last = now;
-    wavePhase += delta * WAVE_RATE;
-    ripplePhase += delta * RIPPLE_RATE;
-    render();
-    requestAnimationFrame(step);
-  }
-
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    render();
-    return;
-  }
-  if (typeof IntersectionObserver === 'function') {
-    new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) {
-        if (!running) { running = true; last = 0; requestAnimationFrame(step); }
-      } else {
-        running = false;
+      function step(now) {
+        if (!running) return;
+        var delta = last ? Math.min(40, now - last) / 1000 : 0;
+        last = now;
+        wavePhase += delta * WAVE_RATE;
+        ripplePhase += delta * RIPPLE_RATE;
+        render();
+        requestAnimationFrame(step);
       }
-    }, { rootMargin: '120px' }).observe(canvas);
-  }
-  requestAnimationFrame(step);
-})();
+
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        render();
+        return;
+      }
+      if (typeof IntersectionObserver === 'function') {
+        new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) {
+            if (!running) { running = true; last = 0; requestAnimationFrame(step); }
+          } else {
+            running = false;
+          }
+        }, { rootMargin: '120px' }).observe(canvas);
+      }
+      requestAnimationFrame(step);
+    })();
   </script>
 </div>

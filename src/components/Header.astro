@@ -1,11 +1,11 @@
 ---
 import siteData from "../data/site-data.json";
-const { nav, hero } = siteData;
+const { nav, cta } = siteData;
 import ParaLogo from "./ParaLogo.astro";
 ---
 
 <header
-  class="top-0 z-30 sticky bg-zinc-50/90 dark:bg-zinc-950/90 backdrop-blur border-zinc-200 dark:border-zinc-800 border-b"
+  class="top-0 z-30 sticky bg-zinc-50/90 dark:bg-zinc-950/90 backdrop-blur border-zinc-200 dark:border-zinc-700 border-b"
 >
   <div
     class="flex justify-between items-center gap-4 px-8 h-16 container-base navbar"
@@ -33,7 +33,7 @@ import ParaLogo from "./ParaLogo.astro";
               <li>
               <a
                 href={link.href}
-                class="font-mono text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 dark:text-zinc-400 text-sm transition-colors"
+                class="font-mono text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 dark:text-zinc-200 text-sm transition-colors"
                 {...(link.href.startsWith("http")
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
@@ -60,7 +60,7 @@ import ParaLogo from "./ParaLogo.astro";
               <li>
               <a
                 href={link.href}
-                class="font-mono text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 dark:text-zinc-400 text-sm transition-colors"
+                class="font-mono text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 dark:text-zinc-200 text-sm transition-colors"
                 {...(link.href.startsWith("http")
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
@@ -73,7 +73,7 @@ import ParaLogo from "./ParaLogo.astro";
       </ul>
     </div>
     <div class="max-sm:hidden navbar-end">
-      <a href={hero.primaryCta.href} class="btn btn-ghost">{hero.primaryCta.text}</a>
+      <a href={cta.primaryCta.href} class="btn btn-ghost">{cta.primaryCta.text}</a>
     </div>
   </div>
 </header>

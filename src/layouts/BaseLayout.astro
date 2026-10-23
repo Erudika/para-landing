@@ -27,15 +27,14 @@ const canonical = canonicalUrl ?? new URL(Astro.url.pathname, site.url).toString
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script is:inline>
-      // Theme: follow stored choice (Starlight-compatible key), else system preference.
-      // Sets both signals: .dark class (landing styles) and data-theme (Starlight docs styles).
+      // Theme: follow the stored choice (Starlight-compatible key), else system preference.
+      // data-theme is the single signal read by Tailwind, daisyUI and Starlight.
       (() => {
         const stored = localStorage.getItem('starlight-theme');
         const dark =
           stored === 'dark' || stored === 'light'
             ? stored === 'dark'
             : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.classList.toggle('dark', dark);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
       })();
     </script>
@@ -48,9 +47,21 @@ const canonical = canonicalUrl ?? new URL(Astro.url.pathname, site.url).toString
     />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
   </head>
-  <body class="flex min-h-screen flex-col antialiased">
+  <body class="flex flex-col min-h-screen antialiased">
     <Header />
     <main class="flex-1"><slot /></main>
     <Footer />
+
+    <script define:vars={{ isDev: import.meta.env.DEV }}>
+      if ("serviceWorker" in navigator) {
+        if (isDev) {
+          navigator.serviceWorker
+            .getRegistrations()
+            .then((regs) => regs.forEach((r) => r.unregister()));
+        } else {
+          navigator.serviceWorker.register("/sw.js");
+        }
+      }
+    </script>
   </body>
 </html>

@@ -61,7 +61,7 @@ const { comparison } = siteData;
         </tbody>
       </table>
     </div>
-    <p class="mt-4 w-fit text-zinc-600 dark:text-zinc-400">{comparison.jab}</p>
+    <p class="mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-400">{comparison.jab}</p>
 
     {comparison.questions.map((item, i) =>  (
       <div class="collapse collapse-arrow bg-base-100 my-3 border border-base-300">
@@ -72,14 +72,5 @@ const { comparison } = siteData;
         </div>
       </div>
       ))}
-
-
-    <!-- <ul class="mt-2 text-zinc-700 dark:text-zinc-300">
-      {
-        comparison.questions.map((q, i) => 
-          <li class="list-disc list-inside">{q}</li>
-        )
-      }
-    </ul> -->
   </div>
 </section>

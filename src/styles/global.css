@@ -2,4 +2,87 @@
   themes: light --default, dark --prefersdark;
 }
 
+/* daisyUI tokens follow the same zinc + brand palette as Tailwind and Starlight.
+   Built-in themes are inherited, and only the tokens that differ are overridden. */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #ffffff;
+  --color-base-200: #fafafa;
+  --color-base-300: #e4e4e7;
+  --color-base-content: #18181b;
+
+  --color-primary: #0ea9e6;
+  --color-primary-content: #09090b;
+  --color-secondary: #52525b;
+  --color-secondary-content: #fafafa;
+  --color-accent: #eab308;
+  --color-accent-content: #09090b;
+  --color-neutral: #18181b;
+  --color-neutral-content: #fafafa;
+
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.25rem;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #18181b;
+  --color-base-200: #09090b;
+  --color-base-300: #27272a;
+  --color-base-content: #f4f4f5;
+
+  --color-primary: #31c7ff;
+  --color-primary-content: #09090b;
+  --color-secondary: #a1a1aa;
+  --color-secondary-content: #09090b;
+  --color-accent: #facc15;
+  --color-accent-content: #09090b;
+  --color-neutral: #27272a;
+  --color-neutral-content: #f4f4f5;
+
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.25rem;
+  --depth: 0;
+  --noise: 0;
+}
+
 @import "./starlight.css";
+
+.cookie-consent {
+  position: fixed;
+  bottom: 80px;
+  left: 20px;
+  width: 275px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: inherit;
+  border: 1px solid #ccc;
+  color: inherit;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.cookie-consent--visible {
+  opacity: 1;
+  pointer-events: auto;
+}

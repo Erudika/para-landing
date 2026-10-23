@@ -3,10 +3,11 @@
 @plugin "@tailwindcss/typography";
 
 
-/* Dark mode: class-based on the landing site, data-theme on Starlight docs pages.
-   Both signals are kept in sync by the toggle + init script. */
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
-@custom-variant light (&:where(.light, .light *, [data-theme="light"], [data-theme="light"] *));
+/* One theme signal for the whole site: <html data-theme="light|dark">.
+   Tailwind, daisyUI and Starlight all read the same attribute, so their
+   palettes cannot drift apart. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
 
 @theme {
@@ -50,7 +51,6 @@
     -webkit-font-smoothing: antialiased;
     color-scheme: light;
   }
-  html.dark,
   html[data-theme='dark'] {
     color-scheme: dark;
   }
@@ -86,6 +86,53 @@
   }
 }
 
+/* Starlight surfaces use the same zinc tones as the landing pages.
+   Unlayered so these win over the values from @astrojs/starlight-tailwind. */
+:root,
+[data-theme='dark'] {
+  --sl-color-white: #fafafa;
+  --sl-color-gray-1: #e4e4e7;
+  --sl-color-gray-2: #d4d4d8;
+  --sl-color-gray-3: #a1a1aa;
+  --sl-color-gray-4: #52525b;
+  --sl-color-gray-5: #3f3f46;
+  --sl-color-gray-6: #27272a;
+  --sl-color-gray-7: #18181b;
+  --sl-color-black: #09090b;
+  --sl-color-bg: #09090b;
+  --sl-color-bg-nav: #09090b;
+  --sl-color-bg-sidebar: #09090b;
+  --sl-color-bg-inline-code: #27272a;
+  --sl-color-hairline: #27272a;
+  --sl-color-hairline-light: #3f3f46;
+  --sl-color-accent-low: #073849;
+  --sl-color-accent: #31c7ff;
+  --sl-color-accent-high: #b9e7fe;
+  --sl-color-text-accent: #31c7ff;
+}
+
+[data-theme='light'] {
+  --sl-color-white: #18181b;
+  --sl-color-gray-1: #27272a;
+  --sl-color-gray-2: #3f3f46;
+  --sl-color-gray-3: #71717a;
+  --sl-color-gray-4: #a1a1aa;
+  --sl-color-gray-5: #d4d4d8;
+  --sl-color-gray-6: #e4e4e7;
+  --sl-color-gray-7: #f4f4f5;
+  --sl-color-black: #ffffff;
+  --sl-color-bg: #fafafa;
+  --sl-color-bg-nav: #fafafa;
+  --sl-color-bg-sidebar: #fafafa;
+  --sl-color-bg-inline-code: #e4e4e7;
+  --sl-color-hairline: #e4e4e7;
+  --sl-color-hairline-light: #d4d4d8;
+  --sl-color-accent-low: #dcf3fe;
+  --sl-color-accent: #0a8ab8;
+  --sl-color-accent-high: #073849;
+  --sl-color-text-accent: #0a8ab8;
+}
+
 @layer starlight.base {
   .sl-markdown-content ol {
     list-style: decimal;
@@ -97,6 +144,12 @@
     list-style: disc;
     list-style-position: inside;
   }
+}
+[data-theme='light'] header {
+  border-bottom: 1px solid var(--color-zinc-200);
+}
+[data-theme='dark'] header {
+  border-bottom: 1px solid var(--color-zinc-700);
 }
 
 @layer components {

@@ -119,4 +119,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwind()],
   },
+  experimental: {
+    contentIntellisense: true
+  }
 });

@@ -31,43 +31,22 @@
     ]
   },
   "theme": {
+    "storageKey": "para-theme",
     "light": "light",
     "dark": "dark",
-    "toggle": "Toggle light/dark theme"
+    "labelLight": "Light",
+    "labelDark": "Dark",
+    "labelSystem": "System",
+    "themeLabel": "Theme"
   },
   "hero": {
     "badge": "Our backend-as-a-sevice is here - try <a class=\"underline\" href=\"/cloud-hosting/\">Para Cloud</a> for free!",
     "headline": "A general-purpose backend for the cloud",
-    "subtext": "Para is an open-source, stateless and schemaless backend with a REST API over any database, search index and cache.",
-    "primaryCta": { "text": "Get started", "href": "/docs/" },
-    "secondaryCta": { "text": "Star on GitHub", "href": "https://github.com/Erudika/para" },
-    "quickstart": {
-      "label": "Quickstart",
-      "tabs": [
-        {
-          "id": "curl",
-          "label": "curl",
-          "lines": [
-            "curl -i http://localhost:8080/v1/_health",
-            "",
-            "{\"message\": \"healthy\"}"
-          ]
-        },
-        {
-          "id": "java",
-          "label": "Java client",
-          "lines": [
-            "ParaClient client = new ParaClient(accessKey, secretKey);",
-            "client.setEndpoint(\"http://localhost:8080\");",
-            "client.me();"
-          ]
-        }
-      ]
-    }
+    "subtext": "Para is an open-source, stateless and schemaless backend with a REST API over any database, search index and cache."
   },
   "features": {
     "headline": "Bring your own database. Batteries-included. No schema. No lock-in.",
-    "subtext": "Para is built from swappable layers, not a monolith. Every capability below ships in the core or as a plugin.",
+    "subtext": "Para is built on several swappable layers. Start simple, then make it fit your requirements.",
     "items": [
       {
         "title": "Schemaless objects",
@@ -82,8 +61,8 @@
         "body": "No sticky sessions, no node-local state. Scaling out just requires more nodes, not a re-architecture."
       },
       {
-        "title": "Multitenant apps",
-        "body": "Each App gets its own table, index and cache. Better efficiency and resource utilization."
+        "title": "Multitenancy",
+        "body": "Each Para app is fully isolated and gets its own table, index and cache. Better efficiency and resource utilization."
       },
       {
         "title": "Pluggable modules",
@@ -102,7 +81,55 @@
       {
         "title": "MCP server",
         "body": "A built-in MCP server lets AI agents read and write your data directly, with the same permissions as any client."
+      },
+      {
+        "title": "Full-text search",
+        "body": "Create complex queries using fuzzy matching or boolean logic. Results are ranked and paginated.",
+        "chips": ["lucene", "elasticsearch"]
+      },
+      {
+        "title": "Geoloaction queries",
+        "body": "Find objects by location, prefix or wildcard. ",
+        "chips": ["geo", "wildcard"]
+      },
+      {
+        "title": "Automatic indexing",
+        "body": "Every object is indexed automatically. Fine-tuning allows you to exclude objects from search results."
+      },
+      {
+        "title": "Resource permissions",
+        "body": "Grant read and write access per object or per app. Para applies permissions on every request."
+      },
+      {
+        "title": "Validation constraints",
+        "body": "Grant read and write access per object or per app. Para applies permissions on every request."
+      },
+      {
+        "title": "HTML Form handling",
+        "body": "Add a contact form to your website quickly and securely. Para handles the rest."
+      },
+      {
+        "title": "File storage",
+        "body": "Para supports file uploads using any blob storage provider. Choose between local, S3 or write your own."
+      },
+      {
+        "title": "Transactional emails",
+        "body": "Use the special API endpoint for sending emails and notify your users when an event occurs in your application."
       }
+    ]
+  },
+  "features_page": {
+    "title": "Features",
+    "title_short": "Features",
+    "badge": "PLATFORM",
+    "description": "Para features: schemaless objects, built-in auth, full-text search, caching, webhooks and an MCP server.",
+    "subtitle": "Everything you need to store, search and secure your data, without a schema or a platform team.",
+    "categories": [
+      { "name": "Data", "items": [0, 1, 4] },
+      { "name": "Operations", "items": [2, 3, 6, 7] },
+      { "name": "Search", "items": [8, 9, 10] },
+      { "name": "Security", "items": [5, 11, 12] },
+      { "name": "Integrations", "items": [13, 14, 15] }
     ]
   },
   "comparison": {
@@ -112,7 +139,7 @@
     "rows": [
       { "label": "Databases", "values": ["any (SQL, NoSQL, in-memory)", "PostgreSQL only", "proprietary", "MongoDB"] },
       { "label": "Data model", "values": ["schemaless JSON", "schema + migrations", "proprietary JSON", "schemaless JSON"] },
-      { "label": "Full-text search", "values": ["yes, auto-indexing", "third-party", "yes, manual indexing", "yes, manual indexing"] },
+      { "label": "Full-text search", "values": ["yes, auto-indexing", "tedious, manual indexing", "tedious, manual indexing", "tedious, manual indexing"] },
       { "label": "MCP server for AI agents", "values": ["yes", "yes", "yes", "no"] },
       { "label": "Self-host anywhere", "values": ["yes", "yes", "no", "yes"] },
       { "label": "License", "values": ["Apache-2.0", "Apache-2.0", "Proprietary", "BSD-3 (community)"] }
@@ -505,46 +532,14 @@
     ],
     "note": "Prices exclude EU VAT (not applicable to customers outside the EU). Billing is monthly. Annual billing is available: pay 10 months and get 2 months free. Additional storage and app credits can be purchased at any time."
   },
-  "features_page": {
-    "title": "Features",
-    "title_short": "Features",
-    "badge": "PLATFORM",
-    "description": "Para features: schemaless objects, built-in auth, full-text search, caching, webhooks and an MCP server.",
-    "subtitle": "Everything you need to store, search and secure your data, without a schema or a platform team.",
-    "extra": [
-      {
-        "title": "Full-text search",
-        "body": "Every object is indexed automatically. Query by field, wildcard, geo point or more-like-this.",
-        "chips": ["lucene", "elasticsearch"],
-        "image": 2
-      },
-      {
-        "title": "Geo and wildcard queries",
-        "body": "Find objects by location, prefix or wildcard. Results are ranked and paginated.",
-        "chips": ["geo", "wildcard"],
-        "image": 2
-      },
-      {
-        "title": "Resource permissions",
-        "body": "Grant read and write access per object or per app. Para applies permissions on every request.",
-        "chips": ["acl", "jwt"],
-        "image": 6
-      }
-    ],
-    "categories": [
-      { "name": "Data", "items": [0, 1, 4] },
-      { "name": "Security", "items": [5, 10] },
-      { "name": "Search", "items": [8, 9] },
-      { "name": "Operations", "items": [2, 3, 6, 7] }
-    ]
-  },
   "cta": {
     "headline": "Self-host in minutes",
     "subtext": "One JAR, one config file, any database. The quickstart has you persisting objects before your coffee cools.",
     "docker": "Prefer containers?",
     "dockertext": "Run Para in Docker with one command:",
     "primaryCta": { "text": "Get started", "href": "/docs/getting-started/quickstart/" },
-    "secondaryCta": { "text": "Download the JAR", "href": "https://github.com/Erudika/para/releases" }
+    "secondaryCta": { "text": "Download the JAR", "href": "https://github.com/Erudika/para/releases" },
+    "tetraryCta": { "text": "Star on GitHub", "href": "https://github.com/Erudika/para" }
   },
   "download": {
     "title": "Download Para",
@@ -707,14 +702,16 @@
     "blurb": "the backend for busy developers",
     "credit": "Made in the 🇪🇺 by <a class='link ' href='https://erudika.com'>Erudika</a>",
     "links": [
-      { "text": "Docs", "href": "/docs/" },
+      { "text": "Get started", "href": "/docs/getting-started/quickstart/" },
       { "text": "Features", "href": "/features/" },
+      { "text": "Docs", "href": "/docs/" },
       { "text": "Para Cloud", "href": "/cloud-hosting/" },
-      { "text": "GitHub", "href": "https://github.com/Erudika/para" },
-      { "text": "Legal", "href": "/legal/" },
-      { "text": "Contact", "href": "/imprint/contact-us/" },
+      { "text": "Legal", "href": "/legal/" }
+    ],
+    "links2": [
       { "text": "Imprint", "href": "/imprint/impressum/" },
-      { "text": "🟢 System Status", "href": "https://status.erudika.com" }
+      { "text": "Contact", "href": "/imprint/contact-us/" },
+      { "text": "<i class='text-green-600'>●</i> System Status", "href": "https://status.erudika.com" }
     ],
     "license": "Apache-2.0"
   },
