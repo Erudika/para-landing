@@ -1,10 +1,10 @@
 This privacy notice discloses the privacy practices for ParaIO.com and ParaIO.org. This privacy notice applies solely to information collected by this Website. It will notify you of the following:
 
-  1. What personally identifiable information is collected from you through the Website.
-  2. How it is used and with whom it may be shared.
-  3. What choices are available to you regarding the use of your data.
-  4. The security procedures in place to protect the misuse of your information.
-  5. How you can correct any inaccuracies in the information.
+1. What personally identifiable information is collected from you through the Website.
+2. How it is used and with whom it may be shared.
+3. What choices are available to you regarding the use of your data.
+4. The security procedures in place to protect the misuse of your information.
+5. How you can correct any inaccuracies in the information.
 
 ## Information Collection, Use, and Sharing
 
@@ -18,10 +18,10 @@ Unless you ask us not to, we may contact you via email in the future to tell you
 
 You may opt out of any future contacts from us at any time. You can do the following at any time by contacting us [via email](mailto:support@paraio.com):
 
-  * See what data we have about you, if any.
-  * Change/correct any data we have about you.
-  * Have us delete any data we have about you.
-  * Express any concern you have about our use of your data.
+* See what data we have about you, if any.
+* Change/correct any data we have about you.
+* Have us delete any data we have about you.
+* Express any concern you have about our use of your data.
 
 ## Security
 
@@ -47,10 +47,10 @@ We partner with another party to provide specific services. When the user signs 
 
 The following data items are considered _private data that won't be shared_ with other users, business partners, or the public at large:
 
-  * your email address;
-  * your phone number;
-  * your payment details;
-  * your access tokens or credentials for other services or APIs.
+* your email address;
+* your phone number;
+* your payment details;
+* your access tokens or credentials for other services or APIs.
 
 ## Links
 

@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '@/components/Prose.astro';
+import { site, components, legal } from '../../data/site-data.json';
+import AcceptableUsePolicy from '../../data/aup.md';
+const { aup, effective_date_label } = legal;
+
+const { breadcrumbs } = components;
+const baseUrl = site.url;
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: breadcrumbs.home, item: baseUrl },
+    { "@type": "ListItem", position: 2, name: breadcrumbs.legal, item: `${baseUrl}/legal/` },
+    { "@type": "ListItem", position: 3, name: aup.title, item: `${baseUrl}/legal/acceptable-use-policy/` }
+  ]
+};
+---
+
+<BaseLayout
+  title={aup.title}
+  description={aup.description}
+  jsonLd={[breadcrumbJsonLd]}
+>
+  <section class="section-padding">
+    <div class="mx-auto px-6 sm:px-8 max-w-2xl">
+      <div class="mb-10">
+        <span class="font-mono text-zinc-500 dark:text-zinc-400 text-xs">
+          <a href="/" class="hover:text-brand-600 dark:hover:text-brand-400">{breadcrumbs.home}</a>
+          <span class="mx-1.5 text-zinc-400">/</span>
+          <a href="/legal/" class="hover:text-brand-600 dark:hover:text-brand-400">{breadcrumbs.legal}</a>
+        </span>
+        <h1 class="mt-4 mb-3 font-semibold text-zinc-900 dark:text-zinc-100 text-4xl tracking-tight">{aup.title}</h1>
+        <p class="text-zinc-600 dark:text-zinc-400 text-sm">{effective_date_label}: {aup.effective_date}</p>
+      </div>
+
+      <div class="mt-8 text-zinc-700 dark:text-zinc-300">
+        <Prose klass="prose-sm">
+          <AcceptableUsePolicy/>
+        </Prose>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

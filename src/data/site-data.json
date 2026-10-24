@@ -578,7 +578,7 @@
     "effective_date_label": "Effective date",
     "terms": {
       "title": "Terms of Service",
-      "description": "Terms of Service for Para Cloud, ParaIO.com, and ParaIO.org, operated by Erudika LTD.",
+      "description": "Terms of Service for Para Cloud, ParaIO.com, and ParaIO.org, operated by Erudika.",
       "effective_date": "21 October 2026"
     },
     "privacy": {
@@ -588,8 +588,13 @@
     },
     "dpa": {
       "title": "Data Processing Agreement (DPA)",
-      "description": "Data Processing Agreement for Para Cloud, operated by Erudika LTD.",
+      "description": "Data Processing Agreement for Para Cloud, operated by Erudika.",
       "effective_date": "21 October 2026"
+    },
+    "aup": {
+      "title": "Acceptable Use Policy",
+      "description": "Acceptable Use Policy for Para Cloud, operated by Erudika.",
+      "effective_date": "24 October 2026"
     }
   },
   "legal_index": {
@@ -617,6 +622,11 @@
         "label": "Licenses",
         "href": "/legal/licenses/",
         "description": "The open-source license that covers Para."
+      },
+      {
+        "label": "Acceptable Use Policy",
+        "href": "/legal/acceptable-use-policy/",
+        "description": "This policy defines permitted and prohibited uses of Para Cloud hosting service."
       }
     ]
   },
@@ -700,7 +710,7 @@
   },
   "footer": {
     "blurb": "the backend for busy developers",
-    "credit": "Made in the 🇪🇺 by <a class='link ' href='https://erudika.com'>Erudika</a>",
+    "credit": "Proudly made in the EU 🇪🇺 by <a class='link ' href='https://erudika.com'>Erudika</a>",
     "links": [
       { "text": "Get started", "href": "/docs/getting-started/quickstart/" },
       { "text": "Features", "href": "/features/" },
