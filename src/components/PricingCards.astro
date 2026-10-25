@@ -38,6 +38,7 @@ const { title,pageBlock } = Astro.props;
     <!-- Pricing cards -->
     <div class="gap-6 lg:gap-8 grid md:grid-cols-2 mx-auto max-w-3xl">
       {pageBlock.plans.map((plan) => (
+        <div class:list={plan.popular ? 'aura aura-glow' : ''}>
         <div style={plan.popular ? `background-image: url(${herobg.src});` : ``}
           class:list={[
             'relative rounded-[4px] p-7 flex flex-col bg-scroll bg-size-[128rem]',
@@ -109,6 +110,7 @@ const { title,pageBlock } = Astro.props;
               </li>
             ))}
           </ul>
+        </div>
         </div>
       ))}
     </div>

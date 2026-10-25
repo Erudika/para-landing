@@ -57,7 +57,7 @@ import ParaLogo from "./ParaLogo.astro";
       <ul class="px-1 menu menu-horizontal">
         {
             nav.links.map((link) => (
-              <li>
+              <li class:list={link.href === '/cloud-hosting/' ? 'font-bold' : ''}>
               <a
                 href={link.href}
                 class="font-mono text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 dark:text-zinc-200 text-sm transition-colors"
@@ -73,7 +73,7 @@ import ParaLogo from "./ParaLogo.astro";
       </ul>
     </div>
     <div class="max-sm:hidden navbar-end">
-      <a href={cta.primaryCta.href} class="btn btn-ghost">{cta.primaryCta.text}</a>
+        <a href={cta.primaryCta.href} class="btn btn-neutral">{cta.primaryCta.text}</a>
     </div>
   </div>
 </header>
