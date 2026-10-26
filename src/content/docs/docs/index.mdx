@@ -16,11 +16,33 @@ hero:
       variant: minimal
 ---
 
+import { Card, CardGrid } from '@astrojs/starlight/components';
 import LegacyDocsRedirect from '@/components/LegacyDocsRedirect.astro';
 
 <LegacyDocsRedirect />
 
 Para is a stateless, schemaless backend with a REST API over pluggable persistence, search, and cache layers. Start with the quickstart, then open the topic you need.
+
+## Quick links
+
+<CardGrid stagger>
+  <Card title="Installation" icon="setting">
+    Get Para running in minutes with Docker or as a standalone JAR.<br/>
+    [Installation guide →](/docs/getting-started/quickstart/)
+  </Card>
+  <Card title="Configuration" icon="document">
+    Configure authentication, search, storage, and other features.<br/>
+    [Configuration →](/docs/configuration/configuration/)
+  </Card>
+  <Card title="Deployment" icon="rocket">
+    Deploy to Para with Docker or in the cloud.<br/>
+    [Deployment guide →](/docs/deployment/docker/)
+  </Card>
+  <Card title="API Reference" icon="puzzle">
+    Full OpenAPI 3.x specification for the Scoold REST API.<br/>
+    [API Reference →](/docs/reference/para-api/)
+  </Card>
+</CardGrid>
 
 ## Start here
 

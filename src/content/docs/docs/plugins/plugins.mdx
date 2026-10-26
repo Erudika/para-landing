@@ -58,12 +58,12 @@ $ curl -X POST -H 'Content-Type: application/json' \
 Use `GET /v1/_plugins/{artifactId}/preview` to find out what an install would fetch, without writing
 anything to disk. This is what a confirmation prompt in an admin UI should call.
 
-<Aside type="caution">
+<Aside type="caution" title="Restart required">
 Para must be **restarted** after installing or removing a plugin. The plugin
 classloader is built once during startup and cached, so a running server does not pick up new JARs.
 </Aside>
 
-<Aside type="caution">
+<Aside type="caution" title="Protect plugin endpoints">
 
 All `/v1/*` paths require an authenticated user. To restrict plugin management to
 administrators, add the path to `security.protected`:
@@ -178,7 +178,7 @@ To load your own plugin, follow these steps:
 
 </Steps>
 
-<Aside type="caution">
+<Aside type="caution" title="Release resources">
 Each plugin must implement and register a `DestroyListener` on initialization where all resources
 (connections, streams, pools) should be properly released and closed. Using `Runtime.getRuntime().addShutdownHook()` is
 **not** recommended because in some cases that method is not executed.

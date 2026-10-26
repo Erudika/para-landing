@@ -7,8 +7,8 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="note">
-This describes the web authentication flow with GitHub. You could also login with an existing access token from GitHub [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+<Aside type="note" title="Web authentication flow">
+This describes the web authentication flow with GitHub. You could also login with an existing access token from GitHub [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 </Aside>
 
 First of all you need to have your API credentials ready by creating an app on GitHub.
@@ -17,7 +17,7 @@ Then add them to your `para-application.conf` configuration file:
 para.gh_app_id = "..."
 para.gh_secret = "..."
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"gh_app_id": "..."
@@ -44,7 +44,7 @@ github.com/login/oauth/authorize
 Pass the parameter `redirect_uri=/github_auth` so Para can handle the response from GitHub.
 For apps other than the root app use `redirect_uri=/github_auth?state=myapp` instead.
 
-<Aside type="note">
+<Aside type="note" title="Register an application">
 You need to [register a new application with GitHub](https://github.com/settings/profile)
 in order to obtain an access and secret keys.
 </Aside>

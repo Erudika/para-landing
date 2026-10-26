@@ -1,0 +1,5 @@
+Contact: mailto:security@erudika.com
+Expires: 2027-10-26T00:00:00Z
+Preferred-Languages: en, bg
+Canonical: https://new.paraio.org/.well-known/security.txt
+Policy: https://github.com/Erudika/para-landing/blob/master/SECURITY.md

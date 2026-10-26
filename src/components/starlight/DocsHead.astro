@@ -1,0 +1,38 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+import SEOHead from '@/components/SEOHead.astro';
+import siteData from '../../data/site-data.json';
+
+const { site } = siteData;
+const { entry } = Astro.locals.starlightRoute;
+
+const title = entry.data.title;
+const description = entry.data.description ?? site.description;
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const image = new URL('/og-image.png', site.url).toString();
+const imageAlt = `${title} — Para documentation`;
+const markdownPath = entry.id === 'docs' ? '/docs/index.md' : `/${entry.id}.md`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  url: canonical,
+  inLanguage: 'en',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Para Docs',
+    url: new URL('/docs/', site.url).toString(),
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Erudika',
+    url: 'https://erudika.com',
+  },
+};
+---
+
+<Default />
+
+<SEOHead title={title} canonical={canonical} description={description} image={image} imageAlt={imageAlt}/>

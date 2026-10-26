@@ -6,17 +6,17 @@ The agreement between Processor and Controller applies to the Processing operati
 
 The agreement and this corresponding appendix bind both parties at the time of signing and confirms the mutual rights and obligations of both parties. When a term is capitalized it refers to the meaning of the definition set out in Article 4 of the GDPR.
 
-#### Article 1 Parties roles
+## Article 1 Parties roles
 
 Processor shall be regarded as Processor because of the performance of the underlying assignment and in respect of the Personal Data that Processor will process. The Controller shall be regarded as Controller.
 
-#### Article 2 Purpose limitation
+## Article 2 Purpose limitation
 
 2.1 The Controller assigns and instructs the Processor to process the Personal Data on behalf of the Controller.
 
 2.2 Processor shall process Controller data only in accordance with Controllers documented instructions as set forth in this Data Processing Agreement (hereafter DPA). Processor shall only process the Personal Data of Controller to the extent that the Processing is necessary for the performance of the agreement, never for its own benefit, for the benefit of Third Parties and/or for advertising and/or other purposes, as the case may be, unless a provision of EU law or Member State law applicable to the Processor obliges the Processor to process. In that case, the Processor shall notify the Controller in writing of this provision prior to Processing, unless such legislation prohibits such notification for important reasons of public interest.
 
-#### Article 3 Subject matter, terms, Personal Data processed and categories of data subjects
+## Article 3 Subject matter, terms, Personal Data processed and categories of data subjects
 
 3.1 The different categories of Personal Data processed by Processor are:
 
@@ -26,17 +26,17 @@ The different categories of data subjects are: employees, associates
 
 3.2 Controller will not process any other data than personally identifiable information in the software. Processor does not carry any liability concerning sensitive data. This non-liability does extend to security incidents or other incidents involving sensitive data.
 
-#### Article 4 Processor personnel
+## Article 4 Processor personnel
 
 4.1 Processor shall take reasonable steps to ensure the reliability of any employee, agent, contractor, Sub-processor or any Third Party who may have access to the Personal Data of the Controller. Processor will ensure that access to the Personal Data is strictly limited to those individuals whose access is relevant for the purposes of the agreement or who need access to comply with Applicable Laws in the context of that individual’s duties to the contracted Processor. Processor will ensure that all forementioned individuals are subject to confidential obligations of professional or statutory nature.
 
-#### Article 5 Technical and organizational measures
+## Article 5 Technical and organizational measures
 
 5.1 The Processor will take appropriate technical and organizational measures to ensure a level of security appropriate to the risk, so that the Processing meets the requirements of the GDPR and other applicable laws and regulations concerning the Processing of Personal Data and the protection of the rights of data subjects is guaranteed.
 
 5.2 In assessing the appropriate level of security, the Processor shall take into account the state of the art, the newest developments, the cost of implementation, as well as the nature, scope, context and purposes of Processing, and the various risks to the rights and freedoms of individuals in terms of probability and seriousness, especially as a result of the destruction, loss, alteration or unauthorized disclosure of or access to data transmitted, stored or otherwise processed, whether accidentally or unlawfully.
 
-#### Article 6 Audits
+## Article 6 Audits
 
 6.1 Controller has the right to carry out inspections or to have them carried out by an auditor appointed on a case-by-case basis. The auditor shall assess the Processor's compliance with this DPA in its business operations by means of random checks, of which the Processor will be notified in advance.
 
@@ -49,7 +49,7 @@ The different categories of data subjects are: employees, associates
 
 6.4 Processor may charge a reasonable fee to the Controller for enabling inspections.
 
-#### Article 7 Personal Data Breach
+## Article 7 Personal Data Breach
 
 7.1 Without unreasonable delay and within 24 hours upon discovering a Personal Data Breach, the Processor shall inform the Controller. The Processor shall inform the Controller via the contact person. The Processor warrants that the information provided, to the best of the Processor's knowledge at that time, is complete, correct, and accurate.
 
@@ -64,7 +64,7 @@ The different categories of data subjects are: employees, associates
 
 7.4 The Processor will refrain from reporting Personal Data Breaches to the Supervisory Authority and/or the affected data subjects, unless expressly requested to do so in writing by the Controller.
 
-#### Article 8 Data subjects rights
+## Article 8 Data subjects rights
 
 8.1 Processor undertakes to provide full cooperation and assistance, as it may be reasonably possible, in order to assist the Controller in responding to data subjects' requests for the exercising of their rights.
 
@@ -74,7 +74,7 @@ The different categories of data subjects are: employees, associates
 
 8.4 Processor may charge a reasonable fee to the Controller for providing cooperation and assistance in responding to data subject’s requests for exercising of their rights.
 
-#### Article 9 Assistance to the Controller
+## Article 9 Assistance to the Controller
 
 9.1 The Processor shall provide the Controller with all necessary assistance and cooperation in enforcing the obligations of the Parties under the GDPR and other applicable laws and regulations concerning the Processing of Personal Data. To the extent that such assistance relates to the Processing of Personal Data f or the purpose of the performance of the agreement, the Processor shall in any event provide the Controller with such assistance relating to:
 
@@ -87,11 +87,11 @@ The different categories of data subjects are: employees, associates
 
 9.2 Processor may charge the Controller a reasonable fee for support services which are not included in the description of the services and which are not attributable to the Processor's misconduct, mistakes or infringements.
 
-#### Article 10 Transfer of Personal Data
+## Article 10 Transfer of Personal Data
 
 10.1 Both parties mutually acknowledge and agree that the data processing activities under this agreement will not take place outside of the European Economic Area.
 
-#### Article 11 Sub-processors
+## Article 11 Sub-processors
 
 11.1 Processor may engage or replace a Sub-processor for the performance of Processor's Processing of Personal Data under the DPA.
 
@@ -106,15 +106,15 @@ The different categories of data subjects are: employees, associates
   * Amazon Web Services LLC.
   * Intuit Inc. (Mailchimp)
 
-#### Article 12 Cooperation with Supervisory Authorities
+## Article 12 Cooperation with Supervisory Authorities
 
 12.1 The Controller and the Processor shall cooperate, on request, with the Supervisory Authority. The Controller shall be informed immediately of any inspections and measures executed by the Supervisory Authority, insofar as they relate to the activities under this DPA.
 
-#### Article 13 Retention period of Personal Data
+## Article 13 Retention period of Personal Data
 
 13.1 Processor does not store Personal Data that are processed longer than is necessary for the aforementioned purposes of data Processing or on the basis of laws and regulations (with due observance of the retention periods resting on us).
 
-#### Article 14 Liability
+## Article 14 Liability
 
 14.1 Each party to this DPA commits to indemnify the other party for damages or expenses resulting from its own culpable infringement of this DPA, including any culpable infringement committed by its legal Representative, subcontractors, employees or any other agents. Furthermore, each party commits to indemnify the other party against any claim exerted by Third Parties due to, or in connection with, any culpable infringement by the respectively other party.
 
@@ -122,11 +122,11 @@ The different categories of data subjects are: employees, associates
 
 14.3 Each Party is obliged to inform the other Party without undue delay of any (possible) liability claim or the (possible) imposition of a fine by the Supervisory Authority, both in connection with the DPA. Each Party is obliged in all reasonableness to provide the other Party with information and/or support for the purpose of putting up a defence against a (possible) liability claim or fine as referred to in the previous sentence. The Party providing information and/or support is entitled to charge any reasonable costs in this respect to the other Party; the Parties shall inform each other as much as possible in advance of these costs.
 
-#### Article 15 Duration and termination
+## Article 15 Duration and termination
 
 15.1 The duration of the DPA is equal to the duration of the agreement. The DPA cannot be terminated separately from the agreement. Upon termination of the agreement, the DPA ends by operation of law and vice versa.
 
-#### Article 16 Deletion and return of Personal Data
+## Article 16 Deletion and return of Personal Data
 
 16.1 Processor shall not create copies or duplicates of the data without the Controllers knowledge and Consent, except for backup copies, insofar as they are necessary for ensuring that data is processed correctly, and where the retention of such data is required by law.
 
@@ -136,13 +136,13 @@ The different categories of data subjects are: employees, associates
 
 16.4 The documentation referred to under point (3) above, shall be stored by Processor in accordance with the applicable retention periods, statutory or otherwise determined. Processor may hand the documentation over to the Controller upon termination of the agreement. In such case, Processor is relieved from any obligation to keep such documentation.
 
-#### Article 17 Applicable law and dispute resolution
+## Article 17 Applicable law and dispute resolution
 
 17.1 The DPA and its performance are governed by Bulgarian law.
 
 17.2 All disputes arising between the Parties in connection with the DPA shall be submitted to the competent court in the place where the Controller has its registered office.
 
-#### Article 18 Data Protection Officer
+## Article 18 Data Protection Officer
 
 18.1 [Alexander Bogdanovski](mailto:alex@erudika.com), managing director at Erudika is designated as the contact person on behalf of the Processor.
 

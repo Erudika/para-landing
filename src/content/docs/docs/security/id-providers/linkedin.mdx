@@ -7,8 +7,8 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="note">
-This describes the web authentication flow with LinkedIn. You could also login with an existing access token from LinkedIn [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+<Aside type="note" title="Web authentication flow">
+This describes the web authentication flow with LinkedIn. You could also login with an existing access token from LinkedIn [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 </Aside>
 
 First of all you need to have your API credentials ready by creating an app on LinkedIn.
@@ -17,7 +17,7 @@ Then add them to your `para-application.conf` configuration file:
 para.in_app_id = "..."
 para.in_secret = "..."
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"in_app_id": "..."
@@ -44,7 +44,7 @@ www.linkedin.com/oauth/v2/authorization
 Pass the parameter `redirect_uri=/linkedin_auth` so Para can handle the response from LinkedIn.
 For apps other than the root app use `redirect_uri=/linkedin_auth?state=myapp` instead.
 
-<Aside type="note">
+<Aside type="note" title="Register an application">
 You need to [register a new application with LinkedIn](https://www.linkedin.com/developer/apps)
 in order to obtain an access and secret keys.
 </Aside>

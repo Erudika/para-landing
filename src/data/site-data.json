@@ -21,6 +21,8 @@
     "backToSite": "↩ Back to site",
     "docsHome": "Docs Home",
     "mainLabel": "Main navigation",
+    "mobileLabel": "Mobile navigation",
+    "menuLabel": "Open navigation menu",
     "footerLabel": "Footer navigation",
     "logo": { "text": "Para", "href": "/" },
     "links": [
@@ -31,7 +33,7 @@
     ]
   },
   "theme": {
-    "storageKey": "para-theme",
+    "storageKey": "starlight-theme",
     "light": "light",
     "dark": "dark",
     "labelLight": "Light",
@@ -40,7 +42,7 @@
     "themeLabel": "Theme"
   },
   "hero": {
-    "badge": "Our backend-as-a-sevice is here - try <a class=\"underline\" href=\"/cloud-hosting/\">Para Cloud</a> for free!",
+    "badge": "Try <a class=\"underline\" href=\"/cloud-hosting/\">our backend-as-a-sevice</a> for free!",
     "headline": "A general-purpose backend for the cloud",
     "subtext": "Para is an open-source, stateless and schemaless backend with a REST API over any database, search index and cache."
   },
@@ -135,7 +137,8 @@
   "comparison": {
     "headline": "Why not Supabase?",
     "subtext": "Para is a general-purpose backend, not a hosted database with extras. Different trade-offs, fewer lock-ins. ",
-    "columns": ["", "Para", "Supabase", "Firebase", "Parse"],
+    "caption": "Feature comparison of Para, Supabase, Firebase and Parse",
+    "columns": ["Feature", "Para", "Supabase", "Firebase", "Parse"],
     "rows": [
       { "label": "Databases", "values": ["any (SQL, NoSQL, in-memory)", "PostgreSQL only", "proprietary", "MongoDB"] },
       { "label": "Data model", "values": ["schemaless JSON", "schema + migrations", "proprietary JSON", "schemaless JSON"] },
@@ -702,7 +705,7 @@
         "company_name": "Legal entity",
         "registered_address": "Registered address",
         "vat_number": "VAT number",
-        "managing_director": "Legally authorized representative (МОЛ)",
+        "managing_director": "Legally authorized representative",
         "email": "Email",
         "website": "Website"
       }
@@ -728,7 +731,13 @@
   "notFound": {
     "code": "404",
     "headline": "Object not found",
+    "description": "The page you requested does not exist. Browse the Para documentation, features or download links to find what you need.",
     "subtext": "This page was never persisted, or it was deleted along the way.",
-    "cta": { "text": "Back to home", "href": "/" }
+    "cta": { "text": "Back to home", "href": "/" },
+    "links": [
+      { "text": "Documentation", "href": "/docs/" },
+      { "text": "Features", "href": "/features/" },
+      { "text": "Download", "href": "/download/" }
+    ]
   }
 }

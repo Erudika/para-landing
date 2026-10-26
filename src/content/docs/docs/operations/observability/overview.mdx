@@ -89,7 +89,7 @@ para.metrics.graphite.prefix_apps = "com.erudika.para.\{{INSTANCE_ID}}.\{{APP_ID
 ```
 
 Configuring the Graphite host settings for a specific application can be done by adding a setting to the application
-(see [app settings API](/docs/api/settings/list/)). Para will look for an application setting by the name
+(see [app settings API](/docs/reference/para-api/)). Para will look for an application setting by the name
 "metricsGraphiteReporter" to detect application-specific Graphite settings. This setting is configured in the
 form of a map with two fields: `host` (String) and `port` (int). For example, to add application-specific metrics
 make a signed request to Para as follows:

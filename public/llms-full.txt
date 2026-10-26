@@ -11,7 +11,7 @@ Para is a stateless, schemaless backend with a REST API over pluggable persisten
 ### Start here
 
 - [Quickstart](/docs/getting-started/quickstart/): run Para and make a first request.
-- [Self-host Para](/docs/getting-started/standalone/): deploy Para as a standalone service.
+- [Self-host Para](/docs/deployment/standalone/): deploy Para as a standalone service.
 - [Configuration](/docs/configuration/configuration/): set server options and secrets.
 - [Maven](/docs/getting-started/maven/): add Para or the Java client to a JVM project.
 
@@ -72,8 +72,10 @@ Here are some key features and benefits:
 4. Install [Para CLI](https://github.com/Erudika/para-cli) with `npm install -g para-cli`
 5. Create a new dedicated app for your project and save the access keys:
     ```bash
-    # run setup and set endpoint to either 'http://localhost:8080' or 'https://paraio.com'
-    # the keys for the root app are inside para-application.conf
+    # Run setup and set endpoint:
+    # 'http://localhost:8080' or 'https://paraio.com'
+    # Then enter the keys for the root app.
+    # Keys are saved in para-application.conf
     $ para-cli setup
     $ para-cli new-app "myapp" --name "My App"
     ```
@@ -100,15 +102,17 @@ Choose one of the official Para clients, available for the following platforms:
 The Java, JavaScript and Android Para client libraries have asynchronous versions of every API method.
 The rest of the client libraries only have synchronous methods. Here's the matrix of all supported features, for each client:
 
-|                          | Emails  | Files  | Async methods| Websockets (planned) |
-|--------------------------|---------|--------|--------------|---------------|
-| para-client-java         | ✅      | ❌     | ✅          |  ❌           |
-| para-client-csharp       | ❌      | ❌     | ❌          |  ❌           |
-| para-client-js           | ❌      | ❌     | ✅          |  ❌           |
-| para-client-python       | ❌      | ❌     | ❌          |  ❌           |
-| para-client-php          | ❌      | ❌     | ❌          |  ❌           |
-| para-client-android      | ❌      | ❌     | ✅          |  ❌           |
-| para-client-ios          | ❌      | ❌     | ❌          |  ❌           |
+| Client                   | Emails  | Async methods  | Files * | Websockets * |
+|--------------------------|---------|----------------|---------|--------------|
+| para-client-csharp       | ❌      | ❌             | ❌      |  ❌         |
+| para-client-js           | ❌      | ✅             | ❌      |  ❌         |
+| para-client-java         | ✅      | ✅             | ❌      |  ❌         |
+| para-client-python       | ❌      | ❌             | ❌      |  ❌         |
+| para-client-php          | ❌      | ❌             | ❌      |  ❌         |
+| para-client-android      | ❌      | ✅             | ❌      |  ❌         |
+| para-client-ios          | ❌      | ❌             | ❌      |  ❌         |
+
+* planned features
 
 In certain environments like serverless (AWS Lambda, CloudFlare Workers, etc.) the environment restricts code to run on a single thread.
 In those cases, applications connecting to Para with a client must not use async functions or set `para.executor_service_enabled = false`.
@@ -137,7 +141,7 @@ Alternatively, you can use the [Para Web Console](https://console.paraio.org) to
 or integrate Para directly into your project with one of the API clients below.
 
 Users are created either programmatically with `paraClient.signIn(...)` or with an API request to `POST /v1/jwt_auth`. See
-[Sign in](/docs/api/authentication/sign-in/) or [Authentication](/docs/security/rest-api-authentication/) sections for more details.
+[Sign in](/docs/reference/para-api/) or [Authentication](/docs/security/rest-api-authentication/) sections for more details.
 
 ### Building Para from source
 
@@ -380,7 +384,7 @@ The Para MCP server exposes Para's backend services over the Model Context Proto
 enabling AI assistants like Claude to interact with your Para backend for configuration management,
 data operations, and full-text search.
 
-### 1. Enable the MCP Server in Para
+### Step 1: Enable the MCP Server in Para
 
 The MCP server is disabled by default. To enable the Para MCP server, choose either
 "r" for read-only mode, or "rw" for full access, then add this to your `para-application.conf`:
@@ -398,7 +402,7 @@ para.mcp_server_mode = "rw"
 | **Read-only** | `r` | Only read operations allowed (recommended for production) |
 | **Read+Write** | `rw` | Full CRUD access including create/update/delete operations |
 
-### 2. Get Your Para App Bearer Token
+### Step 2: Get Your Para App Bearer Token
 
 The MCP server requires authentication using a JWT Bearer token (see 'super tokens' below).
 
@@ -415,7 +419,7 @@ The MCP server requires authentication using a JWT Bearer token (see 'super toke
 2. Follow the section on "super tokens" below for the exact format
 3. Generate and sign a new JWT with the secret key as a signing secret.
 
-### 3. Configure Your MCP Client
+### Step 3: Configure Your MCP Client
 
 **Claude Desktop and Claude Code**
 
@@ -442,7 +446,7 @@ Add this configuration to your MCP settings file:
 }
 ```
 
-### 4. Test the Connection
+### Step 4: Test the Connection
 
 Restart your MCP client (Claude Desktop/Code) and verify the connection.
 Usually the commands are `/mcp refresh` and `/mcp list`. You should see Para as an MCP server.
@@ -1293,7 +1297,7 @@ You can also define custom types of objects through the REST API by changing the
 Keep in mind that the following are reserved words and they *should not* be used for naming your types (plural form included):
 **"search(es)", "util(s)"**.
 
-You can create objects with custom types and fields [through the REST API](/docs/api/objects/create/) without having
+You can create objects with custom types and fields [through the REST API](/docs/reference/para-api/) without having
 to define them as Java classes like above. These custom objects will be based on the generic `Sysprop` class but
 can have any number of custom properties (fields). When doing search on custom fields, add the "properties" prefix to
 them, like `properties.myfield`.
@@ -1361,10 +1365,10 @@ Apps can have their own separate credentials for social sign-in, like an OAuth `
 are stored within the app object and can be used to create/login users to the app that has these credentials.
 For example, we can send a request to `/facebook_auth?appid=myapp` where `myapp` is not the root app. This will tell
 Para to look for Facebook keys inside that app. This allows for each Para app to have a corresponding Facebook app
-(or any other app on the supported social networks, see [JWT sign in](/docs/api/authentication/sign-in/)).
+(or any other app on the supported social networks, see [JWT sign in](/docs/reference/para-api/)).
 
 Additionally, we've added two custom settings which can tell Para where to redirect users after a successful login or a
-login failure. These are `signin_success` and `signin_failure` (see [Custom Settings](/docs/api/settings/list/)).
+login failure. These are `signin_success` and `signin_failure` (see [Custom Settings](/docs/reference/para-api/)).
 Here's an example of all settings combined:
 
 ```js
@@ -1805,7 +1809,7 @@ para.dao = "CassandraDAO"
 This could be a Java system property or part of a `para-application.conf` file on the classpath.
 This tells Para to use the Cassandra Data Access Object (DAO) implementation instead of the default.
 
-See [Plugins](/docs//plugins/plugins/) for more information about how you can create your own plugins.
+See [Plugins](/docs/plugins/plugins/) for more information about how you can create your own plugins.
 
 For more information about using Cassandra, see the [official docs](https://cassandra.apache.org/doc/latest/).
 
@@ -1855,7 +1859,7 @@ The shared table keys are a combination of `appid` and `id` (e.g. `myapp_6793340
 also automatically create a global secondary index (GSI) on the shared table, with a primary key `appid` and secondary
 key `timestamp`, to facilitate queries like `dao.readPage()`.
 
-See [Modules](/docs//plugins/modules/) for more information about how you can override the default implementation.
+See [Modules](/docs/plugins/modules/) for more information about how you can override the default implementation.
 
 For more information about DyanamoDB see the
 [documentation on AWS](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
@@ -1904,7 +1908,7 @@ para.dao = "MongoDBDAO"
 This could be a Java system property or part of a `para-application.conf` file on the classpath.
 This tells Para to use the MongoDB Data Access Object (DAO) implementation instead of the default.
 
-See [Plugins](/docs//plugins/plugins/) for more information about how you can create your own plugins.
+See [Plugins](/docs/plugins/plugins/) for more information about how you can create your own plugins.
 
 For more information about using MongoDB, see the [official manual](https://docs.mongodb.org/manual/).
 
@@ -2705,7 +2709,7 @@ para.metrics.graphite.prefix_apps = "com.erudika.para.\{{INSTANCE_ID}}.\{{APP_ID
 ```
 
 Configuring the Graphite host settings for a specific application can be done by adding a setting to the application
-(see [app settings API](/docs/api/settings/list/)). Para will look for an application setting by the name
+(see [app settings API](/docs/reference/para-api/)). Para will look for an application setting by the name
 "metricsGraphiteReporter" to detect application-specific Graphite settings. This setting is configured in the
 form of a map with two fields: `host` (String) and `port` (int). For example, to add application-specific metrics
 make a signed request to Para as follows:
@@ -3065,7 +3069,7 @@ Message rendering is resolved in this order:
 
 For public forms, formatting flags come from the stored `Form` object and override any client-provided values.
 
-#### Programmatic access to the `Emailer` instance
+### Programmatic access to the `Emailer` instance
 
 The `Emailer` interface has a simple API for sending email messages.
 
@@ -3220,7 +3224,7 @@ Optionally, you can enable HTML tags in the form body with `plaintextOnly: false
 
 **Comparison table**
 
-| | Public endpoint `/v1/_forms` | API endpoint `/v1/_emails` |
+| Feature | Public endpoint `/v1/_forms` | API endpoint `/v1/_emails` |
 |---|---|---|
 | Authentication | None (CAPTCHA required) | API key / signed request |
 | Request content type | `multipart/form-data` | `application/json` |
@@ -3544,7 +3548,7 @@ para.security.saml.attributes.name = ""
 
 You want to either configure `para.security.saml.attributes.name` or `para.security.saml.attributes.firstname`, but **not both**.
 
-You can also configure the SAML authentication filter through the [app settings API](/docs/api/settings/add/):
+You can also configure the SAML authentication filter through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"security.saml.sp.entityid": "https://paraio.com/saml_auth/myapp",
@@ -3605,7 +3609,7 @@ defaults to `(&(objectClass=user)(userPrincipalName={0}))`. The syntax for this 
 (replaced with `username@domain`) or `{1}` (replaced with `username` only). For regular LDAP, only `{0}` is a valid
 placeholder and it gets replaced with the person's username.
 
-You can also configure LDAP through the [app settings API](/docs/api/settings/add/):
+You can also configure LDAP through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"security.ldap.server_url": "ldap://localhost:8389/",
@@ -3657,7 +3661,7 @@ These are the configuration options for this filter:
 
 You can configure the URLs for authentication success and failure in the configuration file (see [the config](/docs/configuration/configuration/))
 
-You can also set all configuration properties through the [app settings API](/docs/api/settings/add/):
+You can also set all configuration properties through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"oa2_app_id": "some_appid",
@@ -3691,7 +3695,7 @@ The endpoints for the "second" and "third" OAuth 2.0 providers are `/oauth2secon
 
 Source: /docs/security/id-providers/facebook.md
 
-This describes the web authentication flow with Facebook. You could also login with an existing access token from Facebook [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+This describes the web authentication flow with Facebook. You could also login with an existing access token from Facebook [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 
 First of all you need to have your API credentials ready by creating an app in the Facebook Dev Center.
 Then add them to your `para-application.conf` configuration file:
@@ -3699,7 +3703,7 @@ Then add them to your `para-application.conf` configuration file:
 para.fb_app_id = "..."
 para.fb_secret = "..."
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"fb_app_id": "..."
@@ -3746,7 +3750,7 @@ $("#facebookLoginBtn").click(function() {
 
 Source: /docs/security/id-providers/github.md
 
-This describes the web authentication flow with GitHub. You could also login with an existing access token from GitHub [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+This describes the web authentication flow with GitHub. You could also login with an existing access token from GitHub [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 
 First of all you need to have your API credentials ready by creating an app on GitHub.
 Then add them to your `para-application.conf` configuration file:
@@ -3754,7 +3758,7 @@ Then add them to your `para-application.conf` configuration file:
 para.gh_app_id = "..."
 para.gh_secret = "..."
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"gh_app_id": "..."
@@ -3801,7 +3805,7 @@ $("#githubLoginBtn").click(function() {
 
 Source: /docs/security/id-providers/google.md
 
-This describes the web authentication flow with Google. You could also login with an existing access token from Google [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+This describes the web authentication flow with Google. You could also login with an existing access token from Google [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 
 First of all you need to have your API credentials ready by creating an app in the Google Dev Console.
 Then add them to your `para-application.conf` configuration file:
@@ -3809,7 +3813,7 @@ Then add them to your `para-application.conf` configuration file:
 para.gp_app_id = "..."
 para.gp_secret = "..."
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"gp_app_id": "..."
@@ -3857,7 +3861,7 @@ $("#googleLoginBtn").click(function() {
 
 Source: /docs/security/id-providers/linkedin.md
 
-This describes the web authentication flow with LinkedIn. You could also login with an existing access token from LinkedIn [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+This describes the web authentication flow with LinkedIn. You could also login with an existing access token from LinkedIn [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 
 First of all you need to have your API credentials ready by creating an app on LinkedIn.
 Then add them to your `para-application.conf` configuration file:
@@ -3865,7 +3869,7 @@ Then add them to your `para-application.conf` configuration file:
 para.in_app_id = "..."
 para.in_secret = "..."
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"in_app_id": "..."
@@ -3912,7 +3916,7 @@ $("#linkedinLoginBtn").click(function() {
 
 Source: /docs/security/id-providers/microsoft.md
 
-This describes the web authentication flow with Microsoft. You could also login with an existing access token from Microsoft [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+This describes the web authentication flow with Microsoft. You could also login with an existing access token from Microsoft [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 
 First of all you need to have your API credentials ready by creating an app on Microsoft.
 Then add them to your `para-application.conf` configuration file:
@@ -3922,7 +3926,7 @@ para.ms_secret = "..."
 para.security.signin_success = "http://success.url"
 para.security.signin_failure = "http://failure.url"
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"ms_app_id": "..."
@@ -3968,7 +3972,7 @@ $("#microsoftLoginBtn").click(function() {
 
 Source: /docs/security/id-providers/slack.md
 
-This describes the web authentication flow with Slack. You could also login with an existing access token from Slack [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+This describes the web authentication flow with Slack. You could also login with an existing access token from Slack [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 
 First of all you need to have your API credentials ready by creating an app on Slack.
 Then add them to your `para-application.conf` configuration file:
@@ -3978,7 +3982,7 @@ para.sl_secret = "..."
 para.security.signin_success = "http://success.url"
 para.security.signin_failure = "http://failure.url"
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"sl_app_id": "..."
@@ -4024,7 +4028,7 @@ $("#slackLoginBtn").click(function() {
 
 Source: /docs/security/id-providers/twitter.md
 
-This describes the web authentication flow with Twitter. You could also login with an existing access token from Twitter [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+This describes the web authentication flow with Twitter. You could also login with an existing access token from Twitter [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 
 First of all you need to have your API credentials ready by creating an app on Twitter.
 Then add them to your `para-application.conf` configuration file:
@@ -4032,7 +4036,7 @@ Then add them to your `para-application.conf` configuration file:
 para.tw_app_id = "..."
 para.tw_secret = "..."
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"tw_app_id": "..."
@@ -4076,7 +4080,7 @@ $("#twitterLoginBtn").click(function() {
 
 Source: /docs/security/id-providers/amazon.md
 
-This describes the web authentication flow with Amazon. You could also login with an existing access token from Amazon [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+This describes the web authentication flow with Amazon. You could also login with an existing access token from Amazon [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 
 First of all you need to have your API credentials ready by creating an app on Amazon.
 Then add them to your `para-application.conf` configuration file:
@@ -4086,7 +4090,7 @@ para.az_secret = "..."
 para.security.signin_success = "http://success.url"
 para.security.signin_failure = "http://failure.url"
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"az_app_id": "..."
@@ -4359,6 +4363,26 @@ Open up Postman and in the "Authorization" tab choose "AWS Signature":
 **Make sure you don't have extra headers** in your requests because Postman is known to calculate invalid signatures for such requests.
 
 
+## Para API Reference
+
+Source: /docs/reference/para-api.md
+
+{`.sl-container { margin-left: 0; } @media (max-width: 1200px) { .sl-container { max-width: 100% !important; } } @media (min-width: 1200px) { .sl-container { max-width: 80% !important; } }`}
+
+The Para REST API is accessible only if enabled with `para.api_enabled = true`. Authentication uses AWS v4 signatures, or a `Bearer` access token (API key) generated with Para CLI.
+
+  You can also browse the full interactive API console, available at `/apidocs` on your running Para instance.
+
+### Limiting which fields are returned by the API
+
+Field limiting is supported on all requests by using the query parameter `select=xxx,yyy`.
+This parameter takes a comma separated list of fields to include. For example:
+
+```
+GET /myobjects?select=id,name,my_field1,my_field2
+```
+
+
 ## Cloud Deployment
 
 Source: /docs/deployment/cloud.md
@@ -4443,11 +4467,11 @@ $ docker run -ti -p 8080:8080 --rm -v $(pwd)/data:/para/data \
   -e JAVA_OPTS="-Dconfig.file=/para/para-application.conf" erudikaltd/para:latest_stable
 ```
 
-#### Environment variables
+### Environment variables
 
 `JAVA_OPTS` - Java system properties, defaults to `-Dloader.path=lib`
 
-#### Plugins
+### Plugins
 
 You can create a custom Para container with all plugins and JDBC drivers you need by using `docker compose`.
 Below is an example build of Para, using `para-dao-sql`, `para-search-lucene` and PosgreSQL as a database.
@@ -4625,7 +4649,7 @@ flowchart TB
 
 ``` */}
 
-#### Embed Para server into your JVM application
+### Embed Para server into your JVM application
 
 By building your JVM app on top of Para, you have full control over persistence, caching and indexing operations.
 Here's a simple diagram of this architecture:
@@ -5002,24 +5026,4 @@ This page contains a full list of all configuration properties available in Para
 |`para.default_encoding` / Default character encoding - `UTF-8`. | `UTF-8` | `String`|
 |`para.landing_page_enabled` / Enable/disable the landing page when opening the server address in the browser. | `true` | `Boolean`|
 |`para.mcp_server_mode` / Enable/disable the MCP server. Possible values: `off`, `r` - read-only, `rw` - full access. | `off` | `String`|
-
-
-## Para API Reference
-
-Source: /docs/reference/para-api.md
-
-{`.sl-container { margin-left: 0; } @media (max-width: 1200px) { .sl-container { max-width: 100% !important; } } @media (min-width: 1200px) { .sl-container { max-width: 80% !important; } }`}
-
-The Para REST API is accessible only if enabled with `para.api_enabled = true`. Authentication uses AWS v4 signatures, or a `Bearer` access token (API key) generated with Para CLI.
-
-  You can also browse the full interactive API console, available at `/apidocs` on your running Para instance.
-
-### Limiting which fields are returned by the API
-
-Field limiting is supported on all requests by using the query parameter `select=xxx,yyy`.
-This parameter takes a comma separated list of fields to include. For example:
-
-```
-GET /myobjects?select=id,name,my_field1,my_field2
-```
 

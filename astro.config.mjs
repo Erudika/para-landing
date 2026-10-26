@@ -25,6 +25,7 @@ export default defineConfig({
         replacesTitle: true,
       },
       components: {
+        DocsHead: './src/components/starlight/DocsHead.astro',
         SiteTitle: './src/components/starlight/SiteTitle.astro',
       },
       disable404Route: true,

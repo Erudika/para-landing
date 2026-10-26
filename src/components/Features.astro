@@ -30,15 +30,19 @@ const items = features.items as FeatureItem[];
             <div class="float-right m-4">
               <Image
                 src={import(`../images/feature${String(i + 1)}-light.png`)}
-                alt="Feature icon"
-                loading="eager"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
                 class="dark:hidden w-16"
                 style="image-rendering: pixelated;"
               />
               <Image
                 src={import(`../images/feature${String(i + 1)}-dark.png`)}
-                alt="Feature icon"
-                loading="eager"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
                 class="light:hidden w-16"
                 style="image-rendering: pixelated;"
               />
@@ -48,10 +52,10 @@ const items = features.items as FeatureItem[];
               aria-hidden="true"
             />
             <div class="aspect-4/1">
-              <h2 class="font-mono font-semibold tracking-tight">
+              <h3 class="font-mono font-semibold tracking-tight">
                 {/* <span class="mr-2 text-zinc-400 dark:text-zinc-600">{String(i + 1).padStart(2, '0')}</span> */}
                 {item.title}
-              </h2>
+              </h3>
               <p class="mt-3 text-zinc-600 dark:text-zinc-400 leading-relaxed">
                 {item.body}
               </p>

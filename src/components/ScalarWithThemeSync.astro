@@ -14,6 +14,34 @@ const config = JSON.stringify(Astro.props);
 
 <div id="scalar-app" data-scalar-config={config}></div>
 
+<style is:global>
+  /* Scalar's default method and muted-text colours miss WCAG AA in both
+     themes. Override the palette on Scalar's own root so every badge and
+     status label inherits an accessible colour. */
+  [data-theme='light'] #scalar-app .scalar-app,
+  [data-theme='light'] #scalar-app .references-rendered,
+  [data-theme='light'] #scalar-app .light-mode {
+    --scalar-color-orange: #c2410c;
+    --scalar-color-red: #b91c1c;
+    --scalar-color-yellow: #854d0e;
+    --scalar-color-green: #047857;
+    --scalar-color-blue: #0369a1;
+    --scalar-color-accent: #08789f;
+    --scalar-color-3: #52525b;
+  }
+  [data-theme='dark'] #scalar-app .scalar-app,
+  [data-theme='dark'] #scalar-app .references-rendered,
+  [data-theme='dark'] #scalar-app .dark-mode {
+    --scalar-color-orange: #fb923c;
+    --scalar-color-red: #f87171;
+    --scalar-color-yellow: #facc15;
+    --scalar-color-green: #34d399;
+    --scalar-color-blue: #38bdf8;
+    --scalar-color-accent: #31c7ff;
+    --scalar-color-3: #a1a1aa;
+  }
+</style>
+
 <script>
   const el = document.getElementById('scalar-app');
   if (el && el.dataset.scalarConfig) {
@@ -23,6 +51,55 @@ const config = JSON.stringify(Astro.props);
 
     let scalarRef: { destroy?: () => void } | null = null;
 
+    // Scalar renders its own <main> inside the page <main>, which creates
+    // duplicate and non-top-level main landmarks. Swap the tag for a <div>
+    // while keeping Scalar's scoped attributes and child nodes intact.
+    const fixLandmarks = () => {
+      el.querySelectorAll('main').forEach((main) => {
+        const replacement = document.createElement('div');
+        for (const attr of Array.from(main.attributes)) {
+          replacement.setAttribute(attr.name, attr.value);
+        }
+        while (main.firstChild) replacement.appendChild(main.firstChild);
+        main.replaceWith(replacement);
+      });
+    };
+
+    // Scalar's sidebar lists and code samples scroll. Make each scrollable
+    // region reachable by keyboard when it has no focusable children. This is
+    // deferred so rapid Scalar re-renders do not force repeated style reads.
+    const fixScrollable = () => {
+      el.querySelectorAll('pre, ul, ol, div, section, table').forEach((node) => {
+        if (node.hasAttribute('tabindex')) return;
+        const style = getComputedStyle(node);
+        const scrollsX = /(auto|scroll)/.test(style.overflowX);
+        const scrollsY = /(auto|scroll)/.test(style.overflowY);
+        if (!scrollsX && !scrollsY) return;
+        const overflows =
+          node.scrollWidth > node.clientWidth + 1 ||
+          node.scrollHeight > node.clientHeight + 1;
+        if (!overflows) return;
+        const hasFocusableChild = node.querySelector(
+          'a[href], button, input, select, textarea, [tabindex]',
+        );
+        if (!hasFocusableChild) node.tabIndex = 0;
+      });
+    };
+
+    let scrollTimer: ReturnType<typeof setTimeout> | undefined;
+    const scheduleScrollable = () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(fixScrollable, 250);
+    };
+
+    new MutationObserver(() => {
+      fixLandmarks();
+      scheduleScrollable();
+    }).observe(el, {
+      childList: true,
+      subtree: true,
+    });
+
     const initScalar = () => {
       scalarRef = (window as any).Scalar.createApiReference('#scalar-app', {
         ...config,
@@ -31,6 +108,8 @@ const config = JSON.stringify(Astro.props);
         },
         forceDarkModeState: isDark() ? "dark" : "light",
       });
+      fixLandmarks();
+      scheduleScrollable();
     };
 
     const syncTheme = () => {
@@ -39,6 +118,8 @@ const config = JSON.stringify(Astro.props);
       el.innerHTML = '';
       initScalar();
     };
+
+    window.addEventListener('resize', scheduleScrollable);
 
     new MutationObserver((mutations) => {
       for (const m of mutations) {

@@ -35,11 +35,16 @@ Registration for our Website is required. Registration is used by the Website to
 
 During registration a user is required to give certain information (such as name and email address). This information is used to contact you about the products/services on our site in which you have expressed interest. At your option, you may also provide demographic information (such as gender or age) about yourself, but it is not required. Your profile picture (avatar) is considered public and can be downloaded and re-used by other services, either scraped from the HTML interface or in bulk as FOAF files.
 
-## Cookies
+## Cookies and local storage
 
-We use "cookies" on this site. A cookie is a piece of data stored on a site visitor's hard drive to help us improve your access to our site and identify repeat visitors to our site. For instance, when we use a cookie to identify you, you would not have to log in a password more than once, thereby saving time while on our site. Cookies can also enable us to track and target the interests of our users to enhance the experience on our site. Usage of a cookie is in no way linked to any personally identifiable information on our site.
+This website does not set analytics or advertising cookies. Two preferences are stored in your browser's local storage:
 
-Some of our business partners may use cookies on our site (for example, advertisers). However, we have no access to or control over these cookies.
+* `starlight-theme` remembers whether you chose the light or dark theme.
+* `para-consent` remembers that you dismissed the privacy notice.
+
+These values stay in your browser and are not sent to us.
+
+The contact form uses Google reCAPTCHA to prevent spam. Google may set cookies and process your IP address and browser information under its own privacy policy at [policies.google.com/privacy](https://policies.google.com/privacy). We do not control those cookies.
 
 ## Sharing
 

@@ -11,45 +11,74 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  ogImageAlt?: string;
   noindex?: boolean;
-  jsonLd?: object;
+  jsonLd?: object | object[];
   canonicalUrl?: string;
 }
 
-const { title, description = site.description, ogImage, noindex, jsonLd, canonicalUrl } = Astro.props;
+const {
+  title,
+  description = site.description,
+  ogImage,
+  ogImageAlt,
+  noindex,
+  jsonLd,
+  canonicalUrl,
+} = Astro.props;
 const pageTitle = title ? `${title} - ${site.title}` : `${site.title} — ${site.tagline}`;
 const canonical = canonicalUrl ?? new URL(Astro.url.pathname, site.url).toString();
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <script is:inline>
       // Theme: follow the stored choice (Starlight-compatible key), else system preference.
       // data-theme is the single signal read by Tailwind, daisyUI and Starlight.
       (() => {
-        const stored = localStorage.getItem('starlight-theme');
+        let stored = null;
+        try {
+          stored = localStorage.getItem('starlight-theme');
+        } catch {
+          stored = null;
+        }
         const dark =
           stored === 'dark' || stored === 'light'
             ? stored === 'dark'
             : window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+
+        // A resolved theme-color wins over the media-based fallbacks below.
+        const meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        meta.content = dark ? '#09090b' : '#fafafa';
+        document.head.prepend(meta);
       })();
     </script>
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
     <SEOHead
       title={pageTitle}
-      description={noindex ? undefined : description}
+      description={description}
       canonical={canonical}
       image={ogImage}
+      imageAlt={ogImageAlt}
       jsonLd={jsonLd}
     />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {noindex ? (
+      <meta name="robots" content="noindex, follow" />
+    ) : (
+      <meta name="robots" content="max-image-preview:large" />
+    )}
   </head>
   <body class="flex flex-col min-h-screen antialiased">
+    <a class="skip-link" href="#main">Skip to main content</a>
     <Header />
-    <main class="flex-1"><slot /></main>
+    <main id="main" tabindex="-1" class="flex-1"><slot /></main>
     <Footer />
 
     <script define:vars={{ isDev: import.meta.env.DEV }}>

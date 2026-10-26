@@ -31,9 +31,18 @@ Run `npm run build && npm run verify` before declaring any ticket done — `dist
 
 ## Deployment
 
-GitHub Pages at new.paraio.org, via `.github/workflows/pages.yml`. Pushes to `main` or `master` build and verify the site before deployment; pull requests run the same checks but do not deploy. Set the repository's Pages source to **GitHub Actions**. `public/CNAME` keeps the current custom domain, and GitHub Pages provides HTTPS. This repository uses the workflow instead of a manual deploy script.
+GitHub Pages at new.paraio.org, via `.github/workflows/astro.yml` and `withastro/action`. Pushes to `main` or `master` build and deploy the site; the workflow uses the Bun lockfile and `bun run build`. Set the repository's Pages source to **GitHub Actions**. `public/CNAME` keeps the current custom domain, and GitHub Pages provides HTTPS.
 
-Each `npm run build` first generates `llms.txt`, `llms-full.txt`, and individual Markdown files for the docs under `public/docs/`. The build then copies these files into `dist/` with the site. The workflow runs `npm ci`, `npm run check`, `npm run build`, and `npm run verify` before it uploads a deployment artifact.
+Each `npm run build` first generates `llms.txt`, `llms-full.txt`, and individual Markdown files for the docs under `public/docs/`. The build then copies these files into `dist/` with the site. Run `npm run build && npm run verify` before deploying.
+
+GitHub Pages does not support custom response headers. If the site is fronted by a CDN or reverse proxy, set these headers there:
+
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+- `Content-Security-Policy: frame-ancestors 'none'`
+- `X-Frame-Options: DENY` (legacy fallback)
 
 ## License
 

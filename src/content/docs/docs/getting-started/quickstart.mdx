@@ -63,7 +63,7 @@ Choose one of the official Para clients, available for the following platforms:
 The Java, JavaScript and Android Para client libraries have asynchronous versions of every API method.
 The rest of the client libraries only have synchronous methods. Here's the matrix of all supported features, for each client:
 
-|                          | Emails  | Async methods  | Files * | Websockets * |
+| Client                   | Emails  | Async methods  | Files * | Websockets * |
 |--------------------------|---------|----------------|---------|--------------|
 | para-client-csharp       | ❌      | ❌             | ❌      |  ❌         |  
 | para-client-js           | ❌      | ✅             | ❌      |  ❌         |  
@@ -73,7 +73,7 @@ The rest of the client libraries only have synchronous methods. Here's the matri
 | para-client-android      | ❌      | ✅             | ❌      |  ❌         |  
 | para-client-ios          | ❌      | ❌             | ❌      |  ❌         |  
 
-<i class="text-gray-400">* planned features</i>
+<em>* planned features</em>
 
 In certain environments like serverless (AWS Lambda, CloudFlare Workers, etc.) the environment restricts code to run on a single thread.
 In those cases, applications connecting to Para with a client must not use async functions or set `para.executor_service_enabled = false`.
@@ -107,7 +107,7 @@ Alternatively, you can use the [Para Web Console](https://console.paraio.org) to
 or integrate Para directly into your project with one of the API clients below.
 
 Users are created either programmatically with `paraClient.signIn(...)` or with an API request to `POST /v1/jwt_auth`. See
-[Sign in](/docs/api/authentication/sign-in/) or [Authentication](/docs/security/rest-api-authentication/) sections for more details.
+[Sign in](/docs/reference/para-api/) or [Authentication](/docs/security/rest-api-authentication/) sections for more details.
 
 
 ## Building Para from source

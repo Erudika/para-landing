@@ -70,8 +70,11 @@
     @apply bg-brand-500/30;
   }
   :focus-visible {
-    outline: 2px solid var(--color-brand-500);
+    outline: 2px solid var(--color-brand-700);
     outline-offset: 2px;
+  }
+  [data-theme='dark'] :focus-visible {
+    outline-color: var(--color-brand-500);
   }
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -105,10 +108,10 @@
   --sl-color-bg-inline-code: #27272a;
   --sl-color-hairline: #27272a;
   --sl-color-hairline-light: #3f3f46;
-  --sl-color-accent-low: #073849;
+  --sl-color-accent-low: #070e11;
   --sl-color-accent: #31c7ff;
-  --sl-color-accent-high: #b9e7fe;
-  --sl-color-text-accent: #31c7ff;
+  --sl-color-accent-high: #0e0f0f;
+  --sl-color-text-accent: #f8fafb;
 }
 
 [data-theme='light'] {
@@ -128,9 +131,9 @@
   --sl-color-hairline: #e4e4e7;
   --sl-color-hairline-light: #d4d4d8;
   --sl-color-accent-low: #dcf3fe;
-  --sl-color-accent: #0a8ab8;
+  --sl-color-accent: #31c7ff;
   --sl-color-accent-high: #073849;
-  --sl-color-text-accent: #0a8ab8;
+  --sl-color-text-accent: #070e11;
 }
 
 @layer starlight.base {
@@ -144,7 +147,15 @@
     list-style: disc;
     list-style-position: inside;
   }
+
+  /* Underline inline links so they are distinguishable without colour alone. */
+  .sl-markdown-content :where(p, li, td, dd, blockquote) a:not(.sl-anchor-link) {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
 }
+
 [data-theme='light'] header {
   border-bottom: 1px solid var(--color-zinc-200);
 }

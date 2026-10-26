@@ -7,8 +7,8 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="note">
-This describes the web authentication flow with Google. You could also login with an existing access token from Google [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+<Aside type="note" title="Web authentication flow">
+This describes the web authentication flow with Google. You could also login with an existing access token from Google [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 </Aside>
 
 First of all you need to have your API credentials ready by creating an app in the Google Dev Console.
@@ -17,7 +17,7 @@ Then add them to your `para-application.conf` configuration file:
 para.gp_app_id = "..."
 para.gp_secret = "..."
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"gp_app_id": "..."
@@ -44,7 +44,7 @@ accounts.google.com/o/oauth2/v2/auth
 Pass the parameter `redirect_uri=/google_auth` so Para can handle the response from Google.
 For apps other than the root app use `redirect_uri=/google_auth?state=myapp` instead.
 
-<Aside type="note">
+<Aside type="note" title="Register an application">
 You need to [register a new application with Google](https://console.developers.google.com/iam-admin/projects)
 in order to obtain an access and secret keys.
 </Aside>

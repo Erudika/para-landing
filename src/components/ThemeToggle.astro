@@ -40,6 +40,15 @@ const { footer, theme } = siteData;
 
   const applyTheme = (nextTheme, label) => {
     document.documentElement.setAttribute("data-theme", nextTheme);
+    const themeColor = document.querySelector(
+      'meta[name="theme-color"]:not([media])',
+    );
+    if (themeColor) {
+      themeColor.setAttribute(
+        "content",
+        nextTheme === themeConfig.dark ? "#09090b" : "#fafafa",
+      );
+    }
     if (themeToggle) {
       themeToggle.getElementsByTagName("span")[0].textContent = label;
     }

@@ -1,31 +1,26 @@
 {
-  "name": "Para",
+  "name": "Para — the backend for busy developers",
   "short_name": "Para",
-  "description": "Para - the backend for busy developers.",
+  "description": "Open-source, stateless and schemaless backend with a REST API over any database, search index and cache.",
   "start_url": "/",
   "scope": "/",
   "id": "/",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone"],
-  "background_color": "#F8FAFC",
-  "theme_color": "#4338CA",
-  "categories": ["business", "software", "backend"],
+  "background_color": "#fafafa",
+  "theme_color": "#fafafa",
+  "categories": ["business", "developer", "software"],
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/apple-touch-icon-precomposed.png",
-      "sizes": "152x152",
-      "type": "image/png"
-    },
-    {
-      "src": "/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

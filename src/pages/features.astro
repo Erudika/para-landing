@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CTA from "../components/CTAParaCloud.astro";
 import { Image } from "astro:assets";
-import { features, features_page } from "../data/site-data.json";
+import { features, features_page, site } from "../data/site-data.json";
 
 interface FeatureItem {
   title: string;
@@ -20,11 +20,21 @@ const categories = features_page.categories.map((cat) => ({
     return { ...feature, imageIndex: index + 1 };
   }),
 }));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: features_page.title,
+  description: features_page.description,
+  url: new URL('/features/', site.url).toString(),
+  isPartOf: { '@type': 'WebSite', name: site.title, url: site.url },
+};
 ---
 
 <BaseLayout
   title={features_page.title_short}
   description={features_page.description}
+  jsonLd={jsonLd}
 >
   <!-- Page hero -->
   <section class="section-padding">

@@ -7,8 +7,8 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="note">
-This describes the web authentication flow with Amazon. You could also login with an existing access token from Amazon [through the API](/docs/api/authentication/sign-in/). This web flow sets a cookie, the API returns a JWT instead.
+<Aside type="note" title="Web authentication flow">
+This describes the web authentication flow with Amazon. You could also login with an existing access token from Amazon [through the API](/docs/reference/para-api/). This web flow sets a cookie, the API returns a JWT instead.
 </Aside>
 
 First of all you need to have your API credentials ready by creating an app on Amazon.
@@ -19,7 +19,7 @@ para.az_secret = "..."
 para.security.signin_success = "http://success.url"
 para.security.signin_failure = "http://failure.url"
 ```
-Or add these through the [app settings API](/docs/api/settings/add/):
+Or add these through the [app settings API](/docs/reference/para-api/):
 ```
 {
 	"az_app_id": "..."
@@ -45,7 +45,7 @@ www.amazon.com/ap/oa
 ```
 Pass the parameter `redirect_uri=/amazon_auth?state=myapp` so Para can handle the response from Amazon.
 
-<Aside type="note">
+<Aside type="note" title="Register an application">
 You need to [register a new application with Amazon](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html)
 in order to obtain an access and secret keys.
 </Aside>

@@ -10,41 +10,45 @@ import ParaLogo from "./ParaLogo.astro";
   <div
     class="flex justify-between items-center gap-4 px-8 h-16 container-base navbar"
   >
-    <div class="navbar-start">
-      <div class="dropdown">
-        <div tabindex="0" role="button" class="lg:hidden btn btn-ghost">
-          <svg
-            aria-label="Menu"
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+    <div class="gap-2 navbar-start">
+      <nav class="lg:hidden" aria-label={nav.mobileLabel}>
+        <details class="dropdown">
+          <summary
+            class="[&::-webkit-details-marker]:hidden cursor-pointer list-none btn btn-ghost"
+            aria-label={nav.menuLabel}
           >
-            <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
-          </svg>
-        </div>
-        <ul
-          tabindex="-1"
-          class="z-1 bg-base-100 shadow mt-3 p-2 rounded-box w-52 menu menu-sm dropdown-content"
-        >
-          {
-            nav.links.map((link) => (
-              <li>
-              <a
-                href={link.href}
-                class="font-mono text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 dark:text-zinc-200 text-sm transition-colors"
-                {...(link.href.startsWith("http")
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-              >
-                {link.text}
-              </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+            <svg
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+            </svg>
+          </summary>
+          <ul
+            class="z-20 bg-base-100 shadow mt-3 p-2 rounded-box w-52 menu menu-sm dropdown-content"
+          >
+            {
+              nav.links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="font-mono dark:hover:text-zinc-100 dark:text-zinc-200 text-sm transition-colors"
+                    {...(link.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {link.text}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </details>
+      </nav>
       <a
         href={nav.logo.href}
         class="flex items-center shrink-0"
@@ -53,27 +57,28 @@ import ParaLogo from "./ParaLogo.astro";
         <ParaLogo label={nav.logo.text} class="w-28 h-7" />
       </a>
     </div>
-    <div class="hidden lg:flex navbar-center">
+    <nav class="hidden lg:flex navbar-center" aria-label={nav.mainLabel}>
       <ul class="px-1 menu menu-horizontal">
         {
-            nav.links.map((link) => (
-              <li class:list={link.href === '/cloud-hosting/' ? 'font-bold' : ''}>
+          nav.links.map((link) => (
+            <li class:list={link.href === '/cloud-hosting/' ? 'font-bold' : ''}>
               <a
                 href={link.href}
-                class="font-mono text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 dark:text-zinc-200 text-sm transition-colors"
+                class="font-mono dark:hover:text-zinc-100 dark:text-zinc-200 text-sm transition-colors"
                 {...(link.href.startsWith("http")
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
+                aria-current={Astro.url.pathname === link.href ? 'page' : undefined}
               >
                 {link.text}
               </a>
-              </li>
-            ))
-          }
+            </li>
+          ))
+        }
       </ul>
-    </div>
+    </nav>
     <div class="max-sm:hidden navbar-end">
-        <a href={cta.primaryCta.href} class="btn btn-neutral">{cta.primaryCta.text}</a>
+      <a href={cta.primaryCta.href} class="btn btn-neutral">{cta.primaryCta.text}</a>
     </div>
   </div>
 </header>
