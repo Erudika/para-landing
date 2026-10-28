@@ -154,7 +154,7 @@ Replace `accessKey` and `secretKey` with the credentials saved during setup.
 Alternatively, you can use the [Para Web Console](https://console.paraio.org) to manage data,
 or integrate Para directly into your project with one of the API clients below.
 
-Users are created either programmatically with `paraClient.signIn(...)` or with an API request to `POST /v1/jwt_auth`. See
+Users are created either programmatically with `paraClient.signIn(...)` or with an API request to `POST /jwt_auth`. See
 [Sign in](/docs/reference/para-api/) or [Authentication](/docs/security/rest-api-authentication/) sections for more details.
 
 ### Building Para from source
@@ -2786,8 +2786,8 @@ interval (defaults to once per minute, but can be configured using `para.health.
 
 An initial health check is done on startup and a warning is printed if Para is not initialized,
 which is actually just an assumption at this point. The only way to distinguish between "not initialized" and
-"unhealthy" is to check for connection errors in the logs. Para starts as unhealthy, but once the root app is created,
-i.e. `/v1/_setup` is called, the status is updated to "healthy".
+"unhealthy" is to check for connection errors in the logs. Para starts as unhealthy, but after it creates the root app
+automatically on startup, the status is updated to "healthy".
 
 Here's how to programmatically check the health of the system:
 
@@ -4182,37 +4182,45 @@ $httpProvider.defaults.xsrfHeaderName = "X-CSRF-TOKEN";
 
 Source: /docs/security/rest-api-authentication.md
 
-Para uses the **AWS Signature Version 4** algorithm for signing API requests. We chose this algorithm instead
-of OAuth because it is less complicated and is already implemented inside the core AWS Java SDK, which we have as direct
-dependency. In terms of security, both algorithms are considered very secure so there's no compromise in that aspect.
+Para has two types of API clients: applications (apps) and users. Use one of these three authentication methods:
 
-Para offers two ways of authentication - one for apps using API keys and one for insecure clients (mobile, JS) using JWT.
-Apps authenticated with a secret key have full access to the API. Users authenticated with social login are issued JWT
-tokens and have limited access to the API, for example they can't generate new API keys and they are authorized by
-specific resource permissions (see [Resource permissions](/docs/concepts/resource-permissions/)).
+| Client | Method | Credentials | Access |
+| --- | --- | --- | --- |
+| App | Signed request (AWS Signature Version 4) | Access key and secret key | Full access to the app |
+| App | "Super" JWT | App secret key | Full access to the app |
+| User | User JWT, also called a personal access token (PAT) | Provider credentials or provider token | Restricted by resource permissions |
 
-### Full access for apps
+Use signed requests for server-side apps. A super JWT is an option for clients that cannot sign requests, but it requires
+the app secret key. A user JWT identifies an individual user and never grants app-level access.
 
-In order to make a request to the API you need to have a pair of access and secret keys. Access keys are part of the
-HTTP request and secret keys are used for signing only and must be kept safe.
+When Para starts for the first time, it creates the root app (`app:para` by default) and writes the generated root
+credentials to `para-application.conf`. If you set `para.root_secret_override`, Para uses that secret instead and does
+not generate one. The generated credentials look like this:
 
-We recommend that you choose one of our API client libraries to handle the authentication for you.
-
-### First-time setup
-
-Call `GET /v1/_setup` to get your first key pair. Once you do this you will get back a response like:
-
-```js
-{
-	"secretKey": "U3VTNifLPqnZ1W2S3pVVuKG4HOVbimMocdDMl8T69BB001AXGZtwZw==",
-	"accessKey": "YXBwOnBhcmE=",
-	"info":		"Save the secret key! It is showed only once!"
-}
+```ini title="para-application.conf"
+para.root_access_key = "app:para"
+para.root_secret_key = "..."
 ```
 
-Make sure you **save** these security credentials because the API can only be accessed with them. Once you have the
-keys you can start making signed requests to the API. Also you can use these keys to create applications which will
-have their own separate keys (see [Apps](/docs/concepts/apps/)).
+You do not need to call `GET /v1/_setup` for first-time setup. To create additional apps, call
+`GET /v1/_setup/{app_name}` with a request signed by the root app, or use the Para CLI. See
+[Apps](/docs/concepts/apps/).
+
+### Application access
+
+Applications authenticate with an access key and a secret key, or with a super JWT. Both methods give the app full access
+to its own API resources.
+
+#### Signed requests
+
+Para uses the **AWS Signature Version 4** algorithm to sign API requests. We chose this algorithm instead of OAuth
+because it is less complex and is already part of the AWS Java SDK, which Para uses directly. Both algorithms are secure.
+
+A signed request includes the access key and is signed with the secret key. The secret key is never sent in the request.
+A request that is signed correctly has full access to the app API.
+
+We recommend that you use one of our API client libraries to handle signing. See
+[Para client libraries](/docs/getting-started/quickstart/#para-client-libraries).
 
 When a resource has public permissions you can access it without setting the `Authorization` header.
 Simply specify your access key as a parameter:
@@ -4221,55 +4229,138 @@ Simply specify your access key as a parameter:
 GET /v1/public/resource?accessKey=app:myapp
 ```
 
-### Changing keys
+#### "Super" JWT tokens
 
-Call `POST /v1/_newkeys` to generate a new secret key (*the request must be signed with the old keys*).
+A super JWT is a JSON Web Token (JWT) that authenticates an app, not a user. It has no user subject and gives full access
+to the app API. Para accepts it as a Bearer token.
 
-### JSON Web Tokens - client access based on permissions
+The token must:
 
-Access to the root app is disabled for API clients holding a bearer JSON web token.
+- use the `HS256` algorithm
+- contain the `appid` claim
+- be signed with the app secret key
 
-This is not the case for clients that use an `accessKey` and a `secretKey`, only those that use access tokens (JWT).
+Only trusted clients should create super tokens. **Do not put the app secret key in browser or mobile code.** Generate
+the token on a server, or use a signed request instead.
 
-Para apps can create new users and grant them specific permissions by implementing social login (identity federation).
-First a user authenticates with their social identity provider such as Facebook, then comes back to Para with the
-`access_token` and is issued a new JSON Web Token that allows him to access the REST API.
-
-JWT tokens are a new standard for authentication which is similar to cookies but is more secure, compact and stateless.
-An encoded token looks like this:
-
-```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG
-4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ
-```
-When decoded the token looks like this:
+To create a super token in JavaScript, use a JWT library such as
+[jsrsasign](https://github.com/kjur/jsrsasign):
 
 ```js
-// HEADER:
-{
-  "alg": "HS256",
-  "typ": "JWT"
-}
-// PAYLOAD:
-{
-  "sub": "587408205806571520",
-  "appid": "app:para",
-	"refresh": 1450137214490,
-  "nbf": 1450133614,
-	"exp": 1450738414,
-	"iat": 1450133614
+function getJWT(appid, secret) {
+	var now = Math.round(new Date().getTime() / 1000);
+	var sClaim = JSON.stringify({
+		exp: now + (7 * 24 * 60 * 60), // expires at
+		iat: now, // issued at
+		nbf: now, // not valid before
+		appid: appid // app id must be present
+	});
+	var sHeader = JSON.stringify({'alg': 'HS256', 'typ': 'JWT'});
+	return KJUR.jws.JWS.sign(null, sHeader, sClaim, secret);
 }
 ```
 
-To authenticate with users with social login use the Para client:
+The example uses a seven-day expiry. Change it to match your security requirements.
+
+Attach the token to every request:
+
+```js
+Authorization: Bearer eyJhbGciOiVCJ9.eyJzdWIiOi0._MKAH6SGiKSoqgwmqUaxuMyE
+```
+
+When you call the Para API from JavaScript in the browser, make sure you run a web server and not `file:///`, or your
+browser might not allow CORS requests. Also check that CORS is enabled in Para with `para.cors_enabled = true`.
+
+#### Changing app keys
+
+Call `POST /v1/_newkeys` with a request signed by the current keys to generate a new secret key. The access key does not
+change, and Para shows the new secret key only once.
+
+### User access
+
+Users do not receive app keys. A user signs in through an identity provider, and Para returns a user JWT. This token is
+also called a personal access token (PAT). It grants restricted access to the user's own objects and to resources allowed
+by the app's [resource permissions](/docs/concepts/resource-permissions/).
+
+A user JWT cannot access the root app. User sign-in is only available for apps other than the root app.
+
+#### Get a user JWT
+
+Call `POST /jwt_auth` with the app ID, the provider, and the provider token:
+
+```http
+POST /jwt_auth
+Content-Type: application/json
+
+{
+  "appid": "app:myapp",
+  "provider": "password",
+  "token": "user@example.com::password123"
+}
+```
+
+The response contains the JWT and the user object:
+
+```json
+{
+  "jwt": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expires": 1450738414000,
+    "refresh": 1450137214490
+  },
+  "user": {
+    "id": "587408205806571520"
+  }
+}
+```
+
+Send the access token in the `Authorization` header:
+
+```http
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+The token expires after 24 hours by default. You can change this with `para.jwt_expires_after`. Para client libraries
+refresh the token automatically before it expires.
+
+#### Use the Java client
+
+The Para client handles sign-in, token storage, and token refresh:
 
 ```java
-paraClient.signIn(String provider, String providerToken);
+User user = paraClient.signIn("facebook", "facebook_access_token");
 ```
-Supported providers are `facebook`, `google`, `twitter`, `github`, `linkedin`, `microsoft`, `slack`, `password`,
-`oauth2`, `oauth2second`, `oauth2third`, `ldap`, `passwordless`.
 
-You will have to add the API credentials for each of these in your `para-application.conf` configuration file:
+Supported providers are `facebook`, `google`, `twitter`, `github`, `linkedin`, `microsoft`, `slack`, `amazon`,
+`password`, `oauth2`, `oauth2second`, `oauth2third`, `ldap`, and `passwordless`.
+
+After `paraClient.signIn()` succeeds, the client caches the token and **all subsequent requests** to the API include it
+until `paraClient.signOut()` is called.
+
+To get or set access tokens use:
+
+```java
+paraClient.getAccessToken();
+paraClient.setAccessToken(String token);
+```
+
+To sign out and clear the token use:
+
+```java
+paraClient.signOut();
+```
+
+To invalidate all tokens for the signed-in user use:
+
+```java
+paraClient.revokeAllTokens();
+```
+
+#### Provider configuration example
+
+For the browser sign-in flow, add the provider credentials to your `para-application.conf` configuration file. The
+REST `POST /jwt_auth` call uses a provider token, so it does not use these OAuth client credentials.
+
 ```ini title="para-application.conf"
 # facebook
 para.fb_app_id = "..."
@@ -4292,6 +4383,9 @@ para.ms_secret = "..."
 # slack
 para.sl_app_id = "..."
 para.sl_secret = "..."
+# amazon
+para.az_app_id = "..."
+para.az_secret = "..."
 # generic oauth2
 para.oa2_app_id = "..."
 para.oa2_secret = "..."
@@ -4303,64 +4397,7 @@ para.oa2third_app_id = "..."
 para.oa2third_secret = "..."
 ```
 
-For example calling `paraClient.signIn("facebook", "facebook_access_token")` should return a new `User` object and would
-store the JWT token in memory. To get an access token from Facebook, use their JavaScript SDK.
-
-After you call `paraClient.signIn()` and the request succeeds, the client caches the access token and **all subsequent
-requests** to the API will include that token until `paraClient.signOut()` is called. This is different from the normal
-operation using access and secret keys. Usually, tokens are used to authenticate users, unless they are "super" tokens,
-which can authenticate apps (see below).
-
-To get or set access tokens use:
-
-```java
-paraClient.getAccessToken();
-paraClient.setAccessToken(String token);
-```
-
-To sign out and clear the JWT access token use:
-
-```java
-paraClient.signOut();
-```
-
-Tokens can also be revoked by calling `paraClient.revokeAllTokens()` but this only works for authenticated users.
-The Para client takes care of refreshing the JWT tokens every hour and by default all tokens are valid for a week.
-
-### Creating "super" tokens
-
-Since v1.18.3 we've added the support for "super" JSON web tokens. These are just like normal tokens for users, but
-instead of authenticating users we can authenticate apps with them. Such tokens give clients full access to the API.
-Super tokens can also be generated on the client-side but your code will need both the Para access key and secret key.
-**Be careful not to expose your Para secret key when using this method.**
-
-For example, lets assume we have some JavaScript app running in the browser and we need admin access to our Para app.
-We could use the [JavaScript client for Para](https://github.com/Erudika/para-client-js) but putting the secret key
-inside client-side code on the browser is *not a smart move*. So we pull in a library for generating JWT, like
-[jsrsasign](https://github.com/kjur/jsrsasign) and we create the token ourselves. Here's a snippet:
-
-```js
-function getJWT(appid, secret) {
-	var now = Math.round(new Date().getTime() / 1000);
-	var sClaim = JSON.stringify({
-		exp: now + (7 * 24 * 60 * 60), // expires at
-		iat: now, // issued at
-		nbf: now, // not valid before
-		appid: appid // app id must be present
-	});
-	var sHeader = JSON.stringify({'alg': 'HS256', 'typ': 'JWT'});
-	return KJUR.jws.JWS.sign(null, sHeader, sClaim, secret);
-}
-```
-
-Your JS app could ask the user for the access keys, create a JWT and then discard the keys and use the newly generated
-"super" token. Once we have this we can attach it to every request as a header:
-
-```js
-Authorization: Bearer eyJhbGciOiVCJ9.eyJzdWIiOi0._MKAH6SGiKSoqgwmqUaxuMyE
-```
-When calling the Para API from JavaScript in the browser, make sure you are running a web server and not as `file:///`
-or your browser might not allow CORS requests. Also check that CORS is enabled in Para with `para.cors_enabled = true`.
+See the [identity provider pages](/docs/security/id-providers/facebook/) for provider-specific setup.
 
 ### Calling the API from Postman
 
@@ -4759,6 +4796,24 @@ Source: /docs/reference/configuration.md
         content: ' #';
         opacity: 0.4;
     }
+`}
+
+{`
+  function highlight() {
+    var id = window.location.hash.slice(1);
+    if (!id) return;
+    var row = document.getElementById(id);
+    if (!row || row.tagName !== 'TR') return;
+    row.classList.remove('row-highlight');
+    // Force reflow so re-navigating to the same hash restarts the animation
+    void row.offsetWidth;
+    row.classList.add('row-highlight');
+    row.addEventListener('animationend', function () {
+      row.classList.remove('row-highlight');
+    }, { once: true });
+  }
+  window.addEventListener('DOMContentLoaded', highlight);
+  window.addEventListener('hashchange', highlight);
 `}
 
 This page contains a full list of all configuration properties available in Para.
