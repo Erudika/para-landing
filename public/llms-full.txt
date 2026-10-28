@@ -8,6 +8,20 @@ Source: /docs/index.md
 
 Para is a stateless, schemaless backend with a REST API over pluggable persistence, search, and cache layers. Start with the quickstart, then open the topic you need.
 
+### Quick links
+
+    Get Para running in minutes with Docker or as a standalone JAR. /
+    [Installation guide →](/docs/getting-started/quickstart/)
+
+    Configure authentication, search, storage, and other features. /
+    [Configuration →](/docs/configuration/configuration/)
+
+    Deploy to Para with Docker or in the cloud. /
+    [Deployment guide →](/docs/deployment/docker/)
+
+    Full OpenAPI 3.x specification for the Scoold REST API. /
+    [API Reference →](/docs/reference/para-api/)
+
 ### Start here
 
 - [Quickstart](/docs/getting-started/quickstart/): run Para and make a first request.
