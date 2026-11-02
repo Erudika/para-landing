@@ -5,20 +5,19 @@ const { notFound } = siteData;
 ---
 
 <BaseLayout title={notFound.headline} description={notFound.description} noindex>
-  <section class="section-padding relative">
-    <div class="dither absolute inset-x-0 top-0 h-16 text-zinc-300/40 dark:text-zinc-600/30" aria-hidden="true"></div>
-    <div class="section-shell text-center">
-      <p class="font-mono text-7xl font-semibold tracking-tight text-zinc-900 sm:text-8xl dark:text-zinc-100">
+  <section class="relative mt-60">
+    <div class="min-h-full text-center section-shell">
+      <p class="font-mono font-semibold text-zinc-900 dark:text-zinc-100 text-7xl sm:text-8xl tracking-tight">
         {notFound.code}
       </p>
-      <h1 class="mt-6 text-2xl font-semibold tracking-tight sm:text-3xl">{notFound.headline}</h1>
+      <h1 class="mt-6 font-semibold text-2xl sm:text-3xl tracking-tight">{notFound.headline}</h1>
       <p class="mx-auto mt-4 max-w-[65ch] text-zinc-600 dark:text-zinc-400">{notFound.subtext}</p>
-      <a href={notFound.cta.href} class="btn-primary mt-8">{notFound.cta.text}</a>
+      <a href={notFound.cta.href} class="mt-8 btn-primary">{notFound.cta.text}</a>
       <nav class="mt-10" aria-label="Helpful links">
         <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2">
           {notFound.links.map((link) => (
             <li>
-              <a href={link.href} class="link text-zinc-700 dark:text-zinc-300">{link.text}</a>
+              <a href={link.href} class="text-zinc-700 dark:text-zinc-300 link">{link.text}</a>
             </li>
           ))}
         </ul>
