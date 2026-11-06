@@ -55,7 +55,7 @@
         "body": "Plain JSON in, plain JSON out. No migrations, no ORM ceremony. Works on key-value stores and traditional databases alike."
       },
       {
-        "title": "Three layers",
+        "title": "Three-layer architecture",
         "body": "Every object is persisted, indexed and cached by default. Swap the database, the search engine and the cache independently."
       },
       {
