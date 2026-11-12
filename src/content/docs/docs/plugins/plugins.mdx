@@ -39,6 +39,16 @@ logged; if neither is published, the artifact is rejected rather than installed 
 Two plugins are baked into the default Para release: `para-dao-sql` and `para-search-lucene`. All the
 others can be installed at runtime through the [plugin API](#plugin-api) below.
 
+If a thin plugin JAR is added directly to `/para/lib` (for example, via `Dockerfile` > `ADD`), Para
+scans the folder during startup before loading plugins. It reads the dependency manifest inside the
+JAR and fetches missing runtime dependencies from Maven Central. The container therefore needs
+outbound access to Maven Central, unless all dependency JARs are already present in `/para/lib`.
+
+Only one version of each plugin may be installed. Para stops startup if it finds multiple versions
+of one plugin. Installing a new version replaces the old plugin version; uninstalling a plugin also
+removes resolver-managed dependencies that no other plugin uses. Dependency JARs supplied by the
+operator are preserved.
+
 ### Installing a plugin
 
 ```console
